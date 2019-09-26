@@ -8,12 +8,15 @@
 using namespace std;
 
 int main(){
-
     openFile();
-    tokenTipo token = getToken();
-    printf("Tipo: %s, Nome: %s\n", token.tipo.c_str(), token.nome.c_str());
-    token = getToken();
-    printf("Tipo: %s, Nome: %s\n", token.tipo.c_str(), token.nome.c_str());
-    closeFile();
 
+    while (checaFim()){
+        tokenTipo token = getToken();
+        if (token.tipo != "fim")
+            printf("Tipo: %s, Nome: %s\n", token.tipo.c_str(), token.nome.c_str());
+    }
+
+
+    closeFile();
+    return 0;
 }
