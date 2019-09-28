@@ -12,8 +12,8 @@ int main(){
 
     while (checaFim()){
         tokenTipo token = getToken();
-        if (token.tipo != "fim")
-            printf("Tipo: %s, Nome: %s\n", token.tipo.c_str(), token.nome.c_str());
+        if (token.tipo != "FIM")
+            printf("Token: %s, Lexema: %s\n", token.tipo.c_str(), token.nome.c_str());
     }
 
 
