@@ -45,6 +45,21 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
+            if (ch == 'd' || ch == 'D'){ //comeca a identificar DEFINAINSTRUCAO
+                s = 15;
+                buffer[j++] = ch;
+                break;
+            }
+            if (ch == 'c' || ch == 'C'){ //comeca a identificar COMO
+                s = 30;
+                buffer[j++] = ch;
+                break;
+            }
+            if (ch == 'i' || ch == 'I'){ //comeca a identificar INICIO
+                s = 34;
+                buffer[j++] = ch;
+                break;
+            }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
                 s = 500;
                 buffer[j++] = ch;
@@ -213,6 +228,315 @@ tokenTipo getToken(){
                 j=0;
                 tokenTipo token;
                 token.tipo = "programa";
+                token.nome = buffer;
+                return token;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 15:
+            if (ch == 'e' || ch == 'E'){ //... DEFINAINSTRUCAO
+                s = 16;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 16:
+            if (ch == 'f' || ch == 'F'){ //... DEFINAINSTRUCAO
+                s = 17;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 17:
+            if (ch == 'i' || ch == 'I'){ //... DEFINAINSTRUCAO
+                s = 18;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 18:
+            if (ch == 'n' || ch == 'N'){ //... DEFINAINSTRUCAO
+                s = 19;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 19:
+            if (ch == 'a' || ch == 'A'){ //... DEFINAINSTRUCAO
+                s = 20;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 20:
+            if (ch == 'i' || ch == 'I'){ //... DEFINAINSTRUCAO
+                s = 21;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 21:
+            if (ch == 'n' || ch == 'N'){ //... DEFINAINSTRUCAO
+                s = 22;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 22:
+            if (ch == 's' || ch == 'S'){ //... DEFINAINSTRUCAO
+                s = 23;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 23:
+            if (ch == 't' || ch == 'T'){ //... DEFINAINSTRUCAO
+                s = 24;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 24:
+            if (ch == 'r' || ch == 'R'){ //... DEFINAINSTRUCAO
+                s = 25;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 25:
+            if (ch == 'u' || ch == 'U'){ //... DEFINAINSTRUCAO
+                s = 26;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 26:
+            if (ch == 'c' || ch == 'C'){ //... DEFINAINSTRUCAO
+                s = 27;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 27:
+            if (ch == 'a' || ch == 'A'){ //... DEFINAINSTRUCAO
+                s = 28;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 28:
+            if (ch == 'o' || ch == 'O'){ //... DEFINAINSTRUCAO
+                s = 29;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 29:
+            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu DEFINAINSTRUCAO!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "declaracao";
+                token.nome = buffer;
+                return token;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 30:
+            if (ch == 'o' || ch == 'O'){ //... COMO
+                s = 31;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 31:
+            if (ch == 'm' || ch == 'M'){ //... COMO
+                s = 32;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 32:
+            if (ch == 'o' || ch == 'O'){ //... COMO
+                s = 33;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 33:
+            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu COMO!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "declaracao";
+                token.nome = buffer;
+                return token;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 34:
+            if (ch == 'n' || ch == 'N'){ //... INICIO
+                s = 35;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 35:
+            if (ch == 'i' || ch == 'I'){ //... INICIO
+                s = 36;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 36:
+            if (ch == 'c' || ch == 'C'){ //... INICIO
+                s = 37;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 37:
+            if (ch == 'i' || ch == 'I'){ //... INICIO
+                s = 38;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 38:
+            if (ch == 'o' || ch == 'O'){ //... INICIO
+                s = 39;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 39:
+            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu COMO!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "bloco";
                 token.nome = buffer;
                 return token;
             }
