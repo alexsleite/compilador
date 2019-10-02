@@ -39,12 +39,12 @@ tokenTipo getToken(){
         ch = fin.get();
    		switch (s){
         case 0:
-            if (ch == 'p' || ch == 'P'){ //comeca a identificar PROGRAMAINICIO, PASSOS
+            if (ch == 'p' || ch == 'P'){ //comeca a identificar PROGRAMAINICIO // PASSOS // PARE // PRONTO // PARADO
                 s = 1;
                 buffer[j++] = ch;
                 break;
             }
-            if (ch == 'd' || ch == 'D'){ //comeca a identificar DEFINAINSTRUCAO, DIREITA
+            if (ch == 'd' || ch == 'D'){ //comeca a identificar DEFINAINSTRUCAO // DIREITA
                 s = 15;
                 buffer[j++] = ch;
                 break;
@@ -59,7 +59,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            if (ch == 'm' || ch == 'M'){ //comeca a identificar MOVA
+            if (ch == 'm' || ch == 'M'){ //comeca a identificar MOVA // MOVIMENTANDO
                 s = 40;
                 buffer[j++] = ch;
                 break;
@@ -69,39 +69,56 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            if (ch == 'a' || ch == 'A'){ //comeca a identificar Aguarde Até
+            if (ch == 'a' || ch == 'A'){ //comeca a identificar Aguarde Até // Apague // Acenda // ACESA // APAGADA
                 s = 50;
                 buffer[j++] = ch;
                 break;
             }
-            if (ch == 'r' || ch == 'R'){ //comeca a identificar Robo Pronto / 611 REPITA /
+            if (ch == 'r' || ch == 'R'){ //comeca a identificar Robo // REPITA /
                 s = 61;
                 buffer[j++] = ch;
                 break;
             }
-            if (ch == 'v' || ch == 'V'){ //comeca a identificar Vire Para / 616 VEZES /
+            if (ch == 'v' || ch == 'V'){ //comeca a identificar Vire Para // VEZES
                 s = 72;
                 buffer[j++] = ch;
                 break;
             }
-			if (ch == 's' || ch == 'S'){ //comeca a identificar SE /650 SENAO /
+			if (ch == 's' || ch == 'S'){ //comeca a identificar SE // SENAO
                 s = 629;
                 buffer[j++] = ch;
                 break;
             }
-
-			if (ch == 'e' || ch == 'E'){ //comeca a identificar ESQUERDA //ENTÃO //ENQUANTO
+			if (ch == 'e' || ch == 'E'){ //comeca a identificar ESQUERDA //ENTÃO //ENQUANTO // EXECUCAOINICIO
                 s = 81;
                 buffer[j++] = ch;
                 break;
             }
-			if (ch == 'f' || ch == 'F'){ //comeca a identificar FIM / FIMREPITA / FIMSE / FIMSENAO / FRENTE ROBO BLOQUEADA
+			if (ch == 'f' || ch == 'F'){ //comeca a identificar FIM // FIMREPITA // FIMSE // FIMSENAO // FRENTE ROBO BLOQUEADA // FIMEXECUCAO // FIMPROGRAMA // FINALIZE
                 s =620;
 				buffer[j++] = ch;
                 break;
             }
-
-
+            if (ch == 'o' || ch == 'O'){ // comeca a identificar OCUPADO
+                s = 666;
+                buffer[j++] = ch;
+                break;
+            }
+            if (ch == 'b' || ch == 'B'){ // comeca a identificar BLOQUEADA
+                s = 312;
+                buffer[j++] = ch;
+                break;
+            }
+            if (ch == 'b' || ch == 'B'){ // comeca a identificar BLOQUEADA
+                s = 312;
+                buffer[j++] = ch;
+                break;
+            }
+            if (ch == 'l' || ch == 'L'){ // comeca a identificar LAMPADA
+                s = 5051;
+                buffer[j++] = ch;
+                break;
+            }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) ){ // verificando se é IDENTIFICADOR
                 s = 500;
                 buffer[j++] = ch;
@@ -114,7 +131,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            if (ch == 'a' || ch=='A'){
+            if (ch == 'a' || ch=='A'){ // PASSOS // PARE // PARADO
                 s = 45;
                 buffer[j++] = ch;
                 break;
@@ -124,7 +141,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -144,7 +161,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -159,12 +176,17 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
+            if (ch == 'n' || ch == 'N'){
+                s = 69;
+                buffer[j++] = ch;
+                break;
+            }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
                 s = 500;
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -184,7 +206,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -204,7 +226,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -224,7 +246,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -244,7 +266,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -264,7 +286,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -284,7 +306,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -304,7 +326,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -324,7 +346,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -344,7 +366,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -364,7 +386,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -374,7 +396,7 @@ tokenTipo getToken(){
             }
             break;
         case 14:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu PROGRAMAINICIO!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu PROGRAMAINICIO!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -404,7 +426,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -424,7 +446,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -450,7 +472,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -470,7 +492,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -490,7 +512,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -510,7 +532,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -530,7 +552,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -550,7 +572,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -570,7 +592,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -590,7 +612,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -610,7 +632,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -630,7 +652,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -650,7 +672,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -670,7 +692,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -680,7 +702,7 @@ tokenTipo getToken(){
             }
             break;
         case 29:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu DEFINAINSTRUCAO!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu DEFINAINSTRUCAO!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -705,7 +727,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -725,7 +747,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -745,7 +767,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -755,7 +777,7 @@ tokenTipo getToken(){
             }
             break;
         case 33:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu COMO!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu COMO!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -780,7 +802,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -800,7 +822,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -820,7 +842,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -840,7 +862,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -860,7 +882,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -870,7 +892,7 @@ tokenTipo getToken(){
             }
             break;
         case 39:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu INICIO!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu INICIO!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -885,7 +907,7 @@ tokenTipo getToken(){
             }
             break;
         case 40:
-            if (ch == 'o' || ch == 'O'){ //... MOVA
+            if (ch == 'o' || ch == 'O'){ //... MOVA // MOVIMENTANDO
                 s = 41;
                 buffer[j++] = ch;
                 break;
@@ -895,7 +917,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -905,7 +927,7 @@ tokenTipo getToken(){
             }
             break;
         case 41:
-            if (ch == 'v' || ch == 'V'){ //... MOVA
+            if (ch == 'v' || ch == 'V'){ //... MOVA // MOVIMENTANDO
                 s = 42;
                 buffer[j++] = ch;
                 break;
@@ -915,7 +937,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -930,12 +952,17 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
+            if (ch == 'i' || ch == 'I'){ //... MOVIMENTANDO
+                s = 685;
+                buffer[j++] = ch;
+                break;
+            }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
                 s = 500;
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -945,7 +972,7 @@ tokenTipo getToken(){
             }
             break;
         case 43:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu MOVA!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu MOVA!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -961,7 +988,7 @@ tokenTipo getToken(){
 
             break;
         case 44:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu NUM!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu NUM!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -989,12 +1016,17 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
+            if (ch == 'r' || ch == 'R'){ //... PARE // PARADO
+                s = 460;
+                buffer[j++] = ch;
+                break;
+            }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
                 s = 500;
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1014,7 +1046,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1034,7 +1066,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1054,7 +1086,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu PASSO!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu PASSO!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1064,7 +1096,47 @@ tokenTipo getToken(){
             }
             break;
         case 49:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu PASSOS!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu PASSOS!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "INSTRUCAO";
+                token.nome = buffer;
+                return token;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 460:
+            if (ch == 'e' || ch == 'E'){ //... PARE
+                s = 461;
+                buffer[j++] = ch;
+                break;
+            }
+            if (ch == 'a' || ch == 'A'){ //... PARADO
+                s = 679;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 461:
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu PARE!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1079,17 +1151,22 @@ tokenTipo getToken(){
             }
             break;
         case 50:
-            if (ch == 'g' || ch == 'G'){ //... AGUARDE ATE
+            if (ch == 'g' || ch == 'G'){ //... AGUARDE
                 s = 51;
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == 'p' || ch == 'P'){ // ... APAGUE LAMPADA
+            else if (ch == 't' || ch == 'T'){ //... ATE
+                s = 59;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == 'p' || ch == 'P'){ // ... APAGUE // APAGADA
                 s = 5001;
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == 'c' || ch == 'C'){ // ... ACENDA LAMPADA
+            else if (ch == 'c' || ch == 'C'){ // ... ACENDA // ACESA
                 s = 50001;
                 buffer[j++] = ch;
                 break;
@@ -1099,17 +1176,17 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
-                token.tipo = "ID";
+                token.tipo = "CONDICAO";
                 token.nome = buffer;
                 return token;
             }
             break;
         case 51:
-            if (ch == 'u' || ch == 'U'){ //... AGUARDE ATE
+            if (ch == 'u' || ch == 'U'){ //... AGUARDE
                 s = 52;
                 buffer[j++] = ch;
                 break;
@@ -1119,7 +1196,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1129,7 +1206,7 @@ tokenTipo getToken(){
             }
             break;
         case 52:
-            if (ch == 'a' || ch == 'A'){ //... AGUARDE ATE
+            if (ch == 'a' || ch == 'A'){ //... AGUARDE
                 s = 53;
                 buffer[j++] = ch;
                 break;
@@ -1139,7 +1216,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1149,7 +1226,7 @@ tokenTipo getToken(){
             }
             break;
         case 53:
-            if (ch == 'r' || ch == 'R'){ //... AGUARDE ATE
+            if (ch == 'r' || ch == 'R'){ //... AGUARDE
                 s = 54;
                 buffer[j++] = ch;
                 break;
@@ -1159,7 +1236,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1169,7 +1246,7 @@ tokenTipo getToken(){
             }
             break;
         case 54:
-            if (ch == 'd' || ch == 'D'){ //... AGUARDE ATE
+            if (ch == 'd' || ch == 'D'){ //... AGUARDE
                 s = 55;
                 buffer[j++] = ch;
                 break;
@@ -1179,7 +1256,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1189,7 +1266,7 @@ tokenTipo getToken(){
             }
             break;
         case 55:
-            if (ch == 'e' || ch == 'E'){ //... AGUARDE ATE
+            if (ch == 'e' || ch == 'E'){ //... AGUARDE
                 s = 56;
                 buffer[j++] = ch;
                 break;
@@ -1199,7 +1276,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1209,10 +1286,13 @@ tokenTipo getToken(){
             }
             break;
         case 56:
-            if (ch == ' '){ //... AGUARDE ATE
-                s = 57;
-                buffer[j++] = ch;
-                break;
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu AGUARDE!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "INSTRUCAO";
+                token.nome = buffer;
+                return token;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
                 s = 500;
@@ -1226,30 +1306,6 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
-            }
-            break;
-        case 57:
-            if (ch == 'a' || ch == 'A'){ //... AGUARDE ATE
-                s = 58;
-                buffer[j++] = ch;
-                break;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r'){ // verificando se houve erro ao digitar AGUARDE ATE
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-        case 58:
-            if (ch == 't' || ch == 'T'){ //... AGUARDE ATE
-                s = 59;
-                buffer[j++] = ch;
-                break;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r'){ // verificando se houve erro ao digitar AGUARDE ATE
-                s = 501;
-                buffer[j++] = ch;
-                break;
             }
             break;
         case 59:
@@ -1265,7 +1321,7 @@ tokenTipo getToken(){
             }
             break;
         case 60:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu AGUARDE ATE!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu AGUARDE ATE!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1280,7 +1336,7 @@ tokenTipo getToken(){
             }
             break;
         case 61:
-            if (ch == 'o' || ch == 'O'){ //... Robo Pronto -> Ro
+            if (ch == 'o' || ch == 'O'){ //... Robo -> Ro
                 s = 62;
                 buffer[j++] = ch;
                 break;
@@ -1296,7 +1352,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1306,7 +1362,7 @@ tokenTipo getToken(){
             }
             break;
         case 62:
-            if (ch == 'b' || ch == 'B'){ //... Robo Pronto -> Rob
+            if (ch == 'b' || ch == 'B'){ //... Robo -> Rob
                 s = 63;
                 buffer[j++] = ch;
                 break;
@@ -1316,7 +1372,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1326,7 +1382,7 @@ tokenTipo getToken(){
             }
             break;
         case 63:
-            if (ch == 'o' || ch == 'O'){ //... Robo Pronto -> Robo
+            if (ch == 'o' || ch == 'O'){ //... Robo -> Robo
                 s = 64;
                 buffer[j++] = ch;
                 break;
@@ -1336,7 +1392,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1346,10 +1402,13 @@ tokenTipo getToken(){
             }
             break;
         case 64:
-            if (ch == ' '){ //... Robo Pronto
-                s = 65;
-                buffer[j++] = ch;
-                break;
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //... Robo
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "CONDICAO";
+                token.nome = buffer;
+                return token;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
                 s = 500;
@@ -1363,72 +1422,6 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
-            }
-            break;
-        case 65:
-            if (ch == 'p' || ch == 'P'){ //... Robo Pronto -> Robo P
-                s = 66;
-                buffer[j++] = ch;
-                break;
-            }
-			if (ch == 'o' || ch == 'O'){ //... Robo Ocupado -> Robo O
-                s = 666;
-                buffer[j++] = ch;
-                break;
-            }
-			if (ch == 'm' || ch == 'M'){ //... Robo Ocupado -> Robo M
-                s = 682;
-                buffer[j++] = ch;
-                break;
-            }
-
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-        case 66:
-            if (ch == 'r' || ch == 'R'){ //... Robo Pronto -> Robo Pr
-                s = 67;
-                buffer[j++] = ch;
-                break;
-            }
-        	if (ch == 'a' || ch == 'A'){ //... Robo Ocupado -> Robo Pa
-                s = 677;
-                buffer[j++] = ch;
-                break;
-            }
-
-
-		else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-        case 67:
-            if (ch == 'o' || ch == 'O'){ //... Robo Pronto ->Robo Pro
-                s = 68;
-                buffer[j++] = ch;
-                break;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-        case 68:
-            if (ch == 'n' || ch == 'N'){ //... Robo Pronto -> Robo Pron
-                s = 69;
-                buffer[j++] = ch;
-                break;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
-                buffer[j++] = ch;
-                break;
             }
             break;
         case 69:
@@ -1456,7 +1449,7 @@ tokenTipo getToken(){
             }
             break;
         case 71:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu ROBO PRONTO!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu ROBO PRONTO!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1487,7 +1480,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1507,7 +1500,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1527,7 +1520,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1605,7 +1598,7 @@ tokenTipo getToken(){
             }
             break;
         case 80:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu VIRE PARA!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu VIRE PARA!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1630,13 +1623,17 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-
+            if (ch == 'x' || ch == 'X'){ //... EXECUCAOINICIO
+                s = 801;
+                buffer[j++] = ch;
+                break;
+            }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
                 s = 500;
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1656,7 +1653,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1676,7 +1673,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1696,7 +1693,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1716,7 +1713,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1736,7 +1733,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1756,7 +1753,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1766,7 +1763,7 @@ tokenTipo getToken(){
             }
             break;
         case 88:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu ESQUERDA!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu ESQUERDA!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1791,7 +1788,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1811,7 +1808,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1831,7 +1828,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1851,7 +1848,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1871,7 +1868,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1881,7 +1878,7 @@ tokenTipo getToken(){
             }
             break;
         case 94:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu DIREITA!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu DIREITA!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1895,7 +1892,6 @@ tokenTipo getToken(){
                 break;
             }
             break;
-
 //-----------------------------------------------------------------------------------------------------------------------------------------
 
 																		//RECORTAR APARTIR DAQUI
@@ -1911,7 +1907,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1931,7 +1927,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1951,7 +1947,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1971,7 +1967,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -1981,7 +1977,7 @@ tokenTipo getToken(){
             }
             break;
 		case 615:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu REPITA!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu REPITA!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2006,7 +2002,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2026,7 +2022,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2046,7 +2042,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2056,7 +2052,7 @@ tokenTipo getToken(){
             }
             break;
 		case 619:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu VEZES!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu VEZES!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2071,7 +2067,7 @@ tokenTipo getToken(){
             }
             break;
 		case 620:
-            if (ch == 'i' || ch == 'I'){ //... fim
+            if (ch == 'i' || ch == 'I'){ //... fim // finalize
 				s = 621;
                 buffer[j++] = ch;
                 break;
@@ -2091,7 +2087,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2101,8 +2097,13 @@ tokenTipo getToken(){
             }
             break;
 		case 621:
-            if (ch == 'm' || ch == 'M'){ //... fimrepita
+            if (ch == 'm' || ch == 'M'){ //... fim
                 s = 622;
+                buffer[j++] = ch;
+                break;
+            }
+            if (ch == 'n' || ch == 'N'){ //... FINALIZE
+                s = 6022;
                 buffer[j++] = ch;
                 break;
             }
@@ -2111,7 +2112,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2131,17 +2132,22 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-			if (ch == 'p' || ch == 'P'){ //fimpara
-                s = 646;if (ch == 'r' || ch == 'R'){ //... Frente Robo Bloqueada  (frente)
+			if (ch == 'p' || ch == 'P'){ //fimpara // fimprograma*
+                s = 646;
+                buffer[j++] = ch;
+                break;
+            }
+            if (ch == 'r' || ch == 'R'){ //... Frente Robo Bloqueada  (frente)
                 s = 301;
                 buffer[j++] = ch;
                 break;
             }
+            if (ch == 'e' || ch == 'E'){ //... fimexecucao
+                s = 901;
                 buffer[j++] = ch;
                 break;
             }
-
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu FIM -> BLOCO!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu FIM -> BLOCO!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2167,7 +2173,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2187,7 +2193,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2207,7 +2213,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2227,7 +2233,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2247,7 +2253,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2257,7 +2263,7 @@ tokenTipo getToken(){
             }
             break;
 		case 628:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu FIMREPITA!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu FIMREPITA!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2280,7 +2286,7 @@ tokenTipo getToken(){
                 break;
             }
 
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2295,22 +2301,7 @@ tokenTipo getToken(){
             }
 
             break;
-/*		case 630:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu FIMREPITA!!!!!!
-                buffer[j] = '\0';
-                j=0;
-                tokenTipo token;
-                token.tipo = "CONDICIONAL";
-                token.nome = buffer;
-                return token;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
-                s = 500;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-*/
+
 		case 631:
             if (ch == 't' || ch == 'T'){
                 s = 632;
@@ -2328,7 +2319,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2348,7 +2339,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2368,7 +2359,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2378,7 +2369,7 @@ tokenTipo getToken(){
             }
             break;
 		case 634:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu ENTAO!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu ENTAO!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2403,7 +2394,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2413,7 +2404,67 @@ tokenTipo getToken(){
             }
             break;
 		case 636:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu FIMSE!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu FIMSE!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "CONDICIONAL";
+                token.nome = buffer;
+                return token;
+            }
+            else if (ch == 'n' || ch == 'N'){ //FIMSENAO
+                s = 6037;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 6037:
+            if (ch == 'a' || ch == 'A'){ //FIMSENAO
+                s = 6038;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 6038:
+            if (ch == 'o' || ch == 'O'){ //FIMSENAO
+                s = 6039;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 6039:
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu FIMSENAO!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2427,6 +2478,7 @@ tokenTipo getToken(){
                 break;
             }
             break;
+            break;
 //---------------------------------------------------------------------laço------------------------------------------------------------
 		case 637:
             if (ch == 'u' || ch == 'U'){ //ENQUANTO
@@ -2439,7 +2491,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2459,7 +2511,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2479,7 +2531,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2499,7 +2551,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2519,7 +2571,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2531,11 +2583,11 @@ tokenTipo getToken(){
 
 
 		case 642:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu ENQUANTO!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu ENQUANTO!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
-                token.tipo = "LAÇO";
+                token.tipo = "LACO";
                 token.nome = buffer;
                 return token;
             }
@@ -2557,7 +2609,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2577,7 +2629,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2587,11 +2639,11 @@ tokenTipo getToken(){
             }
             break;
 		case 645:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu FACA!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu FACA!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
-                token.tipo = "LAÇO";
+                token.tipo = "LACO";
                 token.nome = buffer;
                 return token;
             }
@@ -2602,8 +2654,13 @@ tokenTipo getToken(){
             }
             break;
 		case 646:
-            if (ch == 'a' || ch == 'A'){
+            if (ch == 'a' || ch == 'A'){ //fimpara
                 s = 647;
+                buffer[j++] = ch;
+                break;
+            }
+            if (ch == 'r' || ch == 'R'){ //fimprograma
+                s = 911;
                 buffer[j++] = ch;
                 break;
             }
@@ -2612,7 +2669,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2632,7 +2689,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2652,7 +2709,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2663,11 +2720,11 @@ tokenTipo getToken(){
             break;
 
 		case 649:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu FIMPARA!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu FIMPARA!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
-                token.tipo = "LAÇO";
+                token.tipo = "LACO";
                 token.nome = buffer;
                 return token;
             }
@@ -2685,7 +2742,7 @@ tokenTipo getToken(){
                 break;
             }
 
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2713,7 +2770,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2733,7 +2790,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2744,7 +2801,7 @@ tokenTipo getToken(){
             break;
 
 		case 653:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu SENAO!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu SENAO!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2823,7 +2880,7 @@ tokenTipo getToken(){
             break;
 
 		case 671:
-            if (ch == 'o' || ch == 'O'){ //... Robo Pronto -> Robo Ocupado
+            if (ch == 'o' || ch == 'O'){ //... -> Robo Ocupado
                 s = 672;
                 buffer[j++] = ch;
                 break;
@@ -2835,7 +2892,7 @@ tokenTipo getToken(){
             }
             break;
         case 672:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu ROBO ocupado!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu ROBO ocupado!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2844,31 +2901,6 @@ tokenTipo getToken(){
                 return token;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57)){ // verificando se houve erro ao digitar AGUARDE ATE
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-
-        case 677:
-            if (ch == 'r' || ch == 'R'){ //... Robo Pronto -> Robo Par
-                s = 678;
-                buffer[j++] = ch;
-                break;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-		case 678:
-            if (ch == 'a' || ch == 'A'){ //... Robo Pronto -> Robo Para
-                s = 679;
-                buffer[j++] = ch;
-                break;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
                 s = 501;
                 buffer[j++] = ch;
                 break;
@@ -2899,7 +2931,7 @@ tokenTipo getToken(){
             }
             break;
 		case 681: //fim parado
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu ROBO parado!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu ROBO parado!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -2914,44 +2946,44 @@ tokenTipo getToken(){
             }
             break;
 
-		case 682:
-            if (ch == 'o' || ch == 'O'){ //... Robo Pronto -> Robo Mo
-                s = 683;
-                buffer[j++] = ch;
-                break;
-            }
-
-		else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-		case 683:
-            if (ch == 'v' || ch == 'V'){ //... Robo Pronto -> Robo Mov
-                s = 684;
-                buffer[j++] = ch;
-                break;
-            }
-
-		else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-		case 684:
-            if (ch == 'i' || ch == 'I'){ //... Robo Pronto -> Robo Movi
-                s = 685;
-                buffer[j++] = ch;
-                break;
-            }
-        	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
+//		case 682:
+//            if (ch == 'o' || ch == 'O'){ //... Robo Pronto -> Robo Mo
+//                s = 683;
+//                buffer[j++] = ch;
+//                break;
+//            }
+//
+//		else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
+//                s = 501;
+//                buffer[j++] = ch;
+//                break;
+//            }
+//            break;
+//		case 683:
+//            if (ch == 'v' || ch == 'V'){ //... Robo Pronto -> Robo Mov
+//                s = 684;
+//                buffer[j++] = ch;
+//                break;
+//            }
+//
+//		else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
+//                s = 501;
+//                buffer[j++] = ch;
+//                break;
+//            }
+//            break;
+//		case 684:
+//            if (ch == 'i' || ch == 'I'){ //... Robo Pronto -> Robo Movi
+//                s = 685;
+//                buffer[j++] = ch;
+//                break;
+//            }
+//        	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
+//                s = 501;
+//                buffer[j++] = ch;
+//                break;
+//            }
+//            break;
 		case 685:
             if (ch == 'm' || ch == 'M'){ //... Robo Pronto -> Robo Movim
                 s = 686;
@@ -3049,326 +3081,7 @@ tokenTipo getToken(){
             }
             break;
 		case 693: //fim movimentando
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu ROBO Movimentando!!!!!!
-                buffer[j] = '\0';
-                j=0;
-                tokenTipo token;
-                token.tipo = "CONDICAO";
-                token.nome = buffer;
-                return token;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57)){ // verificando se houve erro ao digitar AGUARDE ATE
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-		/*
-		case 694:
-            if (ch == 'r' || ch == 'R'){ //... Frente Robo Bloqueada -> fr
-                s = 695;
-                buffer[j++] = ch;
-                break;
-            }
-        	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;*/
-		case 695:
-            if (ch == 'e' || ch == 'E'){ //... Frente Robo Bloqueada -> fre
-                s = 696;
-                buffer[j++] = ch;
-                break;
-            }
-        	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-		case 696:
-            if (ch == 'e' || ch == 'E'){ //... Frente Robo Bloqueada -> fre
-                s = 697;
-                buffer[j++] = ch;
-                break;
-            }
-        	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-		case 697:
-            if (ch == 'n' || ch == 'N'){ //... Frente Robo Bloqueada -> fren
-                s = 698;
-                buffer[j++] = ch;
-                break;
-            }
-        	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-		case 698:
-            if (ch == 't' || ch == 'T'){ //... Frente Robo Bloqueada -> frent
-                s = 699;
-                buffer[j++] = ch;
-                break;
-            }
-        	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-		case 699:
-            if (ch == 'e' || ch == 'E'){ //... Frente Robo Bloqueada -> frente
-                s = 700;
-                buffer[j++] = ch;
-                break;
-            }
-        	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-		case 700:
-            if (ch == ' '){ //... frente Pronto
-                s = 701;
-                buffer[j++] = ch;
-                break;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
-                s = 500;
-                buffer[j++] = ch;
-                break;
-            }
-            else if (ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
-                buffer[j] = '\0';
-                j=0;
-                tokenTipo token;
-                token.tipo = "ID";
-                token.nome = buffer;
-                return token;
-            }
-            break;
-
-			case 702:
-            if (ch == 'r' || ch == 'R'){ //... Robo Pronto -> Ro
-                s = 703;
-                buffer[j++] = ch;
-                break;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
-                s = 500;
-                buffer[j++] = ch;
-                break;
-            }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
-                buffer[j] = '\0';
-                j=0;
-                tokenTipo token;
-                token.tipo = "ID";
-                token.nome = buffer;
-                return token;
-            }
-            break;
-
-			case 703:
-            if (ch == 'o' || ch == 'O'){ //... Robo Pronto -> Ro
-                s = 704;
-                buffer[j++] = ch;
-                break;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
-                s = 500;
-                buffer[j++] = ch;
-                break;
-            }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
-                buffer[j] = '\0';
-                j=0;
-                tokenTipo token;
-                token.tipo = "ID";
-                token.nome = buffer;
-                return token;
-            }
-            break;
-        case 704:
-            if (ch == 'b' || ch == 'B'){ //... Robo Pronto -> Rob
-                s = 705;
-                buffer[j++] = ch;
-                break;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
-                s = 500;
-                buffer[j++] = ch;
-                break;
-            }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
-                buffer[j] = '\0';
-                j=0;
-                tokenTipo token;
-                token.tipo = "ID";
-                token.nome = buffer;
-                return token;
-            }
-            break;
-        case 705 :
-            if (ch == 'o' || ch == 'O'){ //... Robo Pronto -> Robo
-                s = 706;
-                buffer[j++] = ch;
-                break;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
-                s = 500;
-                buffer[j++] = ch;
-                break;
-            }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
-                buffer[j] = '\0';
-                j=0;
-                tokenTipo token;
-                token.tipo = "ID";
-                token.nome = buffer;
-                return token;
-            }
-            break;
-        case 706 :
-            if (ch == ' '){ //... Robo Pronto
-                s = 707;
-                buffer[j++] = ch;
-                break;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
-                s = 500;
-                buffer[j++] = ch;
-                break;
-            }
-            else if (ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
-                buffer[j] = '\0';
-                j=0;
-                tokenTipo token;
-                token.tipo = "ID";
-                token.nome = buffer;
-                return token;
-            }
-            break;
-
-		case 707:
-            if (ch == 'b' || ch == 'B'){ //... Frente Robo Bloqueada -> frente robo b
-                s = 708;
-                buffer[j++] = ch;
-                break;
-            }
-        	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-		case 708:
-            if (ch == 'l' || ch == 'L'){ //... Frente Robo Bloqueada -> frente robo bl
-                s = 709;
-                buffer[j++] = ch;
-                break;
-            }
-        	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-		case 709:
-            if (ch == 'o' || ch == 'O'){ //... Frente Robo Bloqueada -> frente robo blo
-                s = 710;
-                buffer[j++] = ch;
-                break;
-            }
-        	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-		case 710:
-            if (ch == 'q' || ch == 'Q'){ //... Frente Robo Bloqueada -> frente robo bloq
-                s = 711;
-                buffer[j++] = ch;
-                break;
-            }
-        	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-		case 711:
-            if (ch == 'u' || ch == 'U'){ //... Frente Robo Bloqueada -> frente robo bloqu
-                s = 712;
-                buffer[j++] = ch;
-                break;
-            }
-        	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-		case 712:
-            if (ch == 'e' || ch == 'E'){ //... Frente Robo Bloqueada -> frente robo bloque
-                s = 713;
-                buffer[j++] = ch;
-                break;
-            }
-        	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-		case 713:
-            if (ch == 'a' || ch == 'A'){ //... Frente Robo Bloqueada -> frente robo bloquea
-                s = 714;
-                buffer[j++] = ch;
-                break;
-            }
-        	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-		case 714 :
-            if (ch == 'd' || ch == 'D'){ //... Frente Robo Bloqueada -> frente robo bloquead
-                s = 715;
-                buffer[j++] = ch;
-                break;
-            }
-        	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-		case 715:
-            if (ch == 'a' || ch == 'A'){ //... Frente Robo Bloqueada -> frente robo bloqueada
-                s = 716;
-                buffer[j++] = ch;
-                break;
-            }
-        	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-		case 716: //fim movimentando
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu ROBO frente robo bloqueada!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu ROBO Movimentando!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -3393,7 +3106,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -3413,7 +3126,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -3447,10 +3160,13 @@ tokenTipo getToken(){
             }
             break;
         case 305:
-             if (ch == ' '){ //... Frente Robo Bloqueada  (frente)
-                s = 306;
-                buffer[j++] = ch;
-                break;
+             if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu ROBO frente robo bloqueada!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "CONDICAO";
+                token.nome = buffer;
+                return token;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
                 s = 500;
@@ -3464,86 +3180,6 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
-            }
-            break;
-        case 306:
-            if (ch == 'r' || ch == 'R'){ //... Frente Robo Bloqueada  (robo)
-                s = 307;
-                buffer[j++] = ch;
-                break;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-        case 307:
-            if (ch == 'o' || ch == 'O'){ //... Frente Robo Bloqueada  (robo)
-                s = 308;
-                buffer[j++] = ch;
-                break;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-        case 308:
-            if (ch == 'b' || ch == 'B'){ //... Frente Robo Bloqueada  (robo)
-                s = 309;
-                buffer[j++] = ch;
-                break;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de VIRE PARA
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-        case 309:
-            if (ch == 'o' || ch == 'O'){ //... Frente Robo Bloqueada  (robo)
-                s = 310;
-                buffer[j++] = ch;
-                break;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de VIRE PARA
-                s = 501;
-                buffer[j++] = ch;
-                break;
-            }
-            break;
-        case 310:
-             if (ch == ' '){ //... Frente Robo Bloqueada  (robo)
-                s = 311;
-                buffer[j++] = ch;
-                break;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
-                s = 500;
-                buffer[j++] = ch;
-                break;
-            }
-            else if (ch == '\n' || ch == '\r'){
-                buffer[j] = '\0';
-                j=0;
-                tokenTipo token;
-                token.tipo = "ERROPALAVRACOMPOSTA";
-                token.nome = "Palavra reservada composta escrita incorretamente.";
-                return token;
-            }
-            break;
-        case 311:
-            if (ch == 'b' || ch == 'B'){ //... Frente Robo Bloqueada  (bloqueada)
-                s = 312;
-                buffer[j++] = ch;
-                break;
-            }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
-                buffer[j++] = ch;
-                break;
             }
             break;
         case 312:
@@ -3643,7 +3279,7 @@ tokenTipo getToken(){
             }
             break;
         case 3000:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu Frente Robo Bloqueada!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu Frente Robo Bloqueada!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -3658,7 +3294,7 @@ tokenTipo getToken(){
             }
             break;
         case 5001:
-            if (ch == 'a' || ch == 'A'){ //... APAGUE LAMPADA  (AP*A*GUE)
+            if (ch == 'a' || ch == 'A'){ //... APAGUE LAMPADA  (AP*A*GUE) // APAGADA
                 s = 5002;
                 buffer[j++] = ch;
                 break;
@@ -3668,7 +3304,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -3678,7 +3314,7 @@ tokenTipo getToken(){
             }
             break;
         case 5002:
-            if (ch == 'g' || ch == 'G'){ //... APAGUE LAMPADA  (AP*A*GUE)
+            if (ch == 'g' || ch == 'G'){ //... APAGUE LAMPADA  (AP*A*GUE)// APAGADA
                 s = 5003;
                 buffer[j++] = ch;
                 break;
@@ -3688,7 +3324,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -3703,12 +3339,17 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
+            if (ch == 'a' || ch == 'A'){ //... APAGADA
+                s = 5904;
+                buffer[j++] = ch;
+                break;
+            }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
                 s = 500;
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -3728,7 +3369,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -3738,10 +3379,76 @@ tokenTipo getToken(){
             }
             break;
         case 5005:
-             if (ch == ' '){ //... APAGUE LAMPADA  (APAGUE)
-                s = 5050;
+             if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu APAGUE!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "INSTRUCAO";
+                token.nome = buffer;
+                return token;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
                 buffer[j++] = ch;
                 break;
+            }
+            else if (ch == '\n' || ch == '\r'){
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 5904:
+            if (ch == 'd' || ch == 'D'){ //...  APAGADA
+                s = 5905;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 5905:
+            if (ch == 'a' || ch == 'A'){ //...  APAGADA
+                s = 5906;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 5906:
+             if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu APAGADA!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "CONDICAO";
+                token.nome = buffer;
+                return token;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
                 s = 500;
@@ -3768,7 +3475,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -3778,8 +3485,13 @@ tokenTipo getToken(){
             }
             break;
         case 50002:
-            if (ch == 'n' || ch == 'N'){ //... ACENDA LAMPADA  (ACENDA)
+            if (ch == 'n' || ch == 'N'){ //... ACENDA (ACENDA)
                 s = 50003;
+                buffer[j++] = ch;
+                break;
+            }
+            if (ch == 's' || ch == 's'){ //... ACESA
+                s = 500003;
                 buffer[j++] = ch;
                 break;
             }
@@ -3788,7 +3500,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -3808,7 +3520,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -3828,7 +3540,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -3838,8 +3550,23 @@ tokenTipo getToken(){
             }
             break;
         case 50005:
-             if (ch == ' '){ //... ACENDA LAMPADA  (ACENDA)
-                s = 5050;
+             if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu acenda lampada!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "INSTRUCAO";
+                token.nome = buffer;
+                return token;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 500003:
+            if (ch == 'a' || ch == 'A'){ //... ACESA
+                s = 500004;
                 buffer[j++] = ch;
                 break;
             }
@@ -3848,7 +3575,7 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            else if (ch == '\n' || ch == '\r'){
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
@@ -3857,18 +3584,22 @@ tokenTipo getToken(){
                 return token;
             }
             break;
-        case 5050:
-            if (ch == 'l' || ch == 'L'){ //... APAGUE|ACENDA LAMPADA  (LAMPADA)
-                s = 5051;
-                buffer[j++] = ch;
-                break;
+        case 500004:
+             if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu ACESA!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "CONDICAO";
+                token.nome = buffer;
+                return token;
             }
-            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
             break;
+        break;
         case 5051:
             if (ch == 'a' || ch == 'A'){ //... APAGUE|ACENDA LAMPADA  (LAMPADA)
                 s = 5052;
@@ -3942,11 +3673,11 @@ tokenTipo getToken(){
             }
             break;
         case 5057:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu APAGUE|ACENDA LAMPADA!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu APAGUE|ACENDA LAMPADA!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
-                token.tipo = "INSTRUCAO";
+                token.tipo = "LAMPADA";
                 token.nome = buffer;
                 return token;
             }
@@ -3956,18 +3687,673 @@ tokenTipo getToken(){
                 break;
             }
             break;
+        case 801:
+            if (ch == 'e' || ch == 'E'){ //EX*E*CUCAOINICIO
+                s = 802;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 802:
+            if (ch == 'c' || ch == 'C'){ //EXECUCAOINICIO
+                s = 803;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 803:
+            if (ch == 'u' || ch == 'U'){ //EXECUCAOINICIO
+                s = 804;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 804:
+            if (ch == 'c' || ch == 'C'){ //EXECUCAOINICIO
+                s = 805;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 805:
+            if (ch == 'a' || ch == 'A'){ //EXECUCAOINICIO
+                s = 806;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 806:
+            if (ch == 'o' || ch == 'O'){ //EXECUCAOINICIO
+                s = 807;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 807:
+            if (ch == 'i' || ch == 'I'){ //EXECUCAO*I*NICIO
+                s = 808;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 808:
+            if (ch == 'n' || ch == 'N'){ //EXECUCAOINICIO
+                s = 809;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 809:
+            if (ch == 'i' || ch == 'I'){ //EXECUCAOINICIO
+                s = 810;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+   		case 810:
+            if (ch == 'c' || ch == 'C'){ //EXECUCAOINICIO
+                s = 811;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 811:
+            if (ch == 'i' || ch == 'I'){ //EXECUCAOINICIO
+                s = 812;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 812:
+            if (ch == 'o' || ch == 'O'){ //EXECUCAOINICIO
+                s = 813;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 813:
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu PROGRAMAINICIO!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "PROGRAMA";
+                token.nome = buffer;
+                return token;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+
+        case 901:
+            if (ch == 'x' || ch == 'X'){ //FIME*X*ECUCAO
+                s = 902;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 902:
+            if (ch == 'e' || ch == 'E'){ //FIMEXECUCAO
+                s = 903;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 903:
+            if (ch == 'c' || ch == 'C'){ //FIMEXECUCAO
+                s = 904;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 904:
+            if (ch == 'u' || ch == 'U'){ //FIMEXECUCAO
+                s = 905;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 905:
+            if (ch == 'c' || ch == 'C'){ //FIMEXECUCAO
+                s = 906;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 906:
+            if (ch == 'a' || ch == 'A'){ //FIMEXECUCAO
+                s = 907;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 907:
+            if (ch == 'o' || ch == 'O'){ //FIMEXECUCAO
+                s = 908;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 908:
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu FIMEXECUCAO!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "PROGRAMA";
+                token.nome = buffer;
+                return token;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 911:
+            if (ch == 'o' || ch == 'O'){ //FIMPR*O*GRAMA
+                s = 912;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 912:
+            if (ch == 'g' || ch == 'G'){ //FIMPROGRAMA
+                s = 913;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 913:
+            if (ch == 'r' || ch == 'R'){ //FIMPROGRAMA
+                s = 914;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 914:
+            if (ch == 'a' || ch == 'A'){ //FIMPROGRAMA
+                s = 915;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 915:
+            if (ch == 'm' || ch == 'M'){ //FIMPROGRAMA
+                s = 916;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 916:
+            if (ch == 'a' || ch == 'A'){ //FIMPROGRAMA
+                s = 917;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 917:
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu FIMPROGRAMA!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "PROGRAMA";
+                token.nome = buffer;
+                return token;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
+        case 6022:
+            if (ch == 'a' || ch == 'A'){ //FIN*A*LIZE
+                s = 6024;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 6024:
+            if (ch == 'l' || ch == 'L'){ //FINALIZE
+                s = 6025;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 6025:
+            if (ch == 'i' || ch == 'I'){ //FINALIZE
+                s = 6026;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 6026:
+            if (ch == 'z' || ch == 'Z'){ //FINALIZE
+                s = 6027;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 6027:
+            if (ch == 'e' || ch == 'E'){ //FINALIZE
+                s = 6028;
+                buffer[j++] = ch;
+                break;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID";
+                token.nome = buffer;
+                return token;
+            }
+            break;
+        case 6028:
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu //FINALIZE!!!!!!
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "PROGRAMA";
+                token.nome = buffer;
+                return token;
+            }
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+                s = 500;
+                buffer[j++] = ch;
+                break;
+            }
+            break;
 //-------------------------------------------------------------------------------------------------------------
 
 
 
-
-
-
-
-
-
        case 500:
-            if (ch == ' ' || ch == '\n' || ch == '\r'){ //reconheceu IDENTIFICADOR!!!!!!
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu IDENTIFICADOR!!!!!!
                 buffer[j] = '\0';
                 j=0;
                 tokenTipo token;
