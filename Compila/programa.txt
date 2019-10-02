@@ -1,3 +1,6 @@
+Robo Parado
+Robo Ocupado
+Robo Movimentando
 PROGRAMAINICIO
 DEFINAINSTRUCAO Trilha COMO
 INICIO
@@ -14,3 +17,4 @@ Repita 3 VEZES Trilha
 Vire Para DIREITA
 FIMEXECUCAO
 FIMPROGRAMA
+Frente Robo Bloqueada
