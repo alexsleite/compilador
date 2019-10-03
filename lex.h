@@ -135,6 +135,15 @@ tokenTipo getToken(int &linhaAux){
                 buffer[j++] = ch;
                 break;
             }
+            else if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){
+                break;
+            }
+            else{ //ERRO INICIO DE CADEIA INVALIDA
+                s = 501;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 1:
             if (ch == 'r' || ch == 'R'){ //PROGRAMAINICIO
@@ -5233,6 +5242,24 @@ tokenTipo getToken(int &linhaAux){
             }
             break;
         //tratamento de erros
+        case 501: //CASO TENHA APARECIDO CARACTER INVALIDO NO INICIO DA CADEIA
+            if((ch == ' ' || ch == '\n' || ch == '\r')){
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "Inicio de palavra invalida";
+                token.nome = buffer;
+                token.coluna = colErro - 1;
+                token.linha = linhaAux;
+                token.ehErro = true;
+                return token;
+            }
+            else{
+                buffer[j++] = ch;
+                s = 501;
+                break;
+            }
+        break;
         case 502://CASO TENHA APARECIDO CARACTER INVALIDO EM UMA PALAVRA RESERVADA
             if((ch == ' ' || ch == '\n' || ch == '\r')){
                 buffer[j] = '\0';
