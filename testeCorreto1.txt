@@ -15,7 +15,3 @@ Repita 3 VEZES Trilha
 Vire Para DIREITA
 FIMEXECUCAO
 FIMPROGRAMA
-Frente Robo Bloqueada
-Robo Parado
-Robo Ocupado
-Robo Movimentando
