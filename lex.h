@@ -1,7 +1,8 @@
 #include<iostream>
 #include<fstream>
 #include<stdlib.h>
-#include<string.h>
+#include<string>
+#include<sstream>
 #include<ctype.h>
 
 using namespace std;
@@ -9,6 +10,9 @@ using namespace std;
 typedef struct tokenTipo{
     string tipo;
     string nome;
+    bool ehErro = false;
+    int coluna;
+    int linha;
 }tokenTipo;
 
 ifstream fin("programa.txt");
@@ -31,14 +35,21 @@ void closeFile(){
     fin.close();
 }
 
-tokenTipo getToken(){
+tokenTipo getToken(int &linhaAux){
 
     char buffer[40], ch;
-    int s = 0, j=0;
+    int s = 0, j=0, col=0, colErro;
 	while(!fin.eof()){
         ch = fin.get();
+        col++;
+        if (ch == '\n' || ch == '\r')
+            linhaAux++;
    		switch (s){
         case 0:
+            if (ch == '#'){
+                s = 9999;
+                break;
+            }
             if (ch == 'p' || ch == 'P'){ //comeca a identificar PROGRAMAINICIO // PASSOS // PARE // PRONTO // PARADO
                 s = 1;
                 buffer[j++] = ch;
@@ -149,6 +160,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 2:
             if (ch == 'o' || ch == 'O'){ //PROGRAMAINICIO
@@ -168,6 +185,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 3:
@@ -194,6 +217,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 4:
             if (ch == 'r' || ch == 'R'){ //PROGRAMAINICIO
@@ -213,6 +242,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 5:
@@ -234,6 +269,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 6:
             if (ch == 'm' || ch == 'M'){ //PROGRAMAINICIO
@@ -253,6 +294,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 7:
@@ -274,6 +321,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 8:
             if (ch == 'i' || ch == 'I'){ //PROGRAMAINICIO
@@ -293,6 +346,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 9:
@@ -314,6 +373,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
    		case 10:
             if (ch == 'i' || ch == 'I'){ //PROGRAMAINICIO
@@ -333,6 +398,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 11:
@@ -354,6 +425,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 12:
             if (ch == 'i' || ch == 'I'){ //PROGRAMAINICIO
@@ -374,6 +451,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 13:
             if (ch == 'o' || ch == 'O'){ //PROGRAMAINICIO
@@ -393,6 +476,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 14:
@@ -434,6 +523,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 16:
             if (ch == 'f' || ch == 'F'){ //... DEFINAINSTRUCAO
@@ -453,6 +548,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 17:
@@ -480,6 +581,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 18:
             if (ch == 'n' || ch == 'N'){ //... DEFINAINSTRUCAO
@@ -499,6 +606,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 19:
@@ -520,6 +633,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 20:
             if (ch == 'i' || ch == 'I'){ //... DEFINAINSTRUCAO
@@ -539,6 +658,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 21:
@@ -560,6 +685,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 22:
             if (ch == 's' || ch == 'S'){ //... DEFINAINSTRUCAO
@@ -579,6 +710,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 23:
@@ -600,6 +737,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 24:
             if (ch == 'r' || ch == 'R'){ //... DEFINAINSTRUCAO
@@ -619,6 +762,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 25:
@@ -640,6 +789,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 26:
             if (ch == 'c' || ch == 'C'){ //... DEFINAINSTRUCAO
@@ -659,6 +814,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 27:
@@ -680,6 +841,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 28:
             if (ch == 'o' || ch == 'O'){ //... DEFINAINSTRUCAO
@@ -699,6 +866,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 29:
@@ -735,6 +908,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 31:
             if (ch == 'm' || ch == 'M'){ //... COMO
@@ -755,6 +934,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 32:
             if (ch == 'o' || ch == 'O'){ //... COMO
@@ -774,6 +959,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 33:
@@ -810,6 +1001,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 35:
             if (ch == 'i' || ch == 'I'){ //... INICIO
@@ -829,6 +1026,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 36:
@@ -850,6 +1053,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 37:
             if (ch == 'i' || ch == 'I'){ //... INICIO
@@ -870,6 +1079,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 38:
             if (ch == 'o' || ch == 'O'){ //... INICIO
@@ -889,6 +1104,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 39:
@@ -925,6 +1146,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 41:
             if (ch == 'v' || ch == 'V'){ //... MOVA // MOVIMENTANDO
@@ -944,6 +1171,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 42:
@@ -969,6 +1202,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 43:
@@ -1002,12 +1241,10 @@ tokenTipo getToken(){
                 break;
             }
             else{ // ERRO DE NUMERO
-                buffer[j] = '\0';
-                j=0;
-                tokenTipo token;
-                token.tipo = "ERRONUM";
-                token.nome = buffer;
-                return token;
+                colErro = col;
+                s = 503;
+                buffer[j++] = ch;
+                break;
             }
             break;
         case 45:
@@ -1034,6 +1271,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 46:
             if (ch == 's' || ch == 'S'){ //... PASSOS
@@ -1054,6 +1297,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 47:
             if (ch == 'o' || ch == 'O'){ //... PASSOS
@@ -1073,6 +1322,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 48:
@@ -1133,6 +1388,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 461:
@@ -1204,6 +1465,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 52:
             if (ch == 'a' || ch == 'A'){ //... AGUARDE
@@ -1223,6 +1490,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 53:
@@ -1244,6 +1517,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 54:
             if (ch == 'd' || ch == 'D'){ //... AGUARDE
@@ -1264,6 +1543,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 55:
             if (ch == 'e' || ch == 'E'){ //... AGUARDE
@@ -1283,6 +1568,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 56:
@@ -1315,7 +1606,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r'){ // verificando se houve erro ao digitar AGUARDE ATE
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -1330,7 +1621,7 @@ tokenTipo getToken(){
                 return token;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57)){ // verificando se houve erro ao digitar AGUARDE ATE
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -1360,6 +1651,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 62:
             if (ch == 'b' || ch == 'B'){ //... Robo -> Rob
@@ -1380,6 +1677,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 63:
             if (ch == 'o' || ch == 'O'){ //... Robo -> Robo
@@ -1399,6 +1702,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 64:
@@ -1431,7 +1740,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -1443,7 +1752,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -1458,7 +1767,7 @@ tokenTipo getToken(){
                 return token;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57)){ // verificando se houve erro ao digitar AGUARDE ATE
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -1488,6 +1797,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 73:
             if (ch == 'r' || ch == 'R'){ //... Vire Para
@@ -1508,6 +1823,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 74:
             if (ch == 'e' || ch == 'E'){ //... Vire Para
@@ -1527,6 +1848,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 75:
@@ -1556,7 +1883,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -1568,7 +1895,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -1580,7 +1907,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -1592,7 +1919,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de VIRE PARA
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -1607,7 +1934,7 @@ tokenTipo getToken(){
                 return token;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57)){ // verificando se houve erro ao digitar VIRE PARA
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -1641,6 +1968,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 82:
             if (ch == 'q' || ch == 'Q'){ //... ESQUERDA
@@ -1660,6 +1993,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 83:
@@ -1681,6 +2020,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 84:
             if (ch == 'e' || ch == 'E'){ //... ESQUERDA
@@ -1700,6 +2045,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 85:
@@ -1721,6 +2072,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 86:
             if (ch == 'd' || ch == 'D'){ //... ESQUERDA
@@ -1741,6 +2098,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 87:
             if (ch == 'a' || ch == 'A'){ //... ESQUERDA
@@ -1760,6 +2123,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 88:
@@ -1796,6 +2165,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 90:
             if (ch == 'e' || ch == 'E'){ //... DIREITA
@@ -1815,6 +2190,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 91:
@@ -1836,6 +2217,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 92:
             if (ch == 't' || ch == 'T'){ //... DIREITA
@@ -1856,6 +2243,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 93:
             if (ch == 'a' || ch == 'A'){ //... DIREITA
@@ -1875,6 +2268,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 94:
@@ -1915,6 +2314,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
 		case 612:
             if (ch == 'i' || ch == 'I'){ //... REPITA
@@ -1934,6 +2339,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
 		case 613:
@@ -1955,6 +2366,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
 		case 614:
             if (ch == 'a' || ch == 'A'){ //... REPITA
@@ -1974,6 +2391,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
 		case 615:
@@ -2010,6 +2433,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
 		case 617:
             if (ch == 'e' || ch == 'E'){ //... VEZES
@@ -2030,6 +2459,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
 		case 618:
             if (ch == 's' || ch == 'S'){ //... VEZES
@@ -2049,6 +2484,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
 		case 619:
@@ -2095,6 +2536,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
 		case 621:
             if (ch == 'm' || ch == 'M'){ //... fim
@@ -2119,6 +2566,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
 		case 622:
@@ -2181,6 +2634,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
 		case 624:
             if (ch == 'p' || ch == 'P'){
@@ -2200,6 +2659,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
 		case 625:
@@ -2221,6 +2686,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
 		case 626:
             if (ch == 't' || ch == 'T'){
@@ -2241,6 +2712,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
 		case 627:
             if (ch == 'a' || ch == 'A'){
@@ -2260,6 +2737,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
 		case 628:
@@ -2294,7 +2777,7 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
-			else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
+            else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) ){ // verificando se é IDENTIFICADOR
                 s = 500;
                 buffer[j++] = ch;
                 break;
@@ -2327,6 +2810,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
 		case 632:
             if (ch == 'a' || ch == 'A'){ //ENTAO
@@ -2347,6 +2836,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
 		case 633:
             if (ch == 'o' || ch == 'O'){ //ENTAO
@@ -2366,6 +2861,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
 		case 634:
@@ -2401,6 +2902,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
 		case 636:
@@ -2442,6 +2949,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 6038:
             if (ch == 'o' || ch == 'O'){ //FIMSENAO
@@ -2461,6 +2974,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 6039:
@@ -2499,6 +3018,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
 		case 638: //ENQUANTO
             if (ch == 'a' || ch == 'A'){
@@ -2518,6 +3043,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
 		case 639:  //ENQUANTO
@@ -2539,6 +3070,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
 		case 640: //ENQUANTO
             if (ch == 't' || ch == 'T'){
@@ -2559,6 +3096,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
 		case 641: //ENQUANTO
             if (ch == 'o' || ch == 'O'){
@@ -2578,6 +3121,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
 
@@ -2617,6 +3166,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
 		case 644:
             if (ch == 'a' || ch == 'A'){ //FACA
@@ -2636,6 +3191,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
 		case 645:
@@ -2677,6 +3238,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
 		case 647:
             if (ch == 'r' || ch == 'R'){
@@ -2697,6 +3264,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
 		case 648:
             if (ch == 'a' || ch == 'A'){
@@ -2716,6 +3289,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
 
@@ -2778,6 +3357,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
 		case 652:
             if (ch == 'o' || ch == 'O'){
@@ -2797,6 +3382,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
 
@@ -2825,7 +3416,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO Ocupado
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -2837,7 +3428,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO Ocupado
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -2849,7 +3440,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO Ocupado
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -2861,7 +3452,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO Ocupado
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -2873,7 +3464,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO Ocupado
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -2886,7 +3477,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO OCUPADO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -2901,7 +3492,7 @@ tokenTipo getToken(){
                 return token;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57)){ // verificando se houve erro ao digitar AGUARDE ATE
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -2913,7 +3504,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -2925,7 +3516,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -2940,7 +3531,7 @@ tokenTipo getToken(){
                 return token;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57)){ // verificando se houve erro ao digitar AGUARDE ATE
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -2954,7 +3545,7 @@ tokenTipo getToken(){
 //            }
 //
 //		else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-//                s = 501;
+//                s = 500;
 //                buffer[j++] = ch;
 //                break;
 //            }
@@ -2967,7 +3558,7 @@ tokenTipo getToken(){
 //            }
 //
 //		else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-//                s = 501;
+//                s = 500;
 //                buffer[j++] = ch;
 //                break;
 //            }
@@ -2979,7 +3570,7 @@ tokenTipo getToken(){
 //                break;
 //            }
 //        	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-//                s = 501;
+//                s = 500;
 //                buffer[j++] = ch;
 //                break;
 //            }
@@ -2991,7 +3582,7 @@ tokenTipo getToken(){
                 break;
             }
         	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3003,7 +3594,7 @@ tokenTipo getToken(){
                 break;
             }
         	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3015,7 +3606,7 @@ tokenTipo getToken(){
                 break;
             }
         	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3027,7 +3618,7 @@ tokenTipo getToken(){
                 break;
             }
         	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3039,7 +3630,7 @@ tokenTipo getToken(){
                 break;
             }
         	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3051,7 +3642,7 @@ tokenTipo getToken(){
                 break;
             }
         	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3063,7 +3654,7 @@ tokenTipo getToken(){
                 break;
             }
         	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3075,7 +3666,7 @@ tokenTipo getToken(){
                 break;
             }
         	else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO MOVIMENTANDO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3090,7 +3681,7 @@ tokenTipo getToken(){
                 return token;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57)){ // verificando se houve erro ao digitar AGUARDE ATE
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3114,6 +3705,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 302:
             if (ch == 'n' || ch == 'N'){ //...Frente Robo Bloqueada  (frente)
@@ -3134,6 +3731,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 303:
             if (ch == 't' || ch == 'T'){ //... Frente Robo Bloqueada  (frente)
@@ -3142,7 +3745,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3154,7 +3757,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3189,7 +3792,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3201,7 +3804,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de VIRE PARA
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3213,7 +3816,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de VIRE PARA
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3225,7 +3828,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de VIRE PARA
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3237,7 +3840,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de VIRE PARA
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3249,7 +3852,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de VIRE PARA
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3261,7 +3864,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de VIRE PARA
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3273,7 +3876,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de VIRE PARA
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3288,7 +3891,7 @@ tokenTipo getToken(){
                 return token;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57)){ // verificando se houve erro ao digitar VIRE PARA
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3312,6 +3915,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 5002:
             if (ch == 'g' || ch == 'G'){ //... APAGUE LAMPADA  (AP*A*GUE)// APAGADA
@@ -3331,6 +3940,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 5003:
@@ -3357,6 +3972,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 5004:
             if (ch == 'e' || ch == 'E'){ //... APAGUE LAMPADA  (AP*A*GUE)
@@ -3376,6 +3997,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 5005:
@@ -3420,6 +4047,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 5905:
             if (ch == 'a' || ch == 'A'){ //...  APAGADA
@@ -3439,6 +4072,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 5906:
@@ -3483,6 +4122,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 50002:
             if (ch == 'n' || ch == 'N'){ //... ACENDA (ACENDA)
@@ -3508,6 +4153,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 50003:
             if (ch == 'd' || ch == 'D'){ //... ACENDA LAMPADA  (ACENDA)
@@ -3528,6 +4179,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 50004:
             if (ch == 'a' || ch == 'A'){ //... ACENDA LAMPADA  (ACENDA)
@@ -3547,6 +4204,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 50005:
@@ -3583,6 +4246,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 500004:
              if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu ACESA!!!!!!
@@ -3607,7 +4276,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3619,7 +4288,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3631,7 +4300,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3643,7 +4312,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3655,7 +4324,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3667,7 +4336,7 @@ tokenTipo getToken(){
                 break;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57) || ch == ' ' || ch == '\n' || ch == '\r' ){ // verificando se houve erro na digitacao de ROBO PRONTO
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3682,7 +4351,7 @@ tokenTipo getToken(){
                 return token;
             }
             else if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57)){ // verificando se houve erro ao digitar VIRE PARA
-                s = 501;
+                s = 500;
                 buffer[j++] = ch;
                 break;
             }
@@ -3706,6 +4375,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 802:
             if (ch == 'c' || ch == 'C'){ //EXECUCAOINICIO
@@ -3725,6 +4400,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 803:
@@ -3746,6 +4427,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 804:
             if (ch == 'c' || ch == 'C'){ //EXECUCAOINICIO
@@ -3765,6 +4452,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 805:
@@ -3786,6 +4479,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 806:
             if (ch == 'o' || ch == 'O'){ //EXECUCAOINICIO
@@ -3805,6 +4504,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 807:
@@ -3826,6 +4531,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 808:
             if (ch == 'n' || ch == 'N'){ //EXECUCAOINICIO
@@ -3845,6 +4556,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 809:
@@ -3866,6 +4583,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
    		case 810:
             if (ch == 'c' || ch == 'C'){ //EXECUCAOINICIO
@@ -3885,6 +4608,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 811:
@@ -3906,6 +4635,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 812:
             if (ch == 'o' || ch == 'O'){ //EXECUCAOINICIO
@@ -3925,6 +4660,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 813:
@@ -3962,6 +4703,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 902:
             if (ch == 'e' || ch == 'E'){ //FIMEXECUCAO
@@ -3981,6 +4728,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 903:
@@ -4002,6 +4755,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 904:
             if (ch == 'u' || ch == 'U'){ //FIMEXECUCAO
@@ -4021,6 +4780,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 905:
@@ -4042,6 +4807,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 906:
             if (ch == 'a' || ch == 'A'){ //FIMEXECUCAO
@@ -4062,6 +4833,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 907:
             if (ch == 'o' || ch == 'O'){ //FIMEXECUCAO
@@ -4081,6 +4858,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 908:
@@ -4117,6 +4900,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 912:
             if (ch == 'g' || ch == 'G'){ //FIMPROGRAMA
@@ -4136,6 +4925,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 913:
@@ -4157,6 +4952,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 914:
             if (ch == 'a' || ch == 'A'){ //FIMPROGRAMA
@@ -4176,6 +4977,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 915:
@@ -4197,6 +5004,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 916:
             if (ch == 'a' || ch == 'A'){ //FIMPROGRAMA
@@ -4216,6 +5029,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 917:
@@ -4252,6 +5071,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 6024:
             if (ch == 'l' || ch == 'L'){ //FINALIZE
@@ -4271,6 +5096,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 6025:
@@ -4292,6 +5123,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 6026:
             if (ch == 'z' || ch == 'Z'){ //FINALIZE
@@ -4311,6 +5148,12 @@ tokenTipo getToken(){
                 token.tipo = "ID";
                 token.nome = buffer;
                 return token;
+            }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
             }
             break;
         case 6027:
@@ -4332,6 +5175,12 @@ tokenTipo getToken(){
                 token.nome = buffer;
                 return token;
             }
+            else{
+                s = 502;
+                buffer[j++] = ch;
+                colErro = col;
+                break;
+            }
             break;
         case 6028:
             if (ch == ' ' || ch == '\n' || ch == '\r' || ch == EOF){ //reconheceu //FINALIZE!!!!!!
@@ -4349,7 +5198,17 @@ tokenTipo getToken(){
             }
             break;
 //-------------------------------------------------------------------------------------------------------------
+        case 9999: //COMENTARIO
+            if (ch == '\n' || ch == '\r'){
+                s = 0;
+                break;
+            }
+            else {
+                s = 9999;
+                break;
+            }
 
+        break;
 
 
        case 500:
@@ -4366,17 +5225,65 @@ tokenTipo getToken(){
                 buffer[j++] = ch;
                 break;
             }
-            break;
-        //tratamento de erros
-        case 501:
-            if( (ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122) || (ch >= 48 && ch <=57)){ //CASO TENHA APARECIDO CARACTER INVALIDO EM UMA PALAVRA RESERVADA COMPOSTA
+            else{
+                s = 504;
                 buffer[j++] = ch;
-                s = 501;
+                colErro = col;
                 break;
             }
-            else if((ch == ' ' || ch == '\n' || ch == '\r')){ // verificando se houve erro ao digitar AGUARDE ATE
-                s = 501;
+            break;
+        //tratamento de erros
+        case 502://CASO TENHA APARECIDO CARACTER INVALIDO EM UMA PALAVRA RESERVADA
+            if((ch == ' ' || ch == '\n' || ch == '\r')){
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "Palavra reservada invalida";
+                token.nome = buffer;
+                token.coluna = colErro - 1;
+                token.linha = linhaAux;
+                token.ehErro = true;
+                return token;
+            }
+            else{
                 buffer[j++] = ch;
+                s = 502;
+                break;
+            }
+        break;
+        case 503: //CASO TENHA APARECIDO CARACTER INVALIDO EM UM NUMERO
+            if((ch == ' ' || ch == '\n' || ch == '\r')){
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "Erro de numero";
+                token.nome = buffer;
+                token.coluna = colErro - 1;
+                token.linha = linhaAux;
+                token.ehErro = true;
+                return token;
+            }
+            else{
+                buffer[j++] = ch;
+                s = 503;
+                break;
+            }
+        break;
+        case 504: //CASO TENHA APARECIDO CARACTER INVALIDO EM UMA PALAVRA RESERVADA
+            if((ch == ' ' || ch == '\n' || ch == '\r')){
+                buffer[j] = '\0';
+                j=0;
+                tokenTipo token;
+                token.tipo = "ID invalido";
+                token.nome = buffer;
+                token.coluna = colErro - 1;
+                token.linha = linhaAux;
+                token.ehErro = true;
+                return token;
+            }
+            else{
+                buffer[j++] = ch;
+                s = 504;
                 break;
             }
         break;

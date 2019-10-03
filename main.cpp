@@ -9,11 +9,17 @@ using namespace std;
 
 int main(){
     openFile();
-
+    int *linhaAux;
+    int linha = 0;
+    linhaAux = &linha;
     while (checaFim()){
-        tokenTipo token = getToken();
-        if (token.tipo != "FIM")
-            printf("Token: %s, Lexema: %s\n", token.tipo.c_str(), token.nome.c_str());
+        tokenTipo token = getToken(*linhaAux);
+        if (token.tipo != "FIM"){
+            if (token.ehErro == false)
+                printf("Token: %s, Lexema: %s\n", token.tipo.c_str(), token.nome.c_str());
+            else
+                printf("Erro: %s, Lexema: %s, Linha: %d, Coluna: %d\n", token.tipo.c_str(), token.nome.c_str(), token.linha, token.coluna);
+        }
     }
 
 
