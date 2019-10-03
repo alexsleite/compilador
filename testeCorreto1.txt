@@ -1,5 +1,3 @@
-REPITA
-Frente Robo Bloqueada
 PROGRAMAINICIO
 DEFINAINSTRUCAO Trilha COMO
 INICIO
@@ -21,4 +19,3 @@ Frente Robo Bloqueada
 Robo Parado
 Robo Ocupado
 Robo Movimentando
-695
