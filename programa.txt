@@ -20,7 +20,7 @@ fimsenao
 mova
 passos
 vire para
-pare
+pare 123
 finalize
 apague lampada
 acenda lampada
@@ -38,3 +38,7 @@ lampada acesa a esquerda
 lampada apagada a esquerda
 lampada acesa a direita
 lampada apagada a direita
+lampada apgada a dir&eita 1234
+#aokoakd
+12* ab& #ppdwd
+finalize
