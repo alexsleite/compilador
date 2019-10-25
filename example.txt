@@ -1,1 +1,90 @@
-inicio vire para esquerda fim
+programainicio
+	definainstrucao x como
+		vire para direita
+		inicio
+			repita 3 vezes
+				enquanto robo parado faca
+					apague lampada
+					acenda lampada
+					se frente robo bloqueada entao
+						repita 3 vezes
+							inicio
+								vire para esquerda
+								pare
+							fim
+						fimrepita
+					fimse
+					senao
+						vire para direita
+					fimsenao
+					
+				fimpara
+			fimrepita
+		fim
+			  
+	definainstrucao y como
+	vire para direita
+		inicio
+			repita 3 vezes
+				enquanto robo parado faca
+					apague lampada
+					acenda lampada
+					se frente robo bloqueada entao
+						repita 3 vezes
+							inicio
+								vire para esquerda
+								pare
+							fim
+						fimrepita
+					fimse
+					senao
+						vire para direita
+					fimsenao
+					
+				fimpara
+			fimrepita
+		fim
+			definainstrucao z como
+				x y
+	
+	execucaoinicio
+	   inicio
+		enquanto robo ocupado faca
+			aguarde ate robo pronto
+		fimpara	#finaliza o enquanto	
+		
+		inicio
+			vire para esquerda
+			pare
+			vire para direita
+			aguarde ate robo pronto
+			apague lampada
+			mova
+			mova 3
+			mova 3 passos
+			acenda lampada
+			finalize			
+		fim
+	    fim	    
+	    repita 5 vezes 
+		vire para esquerda
+		repita 2 vezes
+			inicio
+  				se lampada acesa a frente entao
+					acenda lampada
+					apague lampada
+					finalize
+				fimse
+				senao
+					aguarde ate direita robo bloqueada
+					repita 5 vezes 
+						vire para direita
+							x
+							y
+					fimrepita
+				fimsenao
+			fim
+		fimrepita
+	    fimrepita
+	fimexecucao
+fimprograma

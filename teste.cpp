@@ -18,7 +18,6 @@ void inv (stack<string> & guarda, stack<string> & inverte, vector<keyword> & tab
             g.nome = inverte.top();
             g.tipo = "Sentido";
             tabela.push_back(g);
-            cout<<inverte.top()<<"  Sentido"<<endl;
             inverte.pop();
         }
         else{
@@ -26,7 +25,6 @@ void inv (stack<string> & guarda, stack<string> & inverte, vector<keyword> & tab
             g.nome = inverte.top();
             g.tipo = "ID";
             tabela.push_back(g);
-            cout<<inverte.top()<<"  ID"<<endl;
             inverte.pop();
             }
     }
@@ -48,7 +46,7 @@ int main () {
 
   aux.nome = "programainicio", aux.tipo = "Programa", reserved_words.push_back(aux);
   aux.nome = "fimprograma", aux.tipo = "Programa", reserved_words.push_back(aux);
-  aux.nome = "execucaoinicio", aux.tipo = "Pograma", reserved_words.push_back(aux);
+  aux.nome = "execucaoinicio", aux.tipo = "Programa", reserved_words.push_back(aux);
   aux.nome = "fimexecucao", aux.tipo = "Programa", reserved_words.push_back(aux);
   aux.nome = "definainstrucao", aux.tipo = "Declaracao", reserved_words.push_back(aux);
   aux.nome = "como", aux.tipo = "Declaracao", reserved_words.push_back(aux);
@@ -118,9 +116,12 @@ int main () {
       if(ascll==35){//comentario
          coment=1;
       }
-      if(coment!=1){
-         if(buffer[k]!=' '&&((ascll>=97&&ascll<=122)||(ascll>=48&&ascll<=57))) // buffer[k] é uma letra ou numero válido (tabela ascll)
-         {
+      if(ascll!=9) //tabulação
+      {
+        if(coment!=1)
+        {
+            if(buffer[k]!=' '&&((ascll>=97&&ascll<=122)||(ascll>=48&&ascll<=57))) // buffer[k] é uma letra ou numero válido (tabela ascll)
+            {
                 if(first==' ') //se não salvei nada no primeiro caracter ainda
                 {
                     ascll_first = buffer[k]; //vejo se é numero ou letra
@@ -140,12 +141,13 @@ int main () {
                     aux_palavra  = aux_palavra + buffer[k]; // começou como numero e incluiu caracter
                     error = 1;
                 }
-         }
-         else if(buffer[k]!=' '&&(ascll>122||(ascll<97&&ascll>57)||ascll<48)&&ascll!=10)//caracter invalido (10 = fim da linha)
-         {
+            }
+            else if(buffer[k]!=' '&&(ascll>122||(ascll<97&&ascll>57)||ascll<48) && ascll!=10)//caracter invalido (10 = fim da linha)
+            {
                  aux_palavra = aux_palavra + buffer[k];
                  error = 1;
-         }
+            }
+        }
       }
         if(buffer[k]==' '||buffer[k]=='\n'|| k == buffer.size()-1){//possivel palavra encontrada
             bool achou = 0;
@@ -453,7 +455,6 @@ int main () {
                         if(aux_palavra=="bloqueada") //palavra chave formada
                         {
                               string forma = "";
-                              guarda.push(aux_palavra);
                               while(guarda.size()>0)
                               {
                                  inverte.push(guarda.top());
@@ -466,7 +467,7 @@ int main () {
                               }
                                //cout<<forma<<" Condicao"<<endl;
                                keyword g;
-                               g.nome = forma;
+                               g.nome = forma+aux_palavra;
                                g.tipo = "Condicao";
                                tabela.push_back(g);
                                retorna=0; //combinação completa
@@ -511,7 +512,6 @@ int main () {
                 }
                  else if(estado==3&&(aux_palavra=="direita"||aux_palavra=="esquerda"||aux_palavra=="frente")) //só tem uma forma de chegar aqui
                  {
-                            guarda.push(aux_palavra);
                                    while(guarda.size()>0)
                                     {
                                         inverte.push(guarda.top());
@@ -525,7 +525,7 @@ int main () {
                                     }
                                     //cout<<forma<<"  Condicao"<<endl;
                                     keyword g;
-                                    g.nome = forma;
+                                    g.nome = forma+aux_palavra;
                                     g.tipo = "Condicao";
                                     tabela.push_back(g);
                             retorna=0; //novo token
@@ -616,488 +616,460 @@ int main () {
    cout<<"--------------------"<<endl;
    stack<keyword>save;
    stack<keyword>base;
-   int state = 0;
+   vector<string>producoes;
+   vector<string>ids_criados;
+    int state = 0;
+    int cont_comando = 0;
+    bool execut = false;
     for(int i =0;i<tabela.size();i++){
-
         int retorna=1;
         while(retorna==1)
         {
-            if(state == 0 && (tabela[i].nome=="definainstrucao" || tabela[i].nome=="repita" || tabela[i].nome=="enquanto" || tabela[i].nome=="se"
-                        || tabela[i].nome=="mova" || tabela[i].nome=="vire para" || tabela[i].nome == "aguarde ate")){
-                        state++;
-                        save.push(tabela[i]);
-                        retorna=0;
-            }
-            else if(state == 0 &&(tabela[i].nome=="fimrepita"||tabela[i].nome=="fimse"||tabela[i].nome=="fimpara"))//encerra loops de comando
+            if(state==0 && tabela[i].nome=="programainicio")
             {
-                if(save.size()==0){ //se comando não foi bem sucedido
-                    cout<<"Erro na expressao "<<tabela[i].nome<<endl;
-                    retorna = 0;
-                    state = 0;
-                }
-                else
-                {
-                    if(tabela[i].nome=="fimrepita")
-                    {
-                        while(save.top().nome!="repita") //deleta 1 loop ok
-                        {
-                            base.push(save.top());
-                            save.pop();
-                        }
-                        if(save.top().nome=="repita")
-                            base.push(save.top());
-                        save.pop();
-                        cout<<"Expressao correta: ";
-                        while(base.size()>0)
-                        {
-                            cout<<base.top().nome<<" ";
-                            base.pop();
-                        }
-                        retorna = 0;
-                        cout<<tabela[i].nome<<endl;
-                    }
-                     if(tabela[i].nome=="fimse")
-                    {
-                        while(save.top().nome!="se") //deleta 1 loop ok
-                        {
-                            base.push(save.top());
-                            save.pop();
-                        }
-                        if(save.top().nome=="se")
-                            base.push(save.top());
-                        save.pop();
-                        cout<<"Expressao correta: ";
-                        while(base.size()>0)
-                        {
-                            cout<<base.top().nome<<" ";
-                            base.pop();
-                        }
-                        retorna = 0;
-                        cout<<tabela[i].nome<<endl;
-                    }
-                     if(tabela[i].nome=="fimpara")
-                    {
-                        while(save.top().nome!="enquanto") //deleta 1 loop ok
-                        {
-                            base.push(save.top());
-                            save.pop();
-                        }
-                        if(save.top().nome=="enquanto")
-                            base.push(save.top());
-                        save.pop();
-                        cout<<"Expressao correta: ";
-                        while(base.size()>0)
-                        {
-                            cout<<base.top().nome<<" ";
-                            base.pop();
-                        }
-                        retorna = 0;
-                        cout<<tabela[i].nome<<endl;
-                    }
-
-                }
+                state++;
+                save.push(tabela[i]);
+                retorna=0;
+                producoes.push_back(tabela[i].nome);
+            }
+             else if(state==0){
+                cout<<"ERRO"<<endl;
+                retorna=0;
+                i=tabela.size();
             }
 
-            else if(state == 0 && save.top().nome=="como")
+            else if(state==1 && (tabela[i].nome=="definainstrucao" || tabela[i].nome == "execucaoinicio"))
             {
-                if(save.size()>0)
-                {
-                    cout<<"Expressao correta: ";
-                    while(save.size()>0)
-                    {
-                        base.push(save.top());
-                        save.pop();
-                    }
-                    while(base.size()>0)
-                    {
-                        cout<<base.top().nome<<" ";
-                        base.pop();
-                    }
-                    cout<<endl;
-                }
-                else{
-                    cout<<"Expressão errada: "<<tabela[i].nome<<endl;
-                }
-                retorna = 0;
-                state = 0;
-            }
-            else if(state ==1 && (tabela[i].tipo=="ID" || tabela[i].tipo=="Numero" || tabela[i].tipo=="Condicao" || tabela[i].tipo =="Sentido" ))
-            {
-                if(save.top().nome=="definainstrucao") //definainstrucao id
-                {
-                    if(tabela[i].tipo=="ID")
-                    {
-                        state++;
-                        save.push(tabela[i]);
-                        retorna=0;
-                    }
-                    else{
-                        cout<<"ERRO SINTATICO"<<endl;
-                        save.pop();
-                        state--;
-                        retorna=1;
-                    }
-                }
 
-                else if(save.top().nome=="repita")    //repita n
+                if(tabela[i].nome=="definainstrucao") //cria nova instrução
                 {
-                    if(tabela[i].tipo=="Numero")
-                    {
-                        state++;
-                        save.push(tabela[i]);
-                        retorna=0;
-                    }
-                    else{
-                        cout<<"ERRO SINTATICO";
-                        save.pop();
-                        state--;
-                        retorna=1;
-                    }
+                    state=100;
+                    save.push(tabela[i]);
+                    retorna=0;
                 }
-
-                else if(save.top().nome=="enquanto")    //enquanto condicao
+                else                                //executa instrução
                 {
-                    if(tabela[i].tipo=="Condicao")
-                    {
-                        state++;
-                        save.push(tabela[i]);
-                        retorna=0;
-                    }
-                     else{
-                        cout<<"ERRO SINTATICO";
-                        save.pop();
-                        state--;
-                        retorna=1;
-                    }
+                    state++;
+                    execut=true;
+                    save.push(tabela[i]);
+                    retorna=0;
                 }
-
-                else if(save.top().nome=="se")        //se condicao
-                {
-                    if(tabela[i].tipo=="Condicao")
-                    {
-                        state++;
-                        save.push(tabela[i]);
-                        retorna=0;
-                    }
-                     else{
-                        cout<<"ERRO SINTATICO";
-                        save.pop();
-                        state--;
-                        retorna=1;
-                    }
-                }
-
-                else if(save.top().nome=="mova")        //mova(ok)
-                {
-                    if(tabela[i].tipo=="Numero")
-                    {
-                        state++;
-                        save.push(tabela[i]);
-                        retorna=0;
-                    }
-                     else{ //numero opcional
-                        state = 0;
-                        retorna = 1;
-                        save.pop();
-                        cout<<"Expressao correta: "<<save.top().nome<<endl; //montar arvore
-                    }
-                }
-
-                else if(save.top().nome=="vire para")       //vire para (ok)
-                {
-                    if(tabela[i].tipo=="Sentido")
-                    {
-                        state = 0;
-                        retorna=0;
-                        cout<<"Expressao correta: "<<save.top().nome<<" "<<tabela[i].nome<<endl; //montar arvore
-                        save.pop();
-                    }
-                     else{
-                        cout<<"ERRO SINTATICO";
-                        save.pop();
-                        state--;
-                        retorna=1;
-                    }
-                }
-
-                 else if(save.top().nome=="aguarde ate")            //aguarde ate condicao (ok)
-                {
-                    if(tabela[i].tipo=="Condicao")
-                    {
-                        state = 0;
-                        save.pop();
-                        retorna=0;
-                        cout<<"Expressao correta: "<<save.top().nome<<" "<<tabela[i].tipo<<endl; //montar arvore
-                    }
-                     else{
-                        cout<<"ERRO SINTATICO";
-                        save.pop();
-                        state--;
-                        retorna=1;
-                    }
-                }
-
 
             }
+             else if(state==1){
+                cout<<"ERRO"<<endl;
+                retorna=0;
+                i=tabela.size();
+            }
 
-            else if(state==2&&(tabela[i].nome=="como"||tabela[i].nome=="vezes"||tabela[i].nome=="faca"||tabela[i].nome=="entao"||tabela[i].nome=="passos"))
+            else if(state==2 && (tabela[i].tipo=="ID"|| tabela[i].nome=="repita"||tabela[i].nome=="se"||tabela[i].nome=="mova"||tabela[i].nome=="enquanto"
+                            ||tabela[i].nome=="inicio"||tabela[i].nome=="vire para"||tabela[i].nome=="pare"||tabela[i].nome=="finalize"||tabela[i].nome=="apague lampada"
+                            ||tabela[i].nome=="acenda lampada"||tabela[i].nome=="aguarde ate"||tabela[i].nome=="fimexecucao"||tabela[i].nome=="execucaoinicio"
+                            ||tabela[i].nome=="definainstrucao")) //solicita comandos
             {
-                if(save.top().tipo=="ID")    //definainstrucao id como
-                {
-                    if(tabela[i].nome=="como")
+                    if(tabela[i].tipo=="ID")//ID pode ser um comando definido
                     {
-                        state++;
-                        save.push(tabela[i]);
-                        retorna=0;
-                    }
-                    else{
-                        cout<<"ERRO SINTATICO"<<endl;
-                        keyword xx = save.top();
-                        save.pop();
-                        save.pop();
-                        save.push(xx);
-                        state--;
-                        retorna=1;
-                    }
-                }
-                //////////////////////////////////////////////////////////////////
-                if(save.top().tipo=="Numero")     //mova [n] [passos](ok) // repita n vezes
-                {
-
-                    while(save.size()>0&&(save.top().nome!="mova"||save.top().nome!="repita"))
-                    {
-                        base.push(save.top());
-                        save.pop();
-                    }
-                    if(tabela[i].nome=="passos")
-                    {
-                        if(base.top().nome=="mova")
+                        int x = 0;
+                        for(vector<string>::iterator it = ids_criados.begin();it!=ids_criados.end();it++)
                         {
-                            state = 0;
-                            retorna = 0;
-                            string exp ="";
-                            while(base.size()>0)
+                            if(tabela[i].nome == (*it))//comando existe
                             {
-                                    exp=exp+base.top().nome+" ";
-                                    base.pop();
+                                retorna=0;
+                                cont_comando++;
+                                x = 1;
+                                break;
+                                // não salva, pois o comando está completo
+                                // não avança estado pois pode ler outro comando
                             }
-                            cout<<"Expressao correta: "<<exp+tabela[i].nome<<endl; //montar arvore
                         }
-                        else{ //base é repita
-                            cout<<"ERRO SINTATICO"<<endl;
-                            while(base.size()>0)
-                                base.pop();
-                            while(save.size()>0)
+                        if(x==0)
+                        {
+                            cout<<"ERRO"<<endl;
+                            retorna=0;
+                            i=tabela.size();
+                        }
+                    }
+                    else if(tabela[i].nome=="pare"||tabela[i].nome=="finalize"||tabela[i].nome=="acenda lampada"||tabela[i].nome=="apague lampada")
+                    {
+                        retorna=0;
+                        if(execut==true) //garante que tenha pelo menos 1 instrução na execução
+                            cont_comando++;
+                        // não salva, pois o comando está completo
+                        // não avança estado pois pode ler outro comando
+                    }
+                    else if(tabela[i].nome=="repita"||tabela[i].nome=="se"||tabela[i].nome=="mova"||tabela[i].nome=="enquanto"||tabela[i].nome=="vire para"
+                            ||tabela[i].nome=="aguarde ate")
+                    {
+                        state++;
+                        if(execut==true)
+                            cont_comando++;
+                        retorna=0;
+                        save.push(tabela[i]);
+                    }
+                    else if(tabela[i].nome=="inicio")
+                    {
+                        if(execut==true)
+                            cont_comando++;
+                        retorna=0;
+                        save.push(tabela[i]);
+                        //mantem o estado, solicitando comando
+                    }
+                    else if(tabela[i].nome=="fimexecucao"&&cont_comando>0&&save.top().nome=="execucaoinicio")
+                    {
+                        save.pop();
+                        retorna=0;
+                        state=1000;
+                    }
+                    else if(tabela[i].nome=="execucaoinicio") //nesse caso houve uma ou mais deinições de instruções
+                    {
+                        if(save.top().nome=="como")
+                        {
+                            while(save.top().nome!="programainicio"){ //processa todas as instruções criadas
                                 save.pop();
-                        }
-
-                    }
-                    else if(tabela[i].nome=="vezes"){
-                         if(base.top().nome=="mova") //aceita do msm jeito
-                        {
-                            state = 0;
-                            retorna = 1;
-                            cout<<"Expressao correta: "<<base.top().nome<<" "; //montar arvore
-                            base.pop();
-                            cout<<base.top().nome<<endl;
-                            base.pop();
-                        }
-                        else //é repita (aceita)
-                        {
-                            state++;
-                            retorna = 0;
-                            while(base.size()>0)
-                            {
-                                save.push(base.top());
-                                base.pop();
                             }
+                            retorna=0;
+                            execut=true;
                             save.push(tabela[i]);
-
                         }
-
+                        else{
+                            cout<<"ERRO"<<endl;
+                            retorna=0;
+                            i =  tabela.size()-1;
+                        }
                     }
-                    else //nao é vezes, nem passos
+                    else if(tabela[i].nome=="definainstrucao")//definindo mais de uma instrucao
                     {
-                         if(base.top().nome=="mova") //aceita do msm jeito
+                        if(save.top().nome=="como") //vem depois de uma definição, logo é valida
                         {
-                            state = 0;
-                            retorna = 1;
-                            cout<<"Expressao correta: "<<base.top().nome<<" "; //montar arvore
-                            base.pop();
-                            cout<<base.top().nome<<endl;
-                            base.pop();
+                            state=100;
+                            retorna=0;
+                            while(save.top().nome!="programainicio")//processa todas as instruções anteriores
+                                save.pop();
+                             save.push(tabela[i]); //inicia nova defiçao
                         }
-                         else{ //base é repita
-                            cout<<"ERRO SINTATICO"<<endl;
-                            base.pop();
-                            state--;
-                            retorna=1;
-                            save.push(base.top());
-                            base.pop();
+                        else
+                        {
+                            cout<<"Erro"<<endl; //vem depois de um argumento invalido;
+                            retorna=0;
+                            i =  tabela.size()-1;
                         }
                     }
-                }//mova n passo // repita n vezes
-                 /////////////////////////////////////////////////
-                  if(save.top().tipo=="Condicao")  //enquanto condicao faca // se condicao entao
-                  {
-                       while(save.size()>0)
-                        {
-                        base.push(save.top());
+                    else  //loop não foi finalizado
+                    {
+                        cout<<"ERRO"<<endl;
+                        retorna=0;
+                        i=tabela.size();
+                    }
+           }
+            else if(state==2 && tabela[i].nome=="fimrepita"||tabela[i].nome=="fimpara"||tabela[i].nome=="fim"||tabela[i].nome=="fimse"
+                    ||tabela[i].nome=="fimsenao") //finaliza comandos
+            {
+                if(tabela[i].nome=="fimrepita"&&save.top().nome=="vezes") //loop repita
+                {
+                    save.pop();
+                    save.pop();
+                    save.pop();
+                    retorna=0;
+                }
+                else if(tabela[i].nome=="fimpara"&&save.top().nome=="faca")  //loop enquanto
+                {
+                    save.pop();
+                    save.pop();
+                    save.pop();
+                    retorna=0;
+                }
+                else if(tabela[i].nome=="fim"&&save.top().nome=="inicio")   //loop inicio
+                {
+                    save.pop();
+                    retorna=0;
+                }
+                else if(tabela[i].nome=="fimse"&&save.top().nome=="entao")  //loop se
+                {
+                    if(i<tabela.size()-1&&tabela[i+1].nome=="senao") //se existe um proximo elemento e ele é senao
+                    {
+                        state=3001;
                         save.pop();
-                        }
-                        if(tabela[i].nome=="faca")
-                        {
-                            if(base.top().nome=="enquanto")
-                            {
-                                state++;
-                                retorna = 0;
-                                while(base.size()>0)
-                                {
-                                save.push(base.top());
-                                base.pop();
-                                }
-                                save.push(tabela[i]);
-                            }
-                            else{ //base é se
-                                cout<<"ERRO SINTATICO"<<endl;
-                                base.pop();
-                                state--;
-                                retorna=1;
-                                save.push(base.top());
-                                base.pop();
-                            }
-                        }
-                        else if(tabela[i].nome=="entao")
-                        {
-                             if(base.top().nome=="se")
-                            {
-                                state++;
-                                retorna = 0;
-                                while(base.size()>0)
-                                {
-                                save.push(base.top());
-                                base.pop();
-                                }
-                                save.push(tabela[i]);
-                            }
-                            else{ //base é enquanto
-                                cout<<"ERRO SINTATICO"<<endl;
-                                base.pop();
-                                state--;
-                                retorna=1;
-                                save.push(base.top());
-                                base.pop();
-                            }
-                        }
-                        else{// nao eh enquanto nem faca
-                                cout<<"ERRO SINTATICO"<<endl;
-                                base.pop();
-                                state--;
-                                retorna=1;
-                                save.push(base.top());
-                                base.pop();
-                        }
-                  }
-
+                        save.pop();
+                        save.pop();
+                        retorna=0;
+                    }
+                    else
+                    {
+                        save.pop();
+                        save.pop();
+                        save.pop();
+                        retorna=0;
+                    }
+                }
+                else if(tabela[i].nome=="fimsenao"&&save.top().nome=="senao")
+                {
+                    save.pop();
+                    retorna=0;
+                }
+                else //tentativa falha para finalização de loop
+                {
+                    cout<<"ERRO"<<endl;
+                    retorna=0;
+                    i=tabela.size();
+                }
+            }
+            else if(state==2){ //comando invalido
+               cout<<"ERRO"<<endl;
+               retorna=0;
+               i=tabela.size();
             }
 
-            else if(state == 3 && tabela[i].tipo=="Bloco"||tabela[i].tipo=="Iteracao"||tabela[i].tipo=="Laco"||tabela[i].tipo=="Condicioal"||
-                    tabela[i].tipo=="Instrucao"||tabela[i].tipo=="ID") //tipos de comando (ID pode estar definido ou não - semantico)
+            else if(state==3 && (tabela[i].tipo=="Sentido" ||tabela[i].tipo=="Numero"||tabela[i].tipo=="Condicao"))
             {
-                if(tabela[i].tipo=="Bloco"){
-                   if(tabela[i].nome=="inicio")
-                   {
+                if(tabela[i].tipo=="Sentido") //chegou através de vire para?
+                {
+                    if(save.top().nome=="vire para")
+                    {
+                        save.pop(); //comando completo
+                        state--;   //verifica se há outro comando
+                        retorna = 0;
+                    }
+                    else
+                    {
+                         cout<<"ERRO"<<endl;
+                         retorna=0;
+                         i=tabela.size();
+                    }
+                }
+
+                else if(tabela[i].tipo=="Numero")
+                {
+                    if(save.top().nome=="repita")
+                    {
+                        state++;
+                        retorna=0;
+                        save.push(tabela[i]);
+                    }
+                    else if(save.top().nome=="mova")
+                    {
+                        state=2000;
+                        retorna=0;
+                        save.push(tabela[i]);
+                    }
+                    else
+                    {
+                         cout<<"ERRO"<<endl;
+                         retorna=0;
+                         i=tabela.size();
+                    }
+                }
+
+                else if(tabela[i].tipo=="Condicao")
+                {
+                    if(save.top().nome=="enquanto")
+                    {
+                        state++;
+                        retorna=0;
+                        save.push(tabela[i]);
+                    }
+                    else if(save.top().nome=="se")
+                    {
+                        state = 3000;
+                        retorna=0;
+                        save.push(tabela[i]);
+                    }
+                    else if(save.top().nome=="aguarde ate")
+                    {
+                        state--;
+                        retorna=0;
+                        save.pop();// producao aceita
+                    }
+                    else
+                    {
+                         cout<<"ERRO"<<endl;
+                         retorna=0;
+                         i=tabela.size();
+                    }
+                }
+            }
+            else if(state==3)
+            {
+                if(save.top().nome=="inicio")
+                {
+                    if(tabela[i].nome=="fim")
+                    {
+                        state--;
+                        save.pop();
+                        retorna=0;
+                    }
+                    else
+                    {
+                       state--;
                        save.push(tabela[i]);
-                       retorna = 0;
-                       state=3;
-
-                   }
-                   else
-                   {
-                       if(save.top().nome=="inicio")
-                       {
-                           cout<<"Expressão correta :";
-                           cout<<save.top().nome<<" "<<tabela[i].nome<<endl;
-                           save.pop();
-                           retorna = 0;
-                           state = 0;
-                       }
-                       else
-                       {
-                           cout<<"Erro na expressao"<<endl;
-                           {
-                               while(save.size()<0)
-                               {
-                                   base.push(save.top());
-                                   save.pop();
-                               }
-                               while(base.size()>0)
-                               {
-                                   cout<<base.top().nome<<" ";
-                                   base.pop();
-                               }
-                               cout<<endl;
-                           }
-                           retorna = 0;
-                           state = 0;
-                       }
-                   }
+                       retorna=0;
+                    }
                 }
-                else if(tabela[i].nome=="repita"||tabela[i].nome=="se"||tabela[i].nome=="enquanto"||tabela[i].nome=="mova"||tabela[i].nome=="vire para"
-                   ||tabela[i].nome=="aguarde ate")
 
+                else if(save.top().nome=="mova")
                 {
-                      save.push(tabela[i]);
-                      retorna = 0;
-                      state=1;
-                }
-                else if(tabela[i].tipo=="Instrucao"||tabela[i].tipo=="ID")
-                {
-                    cout<<"Expressao correta: "<<tabela[i].nome<<endl;
-                    retorna = 0;
-                    state = 0;
+                        retorna=1; //checa o token novamente
+                        state--;
+                        save.pop(); //aceita 'mova'
                 }
                 else{
                     cout<<"ERRO"<<endl;
-                     retorna = 0;
-                     state = 0;
-                     while(save.size()>0)
-                        save.pop();
+                    retorna=0;
+                    i=tabela.size();
                 }
             }
 
-             else
+            else if(state==4 && (tabela[i].nome=="faca"||tabela[i].nome=="vezes"))
             {
-                cout<<"Erro na expressao ";
+                if(tabela[i].nome=="faca")
+                {
+                    if(save.top().tipo=="Condicao")
+                    {
+                        state=2; //solicita um comando
+                        retorna=0;
+                        save.push(tabela[i]);
+                    }
+                    else
+                    {
+                        cout<<"ERRO"<<endl;
+                        retorna=0;
+                        i=tabela.size();
+                    }
+                }
 
-                while(save.size()>0)
+                else if (tabela[i].nome=="vezes")
                 {
-                    base.push(save.top());
-                    save.pop();
+                        if(save.top().tipo == "Numero")
+                        {
+                            state=2; //solicita um comando
+                            retorna=0;
+                            save.push(tabela[i]);
+                        }
+                        else
+                        {
+                            cout<<"ERRO"<<endl;
+                            retorna=0;
+                            i=tabela.size();
+                        }
                 }
-                while(base.size()>0)
+                else
                 {
-                    cout<<base.top().nome<<" ";
-                    base.pop();
+                    cout<<"ERRO"<<endl;
+                    retorna=0;
+                    i=tabela.size();
                 }
-                cout<<tabela[i].nome<<endl;
-                retorna = 0;
-                state = 0;
             }
+
+            else if(state==1000)
+            {
+                if(tabela[i].nome=="fimprograma" && i == tabela.size()-1)
+                {
+                    cout<<"NENHUM ERRO! SINTATICAMENTE CORRETO"<<endl;
+                    retorna=0;
+                }
+                else
+                {
+                     cout<<"ERRO"<<endl;
+                     retorna=0;
+                     i=tabela.size();
+                }
+            }
+
+            else if(state==2000)
+            {
+                if(tabela[i].nome=="passos")
+                {
+                    save.pop();
+                    save.pop();
+                    retorna=0;
+                    state=2; //aceita
+                }
+                else
+                {
+                    save.pop();
+                    save.pop();
+                    retorna=1; //repete verificação do token
+                    state=2; //aceita
+                }
+            }
+            else if(state == 3000) //implementar se
+            {
+                if(tabela[i].nome=="entao")
+                {
+                    state=2;
+                    retorna=0;
+                    save.push(tabela[i]);
+                }
+                else
+                {
+                     cout<<"ERRO"<<endl;
+                     retorna=0;
+                     i=tabela.size();
+                }
+            }
+            else if(state==3001) //senao
+            {
+                save.push(tabela[i]);
+                state=2; //solicita comando
+                retorna=0;
+            }
+            else if(state==100)
+            {
+                if(tabela[i].tipo == "ID")
+                {
+                    //verifico se já criei esse ID anterioremente para evitar duplicidade
+                     int x = 0;
+                     for(vector<string>::iterator it = ids_criados.begin();it!=ids_criados.end();it++)
+                     {
+                        if(tabela[i].nome == (*it))//comando já existe / conflito.
+                        {
+                             cout<<"ERRO"<<endl;
+                             retorna=0;
+                             i=tabela.size()-1;
+                             x = 1;
+                             break;
+                             // não salva, pois o comando está completo
+                             // não avança estado pois pode ler outro comando
+                        }
+                    }
+                    if(x==0) //possível criar o ID
+                    {
+                        ids_criados.push_back(tabela[i].nome); //crio o id
+                        retorna=0;
+                        state++;
+                        save.push(tabela[i]);
+                    }
+                }
+                else
+                {
+                     cout<<"ERRO"<<endl;
+                     retorna=0;
+                     i=tabela.size();
+                }
+
+            }
+             else if(state==101)
+             {
+                 if(tabela[i].nome=="como")
+                 {
+                     state=2; //busca comando
+                     retorna=0;
+                     save.push(tabela[i]);
+                 }
+                 else
+                 {
+                    cout<<"Erro"<<endl;
+                    retorna=0;
+                    i = tabela.size()-1;
+                 }
+             }
+             else  //palavra não associada a um estado adequado
+             {
+                 cout<<"Erro"<<endl;
+                 retorna=0;
+                 i = tabela.size()-1;
+             }
         }
     }
-    while(save.size()>0)
-    {
-        base.push(save.top());
-        save.pop();
-    }
-    if(base.size()>0)
-        cout<<"Erro na expressao: ";
-    while(base.size()>0){
-        cout<<base.top().nome<<" ";
-        base.pop();
-    }
-
 
     myfile.close();
     return 0;
