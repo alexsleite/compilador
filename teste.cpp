@@ -1,11 +1,18 @@
 #include <bits/stdc++.h>
 using namespace std;
+
 struct keyword{
 string nome;
 string tipo;
+int linha;
 };
 
-void inv (stack<string> & guarda, stack<string> & inverte, vector<keyword> & tabela){
+struct store{
+string nome;
+int line;
+};
+
+void inv (stack<store> & guarda, stack<store> & inverte, vector<keyword> & tabela){
     while(guarda.size()>0) //se existem palavras que eram dependente desta
     {
         inverte.push(guarda.top());
@@ -13,17 +20,19 @@ void inv (stack<string> & guarda, stack<string> & inverte, vector<keyword> & tab
     }
     while(inverte.size()>0)
     {
-        if(inverte.top()=="direita"||inverte.top()=="esquerda"){ //se for esquerda ou direita, vira palavra chave
+        if(inverte.top().nome=="direita"||inverte.top().nome=="esquerda"){ //se for esquerda ou direita, vira palavra chave
             keyword g;
-            g.nome = inverte.top();
+            g.nome = inverte.top().nome;
             g.tipo = "Sentido";
+            g.linha = inverte.top().line;
             tabela.push_back(g);
             inverte.pop();
         }
         else{
             keyword g;
-            g.nome = inverte.top();
+            g.nome = inverte.top().nome;
             g.tipo = "ID";
+            g.linha = inverte.top().line;
             tabela.push_back(g);
             inverte.pop();
             }
@@ -38,8 +47,8 @@ int main () {
   int ascll_first;        //para determinar se o caracter é um numero ou letra
   vector<keyword>reserved_words;  //guarda palavras chave
   vector<keyword>tabela;
-  stack<string>guarda; //guarda combinações de palavras chave
-  stack<string>inverte;
+  stack<store>guarda; //guarda combinações de palavras chave
+  stack<store>inverte;
   int estado =0;
 
   //============PALAVRAS CHAVE======================================================
@@ -153,7 +162,7 @@ int main () {
             bool achou = 0;
             if(buffer[k]=='\n'&&aux_palavra.size()==0){
                  coment=0;
-                 if(col>0)
+                 if(col>0) //se achou pelo menos alguma palavra
                  {
                      lin++;
                      col=0;
@@ -163,12 +172,6 @@ int main () {
             {
                 if(buffer[k]==' '&&error==0)
                     col++;
-                if(buffer[k]=='\n'&&error==0)
-                {
-                    col=0;
-                    lin++;
-                    coment=0;
-                }
                 if(error==1){//se palavra for invalida
                         if(buffer[k]==' '){
                             col++;
@@ -207,6 +210,7 @@ int main () {
                         keyword g;
                         g.nome = aux_palavra;
                         g.tipo = "Numero";
+                        g.linha = lin;
                         tabela.push_back(g);
                         achou=1;
                         aux_palavra ="";
@@ -225,6 +229,7 @@ int main () {
                                 keyword g;
                                 g.nome = (*it).nome;
                                 g.tipo = (*it).tipo;
+                                g.linha = lin;
                                 tabela.push_back(g);
                                 //vou para próxima palavra
                                 achou=1;
@@ -247,7 +252,10 @@ int main () {
                    if(estado==0 && (buffer[k]==' '||(buffer[k]=='\n'&&k<buffer.size()-1))&& (aux_palavra=="lampada"||aux_palavra=="robo"||aux_palavra=="esquerda"||aux_palavra=="direita"||aux_palavra=="frente"||
                    aux_palavra=="acenda"||aux_palavra=="apague"||aux_palavra=="vire"||aux_palavra=="aguarde")) //possiveis inicios de palavras chave
                     {
-                        guarda.push(aux_palavra); //coloca na fila
+                        store a;
+                        a.nome = aux_palavra;
+                        a.line = lin;
+                        guarda.push(a); //coloca na fila
                         estado++; //avança estado
                         retorna=0; // solicito uma nova palavra
                     }
@@ -259,6 +267,7 @@ int main () {
                             keyword g;
                             g.nome = aux_palavra;
                             g.tipo = "Sentido";
+                            g.linha = lin;
                             tabela.push_back(g);
                             //cout<<aux_palavra<<" Sentido"<<endl;
                         }
@@ -266,6 +275,7 @@ int main () {
                             keyword g;
                             g.nome = aux_palavra;
                             g.tipo = "ID";
+                            g.linha = lin;
                             tabela.push_back(g);
                             //cout<<aux_palavra<<"  ID"<<endl;
                         }
@@ -276,17 +286,23 @@ int main () {
                     else if(estado==1&&(aux_palavra=="apagada"||aux_palavra=="acesa"||aux_palavra=="robo"||aux_palavra=="movimentando"||aux_palavra=="parado"
                         ||aux_palavra=="ocupado"||aux_palavra=="pronto"||aux_palavra=="ate"||aux_palavra=="lampada"||aux_palavra=="para"))
                     {
-                          if(guarda.top()=="lampada")
+                          if(guarda.top().nome=="lampada")
                           {
                               if(aux_palavra=="acesa"||aux_palavra=="apagada")
                               {
                                   if(k<buffer.size()-1){ //da para continuar
-                                    guarda.push(aux_palavra);
+                                    store a;
+                                    a.nome = aux_palavra;
+                                    a.line = lin;
+                                    guarda.push(a); //coloca na fila
                                     estado++;
                                     retorna=0;
                                   }
                                   else{ //não é possivel combinar
-                                    guarda.push(aux_palavra);
+                                    store a;
+                                    a.nome = aux_palavra;
+                                    a.line = lin;
+                                    guarda.push(a); //coloca na fila
                                     inv (guarda,inverte,tabela);
                                     estado=0;
                                     retorna=0;
@@ -298,6 +314,7 @@ int main () {
                                   keyword g;
                                   g.nome = aux_palavra;
                                   g.tipo = "ID";
+                                  g.linha = lin;
                                   tabela.push_back(g);
                                   guarda.pop();
                                   estado--; //volta 1 estado
@@ -305,15 +322,16 @@ int main () {
                               }
                           }
 
-                          else if(guarda.top()=="robo")
+                          else if(guarda.top().nome=="robo")
                           {
                               if(aux_palavra=="pronto"||aux_palavra=="parado"||aux_palavra=="ocupado") //eh uma palavra reservada
                               {
 
                                   //cout<<guarda.top()<<" "<<aux_palavra<<"  "<<"Condicao"<<endl;
                                   keyword g;
-                                  g.nome = guarda.top()+' '+aux_palavra;
+                                  g.nome = guarda.top().nome+' '+aux_palavra;
                                   g.tipo = "Condicao";
+                                  g.linha = lin;
                                   tabela.push_back(g);
                                   guarda.pop();
                                   retorna=0;
@@ -323,8 +341,9 @@ int main () {
                               {
                                   //cout<<guarda.top()<<" ID"<<endl;
                                   keyword g;
-                                  g.nome = guarda.top();
+                                  g.nome = guarda.top().nome;
                                   g.tipo = "ID";
+                                  g.linha = lin;
                                   tabela.push_back(g);
                                   guarda.pop();
                                   estado--; //volta 1 estado
@@ -332,14 +351,15 @@ int main () {
                               }
                           }
 
-                          else if(guarda.top()=="acenda"||guarda.top()=="apague")
+                          else if(guarda.top().nome=="acenda"||guarda.top().nome=="apague")
                           {
                               if(aux_palavra=="lampada")
                               {
                                   //cout<<guarda.top()<<" "<<aux_palavra<<"  "<<"Instrucao"<<endl;
                                   keyword g;
-                                  g.nome = guarda.top()+' '+aux_palavra;
+                                  g.nome = guarda.top().nome+' '+aux_palavra;
                                   g.tipo = "Instrucao";
+                                  g.linha = lin;
                                   tabela.push_back(g);
                                   guarda.pop();
                                   retorna=0;
@@ -349,22 +369,24 @@ int main () {
                               {
                                   //cout<<guarda.top()<<" ID"<<endl;
                                   keyword g;
-                                  g.nome = guarda.top();
+                                  g.nome = guarda.top().nome;
                                   g.tipo = "ID";
+                                  g.linha = lin;
                                   tabela.push_back(g);
                                   guarda.pop();
                                   estado--; //volta 1 estado
                                   retorna=1; //nova possivel palavra
                               }
                           }
-                          else if(guarda.top()=="vire")
+                          else if(guarda.top().nome=="vire")
                           {
                                if(aux_palavra=="para")
                               {
                                   //cout<<guarda.top()<<" "<<aux_palavra<<"  "<<"Instrucao"<<endl;
                                   keyword g;
-                                  g.nome = guarda.top()+' '+aux_palavra;
+                                  g.nome = guarda.top().nome+' '+aux_palavra;
                                   g.tipo = "Instrucao";
+                                  g.linha = lin;
                                   tabela.push_back(g);
                                   guarda.pop();
                                   retorna=0;
@@ -374,8 +396,9 @@ int main () {
                               {
                                   //cout<<guarda.top()<<" ID"<<endl;
                                   keyword g;
-                                  g.nome = guarda.top();
+                                  g.nome = guarda.top().nome;
                                   g.tipo = "ID";
+                                  g.linha = lin;
                                   tabela.push_back(g);
                                   guarda.pop();
                                   estado--; //volta 1 estado
@@ -383,14 +406,15 @@ int main () {
                               }
                           }
 
-                          else if(guarda.top()=="aguarde")
+                          else if(guarda.top().nome=="aguarde")
                           {
                              if(aux_palavra=="ate")
                              {
                                   //cout<<guarda.top()<<" "<<aux_palavra<<"  "<<"Instrucao"<<endl;
                                   keyword g;
-                                  g.nome = guarda.top()+' '+aux_palavra;
+                                  g.nome = guarda.top().nome+' '+aux_palavra;
                                   g.tipo = "Instrucao";
+                                  g.linha = lin;
                                   tabela.push_back(g);
                                   guarda.pop();
                                   retorna=0;
@@ -400,45 +424,54 @@ int main () {
                              {
                                   //cout<<guarda.top()<<" ID"<<endl;
                                   keyword g;
-                                  g.nome = guarda.top();
+                                  g.nome = guarda.top().nome;
                                   g.tipo = "ID";
+                                  g.linha = lin;
                                   tabela.push_back(g);
                                   guarda.pop();
                                   estado--; //volta 1 estado
                                   retorna=1; //nova possivel palavra
                              }
                            }
-                          else if(guarda.top()=="esquerda"||guarda.top()=="direita"||guarda.top()=="frente")
+                          else if(guarda.top().nome=="esquerda"||guarda.top().nome=="direita"||guarda.top().nome=="frente")
                           {
                                if(aux_palavra=="robo")
                               {
 
                                  if(k<buffer.size()-1){ //da para continuar
-                                    guarda.push(aux_palavra);
+                                    store a;
+                                    a.nome = aux_palavra;
+                                    a.line = lin;
+                                    guarda.push(a); //coloca na fila
                                     estado++;
                                     retorna=0;
                                   }
                                   else{  //não da para alocar outra palavra na sequencia
-                                      guarda.push(aux_palavra);
-                                      inv (guarda,inverte,tabela);
+                                      store a;
+                                      a.nome = aux_palavra;
+                                      a.line = lin;
+                                      guarda.push(a); //coloca na fila
+                                      inv (guarda,inverte,tabela); //desempilha
                                       estado=0;
                                       retorna=0;
                                   }
                               }
                               else // guarda.top é sentido ou id
                               {
-                                   if(guarda.top()=="direita"||guarda.top()=="esquerda"){ //se for esquerda ou direita, vira palavra chave
+                                   if(guarda.top().nome=="direita"||guarda.top().nome=="esquerda"){ //se for esquerda ou direita, vira palavra chave
                                         keyword g;
-                                        g.nome = guarda.top();
+                                        g.nome = guarda.top().nome;
                                         g.tipo = "Sentido";
+                                        g.linha = lin;
                                         tabela.push_back(g);
                                         //cout<<guarda.top()<<"  Sentido"<<endl;
                                         guarda.pop();
                                     }
                                     else{
                                         keyword g;
-                                        g.nome = guarda.top();
+                                        g.nome = guarda.top().nome;
                                         g.tipo = "ID";
+                                        g.linha = lin;
                                         tabela.push_back(g);
                                         //cout<<guarda.top()<<"  ID"<<endl;
                                         guarda.pop();
@@ -451,7 +484,7 @@ int main () {
 
                 else if(estado==2&&(aux_palavra=="a"||aux_palavra=="bloqueada"))
                 {
-                    if(guarda.top()=="robo"){
+                    if(guarda.top().nome=="robo"){
                         if(aux_palavra=="bloqueada") //palavra chave formada
                         {
                               string forma = "";
@@ -462,39 +495,49 @@ int main () {
                               }
                               while(inverte.size()>0)
                               {
-                                 forma = forma+inverte.top()+' '; //concatena
+                                 forma = forma+inverte.top().nome+' '; //concatena
                                  inverte.pop();
                               }
                                //cout<<forma<<" Condicao"<<endl;
                                keyword g;
                                g.nome = forma+aux_palavra;
                                g.tipo = "Condicao";
+                               g.linha = lin;
                                tabela.push_back(g);
                                retorna=0; //combinação completa
                                estado=0; // solicita novo token
                          }
                          else//cadeia não combina - entrada 'a'
                               {
-                                  guarda.push(aux_palavra);
+                                  store a;
+                                  a.nome = aux_palavra;
+                                  a.line = lin;
+                                  guarda.push(a); //coloca na fila
                                   inv (guarda,inverte,tabela);
                                   estado=0;  //novo token
                                   retorna=0; //solicita nova palavra
                               }
                         }
 
-                        else if(guarda.top()=="acesa"||guarda.top()=="apagada")
+                        else if(guarda.top().nome=="acesa"||guarda.top().nome=="apagada")
                         {
                               if(aux_palavra=="a")
                               {
 
                                     if(k<buffer.size()-1){ //da para continuar
-                                    guarda.push(aux_palavra);
+                                    store a;
+                                    a.nome = aux_palavra;
+                                    a.line = lin;
+                                    guarda.push(a); //coloca na fila
                                     estado++;
                                     retorna=0;
                                     }
                                     else //não combina
                                     {
-                                        guarda.push(aux_palavra);
+                                        store a;
+                                        a.nome = aux_palavra;
+                                        a.line = lin;
+                                        guarda.push(a); //coloca na fila
                                         inv (guarda,inverte,tabela);
                                         estado=0; //novo token
                                         retorna=0; //solicita nova palavra
@@ -502,7 +545,10 @@ int main () {
                               }
                               else//não combina
                               {
-                                  guarda.push(aux_palavra);
+                                  store a;
+                                  a.nome = aux_palavra;
+                                  a.line = lin;
+                                  guarda.push(a); //coloca na fila
                                   inv (guarda,inverte,tabela);
                                   estado=0;  //novo token
                                   retorna=0; //solicita nova palavra
@@ -520,13 +566,14 @@ int main () {
                                     string forma = "";
                                     while(inverte.size()>0)
                                     {
-                                            forma = forma+inverte.top()+' ';
+                                            forma = forma+inverte.top().nome+' ';
                                             inverte.pop();
                                     }
                                     //cout<<forma<<"  Condicao"<<endl;
                                     keyword g;
                                     g.nome = forma+aux_palavra;
                                     g.tipo = "Condicao";
+                                    g.linha = lin;
                                     tabela.push_back(g);
                             retorna=0; //novo token
                             estado=0; // solicita nova palavra
@@ -539,6 +586,7 @@ int main () {
                             keyword g;
                             g.nome = aux_palavra;
                             g.tipo = "ID";
+                            g.linha = lin;
                             tabela.push_back(g);
                         }
                         else{
@@ -546,6 +594,7 @@ int main () {
                             keyword g;
                             g.nome = aux_palavra;
                             g.tipo = "Sentido";
+                            g.linha = lin;
                             tabela.push_back(g);
                         }
                         estado=0;
@@ -561,20 +610,22 @@ int main () {
                             }
                             if(inverte.size()>0)
                             {
-                                if(inverte.top()!="esquerda"&&inverte.top()!="direita")
+                                if(inverte.top().nome!="esquerda"&&inverte.top().nome!="direita")
                                 {
                                     //cout<<inverte.top()<<" ID"<<endl;
                                     keyword g;
-                                    g.nome = inverte.top();
+                                    g.nome = inverte.top().nome;
                                     g.tipo = "ID";
+                                    g.linha = lin;
                                     tabela.push_back(g);
                                     inverte.pop();
                                 }
                                 else{
                                     //cout<<inverte.top()<<" Sentido"<<endl;
                                     keyword g;
-                                    g.nome = inverte.top();
+                                    g.nome = inverte.top().nome;
                                     g.tipo = "Sentido";
+                                    g.linha = lin;
                                     tabela.push_back(g);
                                     inverte.pop();
                                 }
@@ -593,6 +644,12 @@ int main () {
                 first=' ';
                 error = 0;
             }
+              if(buffer[k]=='\n'&&error==0)
+              {
+                col=0;
+                lin++;
+                coment=0;
+              }
          }
          else if(k==buffer.size()-1){ //arquivo terminou com tokens na pila;
                 inv(guarda,inverte,tabela);
@@ -633,7 +690,7 @@ int main () {
                 producoes.push_back(tabela[i].nome);
             }
              else if(state==0){
-                cout<<"ERRO"<<endl;
+                cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                 retorna=0;
                 i=tabela.size();
             }
@@ -657,7 +714,7 @@ int main () {
 
             }
              else if(state==1){
-                cout<<"ERRO"<<endl;
+                cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                 retorna=0;
                 i=tabela.size();
             }
@@ -684,7 +741,7 @@ int main () {
                         }
                         if(x==0)
                         {
-                            cout<<"ERRO"<<endl;
+                            cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                             retorna=0;
                             i=tabela.size();
                         }
@@ -732,7 +789,7 @@ int main () {
                             save.push(tabela[i]);
                         }
                         else{
-                            cout<<"ERRO"<<endl;
+                            cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                             retorna=0;
                             i =  tabela.size()-1;
                         }
@@ -749,14 +806,14 @@ int main () {
                         }
                         else
                         {
-                            cout<<"Erro"<<endl; //vem depois de um argumento invalido;
+                            cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl; //vem depois de um argumento invalido;
                             retorna=0;
                             i =  tabela.size()-1;
                         }
                     }
                     else  //loop não foi finalizado
                     {
-                        cout<<"ERRO"<<endl;
+                        cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                         retorna=0;
                         i=tabela.size();
                     }
@@ -808,13 +865,13 @@ int main () {
                 }
                 else //tentativa falha para finalização de loop
                 {
-                    cout<<"ERRO"<<endl;
+                    cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                     retorna=0;
                     i=tabela.size();
                 }
             }
             else if(state==2){ //comando invalido
-               cout<<"ERRO"<<endl;
+               cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                retorna=0;
                i=tabela.size();
             }
@@ -831,7 +888,7 @@ int main () {
                     }
                     else
                     {
-                         cout<<"ERRO"<<endl;
+                         cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                          retorna=0;
                          i=tabela.size();
                     }
@@ -853,7 +910,7 @@ int main () {
                     }
                     else
                     {
-                         cout<<"ERRO"<<endl;
+                         cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                          retorna=0;
                          i=tabela.size();
                     }
@@ -881,7 +938,7 @@ int main () {
                     }
                     else
                     {
-                         cout<<"ERRO"<<endl;
+                         cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                          retorna=0;
                          i=tabela.size();
                     }
@@ -912,7 +969,7 @@ int main () {
                         save.pop(); //aceita 'mova'
                 }
                 else{
-                    cout<<"ERRO"<<endl;
+                    cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                     retorna=0;
                     i=tabela.size();
                 }
@@ -930,7 +987,7 @@ int main () {
                     }
                     else
                     {
-                        cout<<"ERRO"<<endl;
+                        cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                         retorna=0;
                         i=tabela.size();
                     }
@@ -946,14 +1003,14 @@ int main () {
                         }
                         else
                         {
-                            cout<<"ERRO"<<endl;
+                            cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                             retorna=0;
                             i=tabela.size();
                         }
                 }
                 else
                 {
-                    cout<<"ERRO"<<endl;
+                    cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                     retorna=0;
                     i=tabela.size();
                 }
@@ -968,7 +1025,7 @@ int main () {
                 }
                 else
                 {
-                     cout<<"ERRO"<<endl;
+                     cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                      retorna=0;
                      i=tabela.size();
                 }
@@ -1001,7 +1058,7 @@ int main () {
                 }
                 else
                 {
-                     cout<<"ERRO"<<endl;
+                     cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                      retorna=0;
                      i=tabela.size();
                 }
@@ -1022,7 +1079,7 @@ int main () {
                      {
                         if(tabela[i].nome == (*it))//comando já existe / conflito.
                         {
-                             cout<<"ERRO"<<endl;
+                             cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                              retorna=0;
                              i=tabela.size()-1;
                              x = 1;
@@ -1041,7 +1098,7 @@ int main () {
                 }
                 else
                 {
-                     cout<<"ERRO"<<endl;
+                     cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                      retorna=0;
                      i=tabela.size();
                 }
@@ -1057,14 +1114,14 @@ int main () {
                  }
                  else
                  {
-                    cout<<"Erro"<<endl;
+                    cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                     retorna=0;
                     i = tabela.size()-1;
                  }
              }
              else  //palavra não associada a um estado adequado
              {
-                 cout<<"Erro"<<endl;
+                 cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                  retorna=0;
                  i = tabela.size()-1;
              }

@@ -1,90 +1,102 @@
-programainicio
-	definainstrucao x como
-		vire para direita
-		inicio
-			repita 3 vezes
-				enquanto robo parado faca
-					apague lampada
-					acenda lampada
-					se frente robo bloqueada entao
-						repita 3 vezes
-							inicio
-								vire para esquerda
-								pare
-							fim
-						fimrepita
-					fimse
-					senao
-						vire para direita
-					fimsenao
-					
-				fimpara
-			fimrepita
-		fim
-			  
-	definainstrucao y como
-	vire para direita
-		inicio
-			repita 3 vezes
-				enquanto robo parado faca
-					apague lampada
-					acenda lampada
-					se frente robo bloqueada entao
-						repita 3 vezes
-							inicio
-								vire para esquerda
-								pare
-							fim
-						fimrepita
-					fimse
-					senao
-						vire para direita
-					fimsenao
-					
-				fimpara
-			fimrepita
-		fim
-			definainstrucao z como
-				x y
-	
-	execucaoinicio
-	   inicio
-		enquanto robo ocupado faca
-			aguarde ate robo pronto
-		fimpara	#finaliza o enquanto	
-		
-		inicio
-			vire para esquerda
-			pare
-			vire para direita
-			aguarde ate robo pronto
-			apague lampada
-			mova
-			mova 3
-			mova 3 passos
-			acenda lampada
-			finalize			
-		fim
-	    fim	    
-	    repita 5 vezes 
-		vire para esquerda
-		repita 2 vezes
-			inicio
-  				se lampada acesa a frente entao
-					acenda lampada
-					apague lampada
-					finalize
-				fimse
-				senao
-					aguarde ate direita robo bloqueada
-					repita 5 vezes 
-						vire para direita
-							x
-							y
-					fimrepita
-				fimsenao
-			fim
-		fimrepita
-	    fimrepita
-	fimexecucao
-fimprograma
+programainicio 										 # linha 1
+	definainstrucao x como 								 # linha 2
+		vire para direita 						 	 # linha 3
+		se lampada apagada a frente entao				 	 # linha 4
+			se frente robo bloqueada entao				 	 # linha 5	
+				repita 3 vezes					 	 # linha 6		
+					inicio					 	 # linha 7
+						aguarde ate robo pronto		 	 # linha 8
+						vire para esquerda		 	 # linha 9
+						pare				 	 # linha 10
+						vire para direita		 	 # linha 11
+					fim					 	 # linha 12
+				fimrepita					 	 # linha 13
+			fimse							 	 # linha 14
+		fimse								 	 # linha 15
+		inicio								 	 # linha 16
+			repita 3 vezes						 	 # linha 17
+				enquanto robo parado faca			 	 # linha 18
+					apague lampada				 	 # linha 19
+					acenda lampada				 	 # linha 20
+					se frente robo bloqueada entao			 # linha 21
+						repita 3 vezes				 # linha 22
+							inicio				 # linha 23
+								vire para esquerda	 # linha 24
+								pare			 # linha 25
+							fim				 # linha 26
+						fimrepita				 # linha 27
+					fimse						 # linha 28
+					senao						 # linha 29
+						vire para direita			 # linha 30
+					fimsenao					 # linha 31
+											 # linha 31 (linhas em branco são desconsideradas)
+				fimpara							 # linha 32
+			fimrepita							 # linha 33
+		fim									 # linha 34
+			  								 # linha 34 (linha em branco)
+	definainstrucao y como								 # linha 35
+	vire para direita								 # linha 36
+		inicio									 # linha 37
+			repita 3 vezes							 # linha 38
+				enquanto robo parado faca				 # linha 39
+					apague lampada					 # linha 40
+					acenda lampada					 # linha 41
+					se frente robo bloqueada entao			 # linha 42
+						repita 3 vezes				 # linha 43
+							inicio				 # linha 44
+								vire para esquerda	 # linha 45
+								pare			 # linha 46
+							fim				 # linha 47
+						fimrepita				 # linha 48
+					fimse						 # linha 49
+					senao						 # linha 50
+						vire para direita			 # linha 51
+					fimsenao					 # linha 52
+											 # linha 52 (linha em branco)
+				fimpara							 # linha 53
+			fimrepita							 # linha 54
+		fim									 # linha 55
+			definainstrucao z como						 # linha 56
+				x y							 # linha 57
+											 # linha 57 (linha em branco)
+	execucaoinicio #teste coment  						         # linha 58
+	   inicio								         # linha 59
+		enquanto robo ocupado faca						 # linha 60
+			aguarde ate robo pronto						 # linha 61
+		fimpara									 # linha 62
+		#finaliza o enquanto							 # linha 62 (comentários não contam)
+		inicio									 # linha 63	
+			vire para esquerda						 # linha 64
+			pare								 # linha 65
+			vire para direita						 # linha 66
+			aguarde ate robo pronto						 # linha 67
+			apague lampada							 # linha 68
+			mova								 # linha 69
+			mova 3								 # linha 70	
+			mova 3 passos							 # linha 71	
+			acenda lampada							 # linha 72
+			finalize							 # linha 73			
+		fim									 # linha 74
+	    fim	    									 # linha 75				
+	    repita 5 vezes 							         # linha 76	
+		vire para esquerda							 # linha 77
+		repita 2 vezes								 # linha 78
+			inicio								 # linha 79
+  				se lampada acesa a frente entao				 # linha 80
+					acenda lampada					 # linha 81
+					apague lampada					 # linha 82
+					finalize					 # linha 83
+				fimse							 # linha 84
+				senao							 # linha 85
+					aguarde ate direita robo bloqueada		 # linha 86
+					repita 5 vezes 					 # linha 87
+						vire para direita			 # linha 88
+							x				 # linha 89
+							y				 # linha 90
+					fimrepita					 # linha 91
+				fimsenao						 # linha 92
+			fim								 # linha 93
+	         fimrepita								 # linha 94
+	    fimrepita									 # linha 95
+	fimexecucao									 # linha 96
+fimprograma										 # linha 97
