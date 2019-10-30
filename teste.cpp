@@ -12,6 +12,17 @@ string nome;
 int line;
 };
 
+struct instru{
+string id = "";
+string inicio ="";
+string fim = "";
+};
+
+struct precedencia{
+string precede;
+int linha;
+};
+
 void inv (stack<store> & guarda, stack<store> & inverte, vector<keyword> & tabela){
     while(guarda.size()>0) //se existem palavras que eram dependente desta
     {
@@ -673,11 +684,14 @@ int main () {
    cout<<"--------------------"<<endl;
    stack<keyword>save;
    stack<keyword>base;
-   vector<string>producoes;
+   vector<keyword>producoes;
+   int duplicidade = 0;
    vector<string>ids_criados;
-    int state = 0;
-    int cont_comando = 0;
-    bool execut = false;
+   vector<instru>guarda_ids;
+   instru id_instru;
+   int state = 0;
+   int cont_comando = 0;
+   bool execut = false;
     for(int i =0;i<tabela.size();i++){
         int retorna=1;
         while(retorna==1)
@@ -687,7 +701,6 @@ int main () {
                 state++;
                 save.push(tabela[i]);
                 retorna=0;
-                producoes.push_back(tabela[i].nome);
             }
              else if(state==0){
                 cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
@@ -700,12 +713,14 @@ int main () {
 
                 if(tabela[i].nome=="definainstrucao") //cria nova instrução
                 {
+                    producoes.push_back(tabela[i]);
                     state=100;
                     save.push(tabela[i]);
                     retorna=0;
                 }
                 else                                //executa instrução
                 {
+                    producoes.push_back(tabela[i]);
                     state++;
                     execut=true;
                     save.push(tabela[i]);
@@ -726,11 +741,25 @@ int main () {
             {
                     if(tabela[i].tipo=="ID")//ID pode ser um comando definido
                     {
+
                         int x = 0;
-                        for(vector<string>::iterator it = ids_criados.begin();it!=ids_criados.end();it++)
+                        for(vector<string>::iterator it = ids_criados.begin();it!=ids_criados.end();it++) //verifica se o Id ja foi definido como instrucao
                         {
                             if(tabela[i].nome == (*it))//comando existe
                             {
+                                producoes.push_back(tabela[i]);
+                                if(execut==false){ //salva inicio e fim das instrucoes
+                                    for(vector<instru>::iterator it3 = guarda_ids.begin();it3!=guarda_ids.end();it3++)
+                                        {
+                                            if((*it)==((*it3).id))
+                                            {
+                                                if(id_instru.inicio=="")
+                                                    id_instru.inicio = (*it3).inicio;
+                                                id_instru.fim=(*it3).fim;
+                                                break;
+                                            }
+                                        }
+                                }
                                 retorna=0;
                                 cont_comando++;
                                 x = 1;
@@ -748,8 +777,14 @@ int main () {
                     }
                     else if(tabela[i].nome=="pare"||tabela[i].nome=="finalize"||tabela[i].nome=="acenda lampada"||tabela[i].nome=="apague lampada")
                     {
-                        retorna=0;
-                        if(execut==true) //garante que tenha pelo menos 1 instrução na execução
+                         if(execut==false){
+                            if(id_instru.inicio=="")
+                                id_instru.inicio=tabela[i].nome;
+                            id_instru.fim = tabela[i].nome;
+                         }
+                         retorna=0;
+                         producoes.push_back(tabela[i]);
+                         if(execut==true) //garante que tenha pelo menos 1 instrução na execução
                             cont_comando++;
                         // não salva, pois o comando está completo
                         // não avança estado pois pode ler outro comando
@@ -779,6 +814,11 @@ int main () {
                     }
                     else if(tabela[i].nome=="execucaoinicio") //nesse caso houve uma ou mais deinições de instruções
                     {
+                        producoes.push_back(tabela[i]);
+                        guarda_ids.push_back(id_instru);
+                        id_instru.id ="";
+                        id_instru.inicio="";
+                        id_instru.fim="";
                         if(save.top().nome=="como")
                         {
                             while(save.top().nome!="programainicio"){ //processa todas as instruções criadas
@@ -798,6 +838,11 @@ int main () {
                     {
                         if(save.top().nome=="como") //vem depois de uma definição, logo é valida
                         {
+                            guarda_ids.push_back(id_instru);
+                            id_instru.id ="";
+                            id_instru.inicio="";
+                            id_instru.fim="";
+                            producoes.push_back(tabela[i]);
                             state=100;
                             retorna=0;
                             while(save.top().nome!="programainicio")//processa todas as instruções anteriores
@@ -823,6 +868,13 @@ int main () {
             {
                 if(tabela[i].nome=="fimrepita"&&save.top().nome=="vezes") //loop repita
                 {
+                    /////////////////////////////// para verificacao semantica em loops
+                    keyword a;
+                    a.nome = tabela[i].nome;
+                    a.linha = tabela[i].linha;
+                    a.tipo = tabela[i].tipo;
+                    producoes.push_back(a);
+                    ////////////////////////////////
                     save.pop();
                     save.pop();
                     save.pop();
@@ -830,6 +882,13 @@ int main () {
                 }
                 else if(tabela[i].nome=="fimpara"&&save.top().nome=="faca")  //loop enquanto
                 {
+                    /////////////////////////////// para verificacao semantica em loops
+                    keyword a;
+                    a.nome = tabela[i].nome;
+                    a.linha = tabela[i].linha;
+                    a.tipo = tabela[i].tipo;
+                    producoes.push_back(a);
+                    ////////////////////////////////
                     save.pop();
                     save.pop();
                     save.pop();
@@ -882,6 +941,16 @@ int main () {
                 {
                     if(save.top().nome=="vire para")
                     {
+                        keyword a;
+                        a.nome = save.top().nome+ ' ' + tabela[i].nome;
+                        a.linha = save.top().linha;
+                        a.tipo = save.top().tipo;
+                        producoes.push_back(a);
+                        if(execut==false){
+                            if(id_instru.inicio=="")
+                                id_instru.inicio=a.nome;
+                            id_instru.fim = a.nome;
+                        }
                         save.pop(); //comando completo
                         state--;   //verifica se há outro comando
                         retorna = 0;
@@ -898,6 +967,13 @@ int main () {
                 {
                     if(save.top().nome=="repita")
                     {
+                        /////////////////////////////////////////////// caso precise tratar semantica em loops
+                        keyword a;
+                        a.nome = save.top().nome;
+                        a.linha = save.top().linha;
+                        a.tipo = save.top().tipo;
+                        producoes.push_back(a);
+                        ///////////////////////////////////////////////
                         state++;
                         retorna=0;
                         save.push(tabela[i]);
@@ -920,6 +996,13 @@ int main () {
                 {
                     if(save.top().nome=="enquanto")
                     {
+                        //////////////////////////////////////////////// caso precise tratar semantica em loops
+                        keyword a;
+                        a.nome = save.top().nome;
+                        a.linha = save.top().linha;
+                        a.tipo = save.top().tipo;
+                        producoes.push_back(a);
+                        ////////////////////////////////////////////////
                         state++;
                         retorna=0;
                         save.push(tabela[i]);
@@ -932,6 +1015,16 @@ int main () {
                     }
                     else if(save.top().nome=="aguarde ate")
                     {
+                        keyword a;
+                        a.nome = save.top().nome+ ' ' + tabela[i].nome;
+                        a.linha = save.top().linha;
+                        a.tipo = save.top().tipo;
+                        producoes.push_back(a);
+                        if(execut==false){
+                            if(id_instru.inicio=="")
+                                id_instru.inicio=a.nome;
+                            id_instru.fim = a.nome;
+                        }
                         state--;
                         retorna=0;
                         save.pop();// producao aceita
@@ -964,6 +1057,12 @@ int main () {
 
                 else if(save.top().nome=="mova")
                 {
+                        producoes.push_back(save.top());
+                        if(execut==false){
+                            if(id_instru.inicio=="")
+                                id_instru.inicio=save.top().nome;
+                            id_instru.fim = save.top().nome;
+                        }
                         retorna=1; //checa o token novamente
                         state--;
                         save.pop(); //aceita 'mova'
@@ -1036,14 +1135,34 @@ int main () {
                 if(tabela[i].nome=="passos")
                 {
                     save.pop();
+                    keyword a;
+                    a.linha = save.top().linha;
                     save.pop();
+                    a.nome = "mova";
+                    a.tipo = "Instrucao";
+                    if(execut==false){
+                        if(id_instru.inicio=="")
+                            id_instru.inicio=a.nome;
+                        id_instru.fim = a.nome;
+                    }
+                    producoes.push_back(a);
                     retorna=0;
                     state=2; //aceita
                 }
                 else
                 {
                     save.pop();
+                    keyword a;
+                    a.linha = save.top().linha;
                     save.pop();
+                    a.nome = "mova";
+                    a.tipo = "Instrucao";
+                    producoes.push_back(a);
+                    if(execut==false){
+                        if(id_instru.inicio=="")
+                            id_instru.inicio=a.nome;
+                        id_instru.fim = a.nome;
+                    }
                     retorna=1; //repete verificação do token
                     state=2; //aceita
                 }
@@ -1073,28 +1192,26 @@ int main () {
             {
                 if(tabela[i].tipo == "ID")
                 {
-                    //verifico se já criei esse ID anterioremente para evitar duplicidade
-                     int x = 0;
+                    //verifico se já criei esse ID anterioremente para evitar duplicidade (semantico)
                      for(vector<string>::iterator it = ids_criados.begin();it!=ids_criados.end();it++)
                      {
                         if(tabela[i].nome == (*it))//comando já existe / conflito.
                         {
-                             cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
+                            // cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                              retorna=0;
                              i=tabela.size()-1;
-                             x = 1;
+                             if(duplicidade == 0) //pega a primmeira ocorrencia
+                                duplicidade = tabela[i].linha;
                              break;
                              // não salva, pois o comando está completo
                              // não avança estado pois pode ler outro comando
                         }
                     }
-                    if(x==0) //possível criar o ID
-                    {
+                        id_instru.id = tabela[i].nome;
                         ids_criados.push_back(tabela[i].nome); //crio o id
                         retorna=0;
                         state++;
                         save.push(tabela[i]);
-                    }
                 }
                 else
                 {
@@ -1128,6 +1245,217 @@ int main () {
         }
     }
 
+   cout<<endl;
+   cout<<"--------------------"<<endl;
+   cout<<"--ERROS SEMANTICOS--"<<endl;
+   cout<<"--------------------"<<endl;
+   bool correct = 1;
+   stack<int>loop;
+   if(duplicidade!=0){
+        cout<<"Erro Semantico por duplicidade de instrucoes, na linha "<<duplicidade<<endl;
+        correct = 0;
+   }
+   else{
+     int i = 0;
+    /* for(int abc=0;abc<producoes.size();abc++)
+        cout<<producoes[abc].nome<<endl;
+        cout<<endl;
+    *///confere producoes
+
+     while(i < producoes.size())
+     {
+          precedencia precede;
+          precede.precede= "";
+          precede.linha = 0;
+         if(producoes[i].nome == "definainstrucao") //verifica se instrucao está ok
+         {
+            if(i<producoes.size()-1 && (producoes[i+1].nome!="definainstrucao" && producoes[i+1].nome!="execucaoincio")) //existe um comando
+            {
+                while(producoes[i+1].nome!="definainstrucao" &&  producoes[i+1].nome!="execucaoincio")
+                {
+                    if(producoes[i+1].tipo != "ID")//se esse comando não é um ID
+                    {
+                        if(precede.precede==""){
+                             precede.precede = producoes[i+1].nome; //atualiza precedencia
+                             precede.linha = producoes[i+1].linha;
+                        }
+                        else
+                        {
+                            if(precede.precede=="vire para esquerda" && producoes[i+1].nome=="vire para direita"){
+                                 cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - 'vire para esquerda seguido' de 'vire para direita'"<<endl;
+                                 precede.precede = producoes[i+1].nome;
+                                 precede.linha = producoes[i+1].linha;
+                                 correct = 0;
+                            }
+                            else if(precede.precede=="vire para direita" && producoes[i+1].nome=="vire para esquerda"){
+                                 cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - 'vire para direita seguido' de 'vire para esquerda'"<<endl;
+                                 precede.precede = producoes[i+1].nome;
+                                 precede.linha = producoes[i+1].linha;
+                                 correct = 0;
+                            }
+                            else if(precede.precede=="mova" && producoes[i+1].nome!= "aguarde ate robo pronto"){
+                                 cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - Nao indicou 'robo pronto'"<<endl;
+                                 precede.precede = producoes[i+1].nome;
+                                 precede.linha = producoes[i+1].linha;
+                                 correct = 0;
+                            }
+                            else{
+                                precede.precede = producoes[i+1].nome; //atualiza precedencia
+                                precede.linha = producoes[i+1].linha;
+                            }
+                        }
+                    }
+                    else if(producoes[i+1].nome != "repita" && producoes[i+1].nome != "enquanto"&& producoes[i+1].nome != "fimrepita"&& producoes[i+1].nome != "fimpara" ) //não esta em loop
+                    {
+                        string aux_fim = "";
+                        string aux_incio = "";
+                        for(int b = 0;b<guarda_ids.size();b++)
+                        {
+                            if(producoes[i+1].nome==guarda_ids[b].id)
+                            {
+                                aux_fim = guarda_ids[b].fim;
+                                aux_incio = guarda_ids[b].inicio;
+                                break;
+                            }
+                        }
+                        if( precede.precede==""){
+                            precede.precede = aux_fim;
+                            precede.linha = producoes[i+1].linha;
+                        }
+                        else
+                        {
+                            if(precede.precede=="vire para esquerda" &&  aux_incio == "vire para direita"){
+                                 cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - 'vire para esquerda seguido' de 'vire para direita' implicito em ID"<<endl;
+                                 precede.precede = aux_fim;
+                                 precede.linha = producoes[i+1].linha;
+                                 correct = 0;
+                            }
+                            else if(precede.precede=="vire para direita" &&  aux_incio == "vire para esquerda"){
+                                 cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - 'vire para direita seguido' de 'vire para esquerda' implicito em ID"<<endl;
+                                 precede.precede = aux_fim;
+                                 precede.linha = producoes[i+1].linha;
+                                 correct = 0;
+                            }
+                            else if(precede.precede=="mova" &&  aux_incio != "aguarde ate robo pronto"){
+                                 cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - Nao indicou 'robo pronto' implicito em ID"<<endl;
+                                 precede.precede = aux_fim;
+                                 precede.linha = producoes[i+1].linha;
+                                 correct = 0;
+                            }
+                            else{
+                                precede.precede = aux_fim; //atualiza precedencia
+                                precede.linha = producoes[i+1].linha;
+                            }
+                        }
+                    }
+                    else // eh um loop
+                    {
+                       //ideia : salvar a posicao do primeiro elemento que não é um loop na pilha
+                       //quando achar um final de loop, volta para a posicao do topo da pilha e desempilha
+                       //dessa forma irá recomeçar a leitura com o precedente sendo o ultimo elemento da repetição atual
+                       //SÒ FAZER ISSO PARA N >1 no caso do repita (falta salvar N)
+
+                    }
+                    i++;
+                }
+              i++;
+            }
+         }
+         if(producoes[i].nome == "execucaoinicio") //verifica execucao
+         {
+             i++;
+             while(i<producoes.size())
+             {
+                  if(producoes[i].tipo != "ID")//se esse comando não é um ID
+                  {
+                        if(precede.precede==""){
+                             precede.precede = producoes[i].nome; //atualiza precedencia
+                             precede.linha = producoes[i].linha;
+                        }
+                        else
+                        {
+                             if(precede.precede=="vire para esquerda" && producoes[i+1].nome=="vire para direita"){
+                                 cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - 'vire para esquerda seguido' de 'vire para direita'"<<endl;
+                                 precede.precede = producoes[i+1].nome;
+                                 precede.linha = producoes[i+1].linha;
+                                 correct = 0;
+                            }
+                            else if(precede.precede=="vire para direita" && producoes[i+1].nome=="vire para esquerda"){
+                                 cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - 'vire para direita seguido' de 'vire para esquerda'"<<endl;
+                                 precede.precede = producoes[i+1].nome;
+                                 precede.linha = producoes[i+1].linha;
+                                 correct = 0;
+                            }
+                            else if(precede.precede=="mova" && producoes[i+1].nome!= "aguarde ate robo pronto"){
+                                 cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - Nao indicou 'robo pronto'"<<endl;
+                                 precede.precede = producoes[i+1].nome;
+                                 precede.linha = producoes[i+1].linha;
+                                 correct = 0;
+                            }
+                            else{
+                                precede.precede = producoes[i+1].nome; //atualiza precedencia
+                                precede.linha = producoes[i+1].linha;
+                            }
+                        }
+                    }
+                     else if(producoes[i].nome != "repita" && producoes[i].nome != "enquanto"&& producoes[i].nome != "fimrepita"&& producoes[i].nome != "fimpara" ) //não esta em loop
+                    {
+                        string aux_fim = "";
+                        string aux_incio = "";
+                        for(int b = 0;b<guarda_ids.size();b++)
+                        {
+                            if(producoes[i].nome==guarda_ids[b].id)
+                            {
+                                aux_fim = guarda_ids[b].fim;
+                                aux_incio = guarda_ids[b].inicio;
+                                break;
+                            }
+                        }
+                         if(precede.precede==""){
+                            precede.precede = aux_fim;
+                            precede.linha = producoes[i].linha;
+                        }
+                        else
+                        {
+                            if(precede.precede=="vire para esquerda" && producoes[i+1].nome=="vire para direita"){
+                                 cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - 'vire para esquerda seguido' de 'vire para direita' implicito em ID"<<endl;
+                                 precede.precede = producoes[i+1].nome;
+                                 precede.linha = producoes[i+1].linha;
+                                 correct = 0;
+                            }
+                            else if(precede.precede=="vire para direita" && producoes[i+1].nome=="vire para esquerda"){
+                                 cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - 'vire para direita seguido' de 'vire para esquerda' implicito em ID"<<endl;
+                                 precede.precede = producoes[i+1].nome;
+                                 precede.linha = producoes[i+1].linha;
+                                 correct = 0;
+                            }
+                            else if(precede.precede=="mova" && producoes[i+1].nome!= "aguarde ate robo pronto"){
+                                 cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - Nao indicou 'robo pronto' implicito em ID"<<endl;
+                                 precede.precede = producoes[i+1].nome;
+                                 precede.linha = producoes[i+1].linha;
+                                 correct = 0;
+                            }
+                            else{
+                                precede.precede = producoes[i+1].nome; //atualiza precedencia
+                                precede.linha = producoes[i+1].linha;
+                            }
+                        }
+                    }
+                    else // eh um loop
+                    {
+                       //ideia : salvar a posicao do primeiro elemento que não é um loop na pilha
+                       //quando achar um final de loop, volta para a posicao do topo da pilha e desempilha
+                       //dessa forma irá recomeçar a leitura com o precedente sendo o ultimo elemento da repetição atual
+                       //SÒ FAZER ISSO PARA N >1 no caso do repita (falta salvar N)
+                    }
+                    i++;
+                }
+             }
+         }
+         if(correct==1)
+            cout<<"SEMANTICAMENTE CORRETO!"<<endl;
+    }
     myfile.close();
     return 0;
 }
+

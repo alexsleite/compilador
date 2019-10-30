@@ -1,6 +1,6 @@
 programainicio 										 # linha 1
 	definainstrucao x como 								 # linha 2
-		vire para direita 						 	 # linha 3
+		vire para direita						 	 # linha 3
 		se lampada apagada a frente entao				 	 # linha 4
 			se frente robo bloqueada entao				 	 # linha 5	
 				repita 3 vezes					 	 # linha 6		
@@ -27,7 +27,7 @@ programainicio 										 # linha 1
 						fimrepita				 # linha 27
 					fimse						 # linha 28
 					senao						 # linha 29
-						vire para direita			 # linha 30
+						vire para esquerda			 # linha 30
 					fimsenao					 # linha 31
 											 # linha 31 (linhas em branco são desconsideradas)
 				fimpara							 # linha 32
@@ -50,7 +50,7 @@ programainicio 										 # linha 1
 						fimrepita				 # linha 48
 					fimse						 # linha 49
 					senao						 # linha 50
-						vire para direita			 # linha 51
+						vire para esquerda			 # linha 51
 					fimsenao					 # linha 52
 											 # linha 52 (linha em branco)
 				fimpara							 # linha 53
@@ -99,4 +99,4 @@ programainicio 										 # linha 1
 	         fimrepita								 # linha 94
 	    fimrepita									 # linha 95
 	fimexecucao									 # linha 96
-fimprograma										 # linha 97
+fimprograma										 # linha 97											
