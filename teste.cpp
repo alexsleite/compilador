@@ -2187,18 +2187,18 @@ int main () {
                                 stringstream ss;
                                 ss << cont_loop;
                                 string str = ss.str();
-                                cout<<"l"+str+":"<<endl;
+                                cout<<"l"<<str<<":"<<endl;
                                 cout<<"IN AX,11"<<endl;
                                 cout<<"CMP AX,00000000b"<<endl;
-                                cout<<"JE fim_l"+str<<endl;
+                                cout<<"JE fim_l"<<str<<endl;
                                 cout<<"CMP AX,00000001b"<<endl;
-                                cout<<"JE fim_l"+str<<endl;
+                                cout<<"JE fim_l"<<str<<endl;
                                 cout<<"CMP AX,00000100b"<<endl;
-                                cout<<"JE fim_l"+str<<endl;
+                                cout<<"JE fim_l"<<str<<endl;
                                 cout<<"CMP AX,00000101b"<<endl;
-                                cout<<"JE fim_l"+str<<endl;
-                                cout<<"JMP "<<"l"+str<<endl;
-                                cout<<"fim_l"+str+":"<<endl;
+                                cout<<"JE fim_l"<<str<<endl;
+                                cout<<"JMP l"<<str<<endl;
+                                cout<<"fim_l"<<str<<":"<<endl;
                             }
                             else if(producoes[i].nome == "aguarde ate robo ocupado")
                             {
@@ -2206,7 +2206,7 @@ int main () {
                                 stringstream ss;
                                 ss << cont_loop;
                                 string str = ss.str();
-                                cout<<"l"+str+":"<<endl;
+                                cout<<"l"<<str<<":"<<endl;
                                 cout<<"IN AX,11"<<endl;
                                 cout<<"CMP AX,00000010b"<<endl;
                                 cout<<"JE fim_l"<<cont_loop<<endl;
@@ -2216,7 +2216,7 @@ int main () {
                                 cout<<"JE fim_l"<<cont_loop<<endl;
                                 cout<<"CMP AX,00000111b"<<endl;
                                 cout<<"JE fim_l"<<cont_loop<<endl;
-                                cout<<"JMP"<<"l"<<cont_loop<<endl;
+                                cout<<"JMP l"<<cont_loop<<endl;
                                 cout<<"fim_l"<<cont_loop<<":"<<endl;
                             }
                             else if(producoes[i].nome == "aguarde ate lampada acesa a frente"||producoes[i].nome == "aguarde ate lampada apagada a frente")
@@ -2236,8 +2236,8 @@ int main () {
                                     cout<<"CMP AL,00001000b"<<endl;
                                 }
                                 cout<<"JE fim_l"<<cont_loop<<endl;
-                                cout<<"JMP "<<"l"<<cont_loop<<endl;
-                                cout<<"fim_l"<<cont_loop+":"<<endl;
+                                cout<<"JMP l"<<cont_loop<<endl;
+                                cout<<"fim_l"<<cont_loop<<":"<<endl;
                             }
                             else if(producoes[i].nome == "aguarde ate lampada acesa a esquerda"||producoes[i].nome == "aguarde ate lampada apagada a esquerda"||
                             producoes[i].nome == "aguarde ate lampada apagada a direita"||producoes[i].nome == "aguarde ate lampada acesa a direita")
@@ -2263,8 +2263,8 @@ int main () {
                                     cout<<"CMP AL,00001001b"<<endl;
                                 }
                                 cout<<"JE fim_l"<<cont_loop<<endl;
-                                cout<<"JMP "<<"l"<<cont_loop<<endl;
-                                cout<<"fim_l"<<cont_loop+":"<<endl;
+                                cout<<"JMP l"<<cont_loop<<endl;
+                                cout<<"fim_l"<<cont_loop<<":"<<endl;
                             }
                             else if(producoes[i].nome == "aguarde ate frente robo bloqueada"||producoes[i].nome == "aguarde ate esquerda robo bloqueada"||
                             producoes[i].nome == "aguarde ate direita robo bloqueada")
@@ -2287,7 +2287,7 @@ int main () {
                                 }
                                 cout<<"JE fim_l"<<cont_loop<<endl;
                                 cout<<"JMP "<<"l"<<cont_loop<<endl;
-                                cout<<"fim_l"<<cont_loop+":"<<endl;
+                                cout<<"fim_l"<<cont_loop<<":"<<endl;
                             }
                         }
                         else if(producoes[i].nome=="repita")
@@ -2298,12 +2298,12 @@ int main () {
                                 string str = ss.str();
                                 indice_loop.push(str);
                                 cout<< "MOV CX, "+producoes[i+1].nome<<endl;
-                                cout<<"l"+str+":"<<endl;
+                                cout<<"l"<<str<<":"<<endl;
                         }
                         else if(producoes[i].nome=="fimrepita")
                         {
                             cout<<"DEC CX"<<endl;
-                            cout<<"JZE l"+indice_loop.top()<<endl;
+                            cout<<"JZE l"<<indice_loop.top()<<endl;
                             indice_loop.pop();
                         }
                         else if(producoes[i].nome=="enquanto")
@@ -2451,7 +2451,7 @@ int main () {
                                 else{
                                     cout<<"CMP AL,00001001b"<<endl;
                                 }
-                                cout<<"JNE fim_se"+str<<endl;
+                                cout<<"JNE fim_se"<<str<<endl;
                             }
                             else if(producoes[i+1].nome == "lampada acesa a frente"||producoes[i+1].nome == "lampada apagada a frente")
                             {
@@ -2515,16 +2515,16 @@ int main () {
                          {
                              if(producoes[i+1].nome=="senao")
                              {
-                                 cout<<"JUMP fim_senao"+indice_loop.top()<<endl;
+                                 cout<<"JUMP fim_senao"<<indice_loop.top()<<endl;
                                  indice_loop.push(indice_loop.top());
                                  i++;
                              }
-                             cout<<"fim_se"+indice_loop.top()+":"<<endl;
+                             cout<<"fim_se"<<indice_loop.top()<<":"<<endl;
                              indice_loop.pop();
                          }
                          else if(producoes[i].nome=="fimsenao")
                          {
-                             cout<<"fim_senao"+indice_loop.top()+":"<<endl;
+                             cout<<"fim_senao"<<indice_loop.top()<<":"<<endl;
                              indice_loop.pop();
                          }
                          if(producoes[i].tipo=="ID")
@@ -2549,6 +2549,7 @@ int main () {
 
             }
         }
+        cout<<"CODIGO GERADO COM SUCESSO!"<<endl;
    }
  }
  myfile.close();
