@@ -1653,7 +1653,6 @@ int main () {
    if(correct==1)//só gera o código se tiver tudo ok
    {
       vector<instru_traducao> save_instru;
-      bool reg_al=0,reg_cx=0;
       int cont_loop = 0;
 
       for(int i = 0; i<producoes.size();i++)
@@ -1672,29 +1671,27 @@ int main () {
                         {
                             if(producoes[i].nome == "vire para esquerda")
                             {
-                                if(reg_al==0){
                                 aux.traducao.push_back("MOV AL, 2");
                                 aux.traducao.push_back("OUT 9, AL");
                                 aux.traducao.push_back("MOV AL, 0");
                                 aux.traducao.push_back("OUT 9, AL");
-                                }
                             }
                             else if(producoes[i].nome == "vire para direita")
                             {
-                                if(reg_al==0){
                                     aux.traducao.push_back("MOV AL, 3");
                                     aux.traducao.push_back("OUT 9, AL");
                                     aux.traducao.push_back("MOV AL, 0");
                                     aux.traducao.push_back("OUT 9, AL");
-                                }
+                            }
+                            else if(producoes[i].nome == "pare")
+                            {
+                                    aux.traducao.push_back("MOV AL, 0");
+                                    aux.traducao.push_back("OUT 9, AL");
                             }
                             else if(producoes[i].nome == "mova")
                             {
                                     if(i<producoes.size()-1 &&producoes[i+1].tipo=="Numero")
                                     {
-                                        if(reg_cx==0&&reg_al==0)
-                                        {
-
                                             cont_loop++;
                                             stringstream ss;
                                             ss << cont_loop;
@@ -1707,7 +1704,6 @@ int main () {
                                             aux.traducao.push_back("OUT 9, AL");
                                             aux.traducao.push_back("DEC CX");
                                             aux.traducao.push_back("JNZ l"+cont_loop);
-                                        }
                                     }
                                     else
                                     {
@@ -1719,17 +1715,13 @@ int main () {
                             }
                             else if(producoes[i].nome == "apague lampada")
                             {
-                                if(reg_al==0){
                                 aux.traducao.push_back("MOV AL, 6");
                                 aux.traducao.push_back("OUT 9, AL");
-                                }
                             }
                             else if(producoes[i].nome == "acenda lampada")
                             {
-                                if(reg_al==0){
                                 aux.traducao.push_back("MOV AL, 5");
                                 aux.traducao.push_back("OUT 9, AL");
-                                }
                             }
                             else if(producoes[i].nome == "finalize")
                             {
@@ -2118,29 +2110,27 @@ int main () {
                             {
                                 if(producoes[i].nome == "vire para esquerda")
                                 {
-                                    if(reg_al==0){
                                     cout<<"MOV AL, 2"<<endl;
                                     cout<<"OUT 9, AL"<<endl;
                                     cout<<"MOV AL, 0"<<endl;
                                     cout<<"OUT 9, AL"<<endl;
-                                    }
                                 }
                                 else if(producoes[i].nome == "vire para direita")
                                 {
-                                    if(reg_al==0){
                                         cout<<"MOV AL, 3"<<endl;
                                         cout<<"OUT 9, AL"<<endl;
                                         cout<<"MOV AL, 0"<<endl;
                                         cout<<"OUT 9, AL"<<endl;
-                                    }
+                                }
+                                else if(producoes[i].nome == "pare")
+                                {
+                                        cout<<"MOV AL, 0"<<endl;
+                                        cout<<"OUT 9, AL"<<endl;
                                 }
                                 else if(producoes[i].nome == "mova")
                                 {
                                     if(i<producoes.size()-1 &&producoes[i+1].tipo=="Numero")
                                     {
-                                        if(reg_cx==0&&reg_al==0)
-                                        {
-
                                             cont_loop++;
                                             stringstream ss;
                                             ss << cont_loop;
@@ -2153,7 +2143,6 @@ int main () {
                                             cout<<"OUT 9, AL"<<endl;
                                             cout<<"DEC CX"<<endl;
                                             cout<<"JNZ l"<<cont_loop<<endl;
-                                        }
                                     }
                                     else
                                     {
@@ -2165,17 +2154,13 @@ int main () {
                             }
                             else if(producoes[i].nome == "apague lampada")
                             {
-                                if(reg_al==0){
                                 cout<<"MOV AL, 6"<<endl;
                                 cout<<"OUT 9, AL"<<endl;
-                                }
                             }
                             else if(producoes[i].nome == "acenda lampada")
                             {
-                                if(reg_al==0){
                                 cout<<"MOV AL, 5"<<endl;
                                 cout<<"OUT 9, AL"<<endl;
-                                }
                             }
                             else if(producoes[i].nome == "finalize")
                             {
