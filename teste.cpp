@@ -1432,6 +1432,8 @@ int main () {
                                     i++;
                                  i++;
                             }
+                                if(producoes[i].tipo=="Numero")
+                                    i++; //pula num
                                 if(cont_repita>0){//achei primeira instrucao
                                      string aux_fim = "";
                                      string aux_inicio = "";
@@ -1450,6 +1452,7 @@ int main () {
                                             }
                                         }
                                         warning_aux_primeiro = aux_inicio;
+                                        warning_aux_ultimo = aux_fim;
                                     }
                                      while(cont_repita>0)
                                      {
