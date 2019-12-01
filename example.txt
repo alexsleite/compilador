@@ -1,11 +1,11 @@
 programainicio 										 # linha 1
 	definainstrucao x como 								 # linha 2
-		vire para direita						 	 # linha 3
+		vire para direita pare						 	 # linha 3
 		se lampada apagada a frente entao				 	 # linha 4
 			se frente robo bloqueada entao				 	 # linha 5	
 				repita 3 vezes					 	 # linha 6		
 					inicio					 	 # linha 7
-						aguarde ate robo pronto		 	 # linha 8
+						vire para esquerda      	 	 # linha 8
 						vire para esquerda		 	 # linha 9
 						pare				 	 # linha 10
 						vire para direita		 	 # linha 11
@@ -15,9 +15,9 @@ programainicio 										 # linha 1
 		fimse								 	 # linha 15
 		inicio								 	 # linha 16
 			repita 3 vezes						 	 # linha 17
-				enquanto robo parado faca			 	 # linha 18
+				enquanto robo pronto faca			 	 # linha 18
 					apague lampada				 	 # linha 19
-					acenda lampada				 	 # linha 20
+					apague lampada				 	 # linha 20
 					se frente robo bloqueada entao			 # linha 21
 						repita 3 vezes				 # linha 22
 							inicio				 # linha 23
@@ -57,12 +57,12 @@ programainicio 										 # linha 1
 			fimrepita							 # linha 54
 		fim									 # linha 55
 			definainstrucao z como						 # linha 56
-				x y							 # linha 57
+				x pare y						 # linha 57
 											 # linha 57 (linha em branco)
 	execucaoinicio #teste coment  						         # linha 58
 	   inicio								         # linha 59
 		enquanto robo ocupado faca						 # linha 60
-			aguarde ate robo pronto						 # linha 61
+			aguarde ate lampada apagada a esquerda				 # linha 61
 		fimpara									 # linha 62
 		#finaliza o enquanto							 # linha 62 (comentários não contam)
 		inicio									 # linha 63	
@@ -71,10 +71,10 @@ programainicio 										 # linha 1
 			vire para direita						 # linha 66
 			aguarde ate robo pronto						 # linha 67
 			apague lampada							 # linha 68
-			mova								 # linha 69
-			mova 3								 # linha 70	
+			acenda lampada							 # linha 69
+			apague lampada							 # linha 70	
 			mova 3 passos							 # linha 71	
-			acenda lampada							 # linha 72
+			aguarde ate robo pronto						 # linha 72
 			finalize							 # linha 73			
 		fim									 # linha 74
 	    fim	    									 # linha 75				
@@ -91,7 +91,7 @@ programainicio 										 # linha 1
 					aguarde ate direita robo bloqueada		 # linha 86
 					repita 5 vezes 					 # linha 87
 						vire para direita			 # linha 88
-							x				 # linha 89
+							x pare				 # linha 89
 							y				 # linha 90
 					fimrepita					 # linha 91
 				fimsenao						 # linha 92
