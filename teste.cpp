@@ -2217,7 +2217,7 @@ int main () {
                                 cout<<"CMP AX,00000111b"<<endl;
                                 cout<<"JE fim_l"<<cont_loop<<endl;
                                 cout<<"JMP"<<"l"<<cont_loop<<endl;
-                                cout<<"fim_l"<<cont_loop+":"endl;
+                                cout<<"fim_l"<<cont_loop<<":"<<endl;
                             }
                             else if(producoes[i].nome == "aguarde ate lampada acesa a frente"||producoes[i].nome == "aguarde ate lampada apagada a frente")
                             {
