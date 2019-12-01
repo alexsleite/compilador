@@ -901,8 +901,20 @@ int main () {
                 }
                 else if(tabela[i].nome=="fimse"&&save.top().nome=="entao")  //loop se
                 {
+                    keyword a;
+                    a.nome = tabela[i].nome;
+                    a.linha = tabela[i].linha;
+                    a.tipo = tabela[i].tipo;
+                    producoes.push_back(a);
+
                     if(i<tabela.size()-1&&tabela[i+1].nome=="senao") //se existe um proximo elemento e ele é senao
                     {
+                        keyword a;
+                        a.nome = tabela[i+1].nome;
+                        a.linha = tabela[i+1].linha;
+                        a.tipo = tabela[i+1].tipo;
+                        producoes.push_back(a);
+                        ////////////////////////////
                         state=3001;
                         save.pop();
                         save.pop();
@@ -919,6 +931,12 @@ int main () {
                 }
                 else if(tabela[i].nome=="fimsenao"&&save.top().nome=="senao")
                 {
+                    keyword a;
+                    a.nome = tabela[i].nome;
+                    a.linha = tabela[i].linha;
+                    a.tipo = tabela[i].tipo;
+                    producoes.push_back(a);
+                    ////////////////////////////
                     save.pop();
                     retorna=0;
                 }
@@ -980,6 +998,13 @@ int main () {
                     }
                     else if(save.top().nome=="mova")
                     {
+
+                        keyword a;
+                        a.nome = save.top().nome;
+                        a.linha = save.top().linha;
+                        a.tipo = save.top().tipo;
+                        producoes.push_back(a);
+
                         state=2000;
                         retorna=0;
                         save.push(tabela[i]);
@@ -1009,6 +1034,12 @@ int main () {
                     }
                     else if(save.top().nome=="se")
                     {
+                        keyword a;
+                        a.nome = save.top().nome;
+                        a.linha = save.top().linha;
+                        a.tipo = save.top().tipo;
+                        producoes.push_back(a);
+                        ////////////////////////////
                         state = 3000;
                         retorna=0;
                         save.push(tabela[i]);
@@ -1096,6 +1127,12 @@ int main () {
                 {
                         if(save.top().tipo == "Numero")
                         {
+                            keyword a;
+                            a.nome = save.top().nome;
+                            a.linha = save.top().linha;
+                            a.tipo = save.top().tipo;
+                            producoes.push_back(a);
+                           /////////
                             state=2; //solicita um comando
                             retorna=0;
                             save.push(tabela[i]);
@@ -1132,32 +1169,28 @@ int main () {
 
             else if(state==2000)
             {
+                keyword a;
+                a.nome  = save.top().nome;
+                a.linha  = save.top().linha;
+                a.tipo  = save.top().tipo;
+                producoes.push_back(a);
+
                 if(tabela[i].nome=="passos")
                 {
                     save.pop();
-                    keyword a;
-                    a.linha = save.top().linha;
                     save.pop();
-                    a.nome = "mova";
-                    a.tipo = "Instrucao";
                     if(execut==false){
                         if(id_instru.inicio=="")
                             id_instru.inicio=a.nome;
                         id_instru.fim = a.nome;
                     }
-                    producoes.push_back(a);
                     retorna=0;
                     state=2; //aceita
                 }
                 else
                 {
                     save.pop();
-                    keyword a;
-                    a.linha = save.top().linha;
                     save.pop();
-                    a.nome = "mova";
-                    a.tipo = "Instrucao";
-                    producoes.push_back(a);
                     if(execut==false){
                         if(id_instru.inicio=="")
                             id_instru.inicio=a.nome;
@@ -1249,19 +1282,16 @@ int main () {
    cout<<"--------------------"<<endl;
    cout<<"--ERROS SEMANTICOS--"<<endl;
    cout<<"--------------------"<<endl;
+
    bool correct = 1;
    stack<int>loop;
+   stack<string>warning;
    if(duplicidade!=0){
         cout<<"Erro Semantico por duplicidade de instrucoes, na linha "<<duplicidade<<endl;
         correct = 0;
    }
    else{
      int i = 0;
-    /* for(int abc=0;abc<producoes.size();abc++)
-        cout<<producoes[abc].nome<<endl;
-        cout<<endl;
-    *///confere producoes
-
      while(i < producoes.size())
      {
           precedencia precede;
@@ -1269,49 +1299,52 @@ int main () {
           precede.linha = 0;
          if(producoes[i].nome == "definainstrucao") //verifica se instrucao está ok
          {
-            if(i<producoes.size()-1 && (producoes[i+1].nome!="definainstrucao" && producoes[i+1].nome!="execucaoincio")) //existe um comando
+            i++;
+            if(i<producoes.size()-1 && (producoes[i].nome!="definainstrucao" && producoes[i].nome!="execucaoinicio")) //existe um comando
             {
-                while(producoes[i+1].nome!="definainstrucao" &&  producoes[i+1].nome!="execucaoincio")
+                while(producoes[i].nome!="definainstrucao" &&  producoes[i].nome!="execucaoinicio")
                 {
-                    if(producoes[i+1].tipo != "ID")//se esse comando não é um ID
+                              //      cout<<producoes[i].linha<<" :: "<<producoes[i].nome<<endl;
+                    if(producoes[i].tipo != "Numero" &&producoes[i].tipo != "ID" && (producoes[i].nome != "repita" && producoes[i].nome != "enquanto"&& producoes[i].nome != "fimrepita"&& producoes[i].nome != "fimpara"
+                                                     && producoes[i].nome != "se"&& producoes[i].nome != "fimse"&& producoes[i].nome != "senao"&& producoes[i].nome != "fimsenao"))//se esse comando não é um ID
                     {
                         if(precede.precede==""){
-                             precede.precede = producoes[i+1].nome; //atualiza precedencia
-                             precede.linha = producoes[i+1].linha;
+                             precede.precede = producoes[i].nome; //atualiza precedencia
+                             precede.linha = producoes[i].linha;
                         }
                         else
                         {
-                            if(precede.precede=="vire para esquerda" && producoes[i+1].nome=="vire para direita"){
+                            if(precede.precede=="vire para esquerda" && producoes[i].nome=="vire para direita"){
                                  cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - 'vire para esquerda seguido' de 'vire para direita'"<<endl;
-                                 precede.precede = producoes[i+1].nome;
-                                 precede.linha = producoes[i+1].linha;
+                                 precede.precede = producoes[i].nome;
+                                 precede.linha = producoes[i].linha;
                                  correct = 0;
                             }
-                            else if(precede.precede=="vire para direita" && producoes[i+1].nome=="vire para esquerda"){
+                            else if(precede.precede=="vire para direita" && producoes[i].nome=="vire para esquerda"){
                                  cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - 'vire para direita seguido' de 'vire para esquerda'"<<endl;
-                                 precede.precede = producoes[i+1].nome;
-                                 precede.linha = producoes[i+1].linha;
+                                 precede.precede = producoes[i].nome;
+                                 precede.linha = producoes[i].linha;
                                  correct = 0;
                             }
-                            else if(precede.precede=="mova" && producoes[i+1].nome!= "aguarde ate robo pronto"){
+                            else if(precede.precede=="mova" && producoes[i].nome!= "aguarde ate robo pronto"){
                                  cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - Nao indicou 'robo pronto'"<<endl;
-                                 precede.precede = producoes[i+1].nome;
-                                 precede.linha = producoes[i+1].linha;
+                                 precede.precede = producoes[i].nome;
+                                 precede.linha = producoes[i].linha;
                                  correct = 0;
                             }
                             else{
-                                precede.precede = producoes[i+1].nome; //atualiza precedencia
-                                precede.linha = producoes[i+1].linha;
+                                precede.precede = producoes[i].nome; //atualiza precedencia
+                                precede.linha = producoes[i].linha;
                             }
                         }
                     }
-                    else if(producoes[i+1].nome != "repita" && producoes[i+1].nome != "enquanto"&& producoes[i+1].nome != "fimrepita"&& producoes[i+1].nome != "fimpara" ) //não esta em loop
+                    else if(producoes[i].tipo=="ID" ) //eh ID
                     {
                         string aux_fim = "";
                         string aux_incio = "";
                         for(int b = 0;b<guarda_ids.size();b++)
                         {
-                            if(producoes[i+1].nome==guarda_ids[b].id)
+                            if(producoes[i].nome==guarda_ids[b].id)
                             {
                                 aux_fim = guarda_ids[b].fim;
                                 aux_incio = guarda_ids[b].inicio;
@@ -1320,53 +1353,120 @@ int main () {
                         }
                         if( precede.precede==""){
                             precede.precede = aux_fim;
-                            precede.linha = producoes[i+1].linha;
+                            precede.linha = producoes[i].linha;
                         }
                         else
                         {
                             if(precede.precede=="vire para esquerda" &&  aux_incio == "vire para direita"){
                                  cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - 'vire para esquerda seguido' de 'vire para direita' implicito em ID"<<endl;
                                  precede.precede = aux_fim;
-                                 precede.linha = producoes[i+1].linha;
+                                 precede.linha = producoes[i].linha;
                                  correct = 0;
                             }
                             else if(precede.precede=="vire para direita" &&  aux_incio == "vire para esquerda"){
                                  cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - 'vire para direita seguido' de 'vire para esquerda' implicito em ID"<<endl;
                                  precede.precede = aux_fim;
-                                 precede.linha = producoes[i+1].linha;
+                                 precede.linha = producoes[i].linha;
                                  correct = 0;
                             }
                             else if(precede.precede=="mova" &&  aux_incio != "aguarde ate robo pronto"){
                                  cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - Nao indicou 'robo pronto' implicito em ID"<<endl;
                                  precede.precede = aux_fim;
-                                 precede.linha = producoes[i+1].linha;
+                                 precede.linha = producoes[i].linha;
                                  correct = 0;
                             }
                             else{
                                 precede.precede = aux_fim; //atualiza precedencia
-                                precede.linha = producoes[i+1].linha;
+                                precede.linha = producoes[i].linha;
                             }
                         }
                     }
-                    else // eh um loop
+                    else if(producoes[i].tipo != "Numero" &&producoes[i].nome != "se"&& producoes[i].nome != "fimse"&& producoes[i].nome != "senao"&& producoes[i].nome != "fimsenao") // eh um loop
                     {
-                       //ideia : salvar a posicao do primeiro elemento que não é um loop na pilha
-                       //quando achar um final de loop, volta para a posicao do topo da pilha e desempilha
-                       //dessa forma irá recomeçar a leitura com o precedente sendo o ultimo elemento da repetição atual
-                       //SÒ FAZER ISSO PARA N >1 no caso do repita (falta salvar N)
+                        string warning_aux_primeiro = "";
+                        string warning_aux_ultimo = "";
+                        if(producoes[i].nome=="repita"||producoes[i].nome=="enquanto")
+                        {
+                            int salvo = i;
+                            int cont_repita = 0;
+                            while(producoes[i].nome=="repita"||producoes[i].nome=="enquanto"||producoes[i].nome=="fimrepita"||producoes[i].nome=="fimpara"){
+                                 if(producoes[i].nome=="fimrepita"||producoes[i].nome=="fimpara")
+                                    cont_repita--;
+                                 else
+                                    cont_repita++;
+                                 i++;
+                            }
+                                if(cont_repita>0){//achei primeira instrucao
+                                     string aux_fim = "";
+                                     string aux_inicio = "";
+                                     if(producoes[i].tipo!="ID"){
+                                        warning_aux_primeiro = producoes[i].nome;
+                                     }
+                                     else//tem que pegar o primeiro do id
+                                     {
+                                        for(int b = 0;b<guarda_ids.size();b++)
+                                        {
+                                            if(producoes[i].nome==guarda_ids[b].id)
+                                            {
+                                                aux_fim = guarda_ids[b].fim;
+                                                aux_inicio = guarda_ids[b].inicio;
+                                                break;
+                                            }
+                                        }
+                                        warning_aux_primeiro = aux_inicio;
+                                    }
+                                     while(cont_repita>0)
+                                     {
+                                         i++;
+                                          if(producoes[i].nome=="fimrepita"||producoes[i].nome=="fimpara")
+                                            cont_repita--;
+                                          else if(producoes[i].nome=="repita"||producoes[i].nome=="enquanto")
+                                            cont_repita++;
+                                          else
+                                          {
+                                               if(producoes[i].tipo!="ID")
+                                                    warning_aux_ultimo= producoes[i].nome;
+                                               else
+                                               {
+                                                   for(int b = 0;b<guarda_ids.size();b++)
+                                                    {
+                                                        if(producoes[i].nome==guarda_ids[b].id)
+                                                        {
+                                                        aux_fim = guarda_ids[b].fim;
+                                                        aux_inicio = guarda_ids[b].inicio;
+                                                        break;
+                                                        }
+                                                    }
+                                                warning_aux_ultimo = aux_fim;
+                                               }
+                                          }
+                                     }
+                                     if(warning_aux_ultimo=="")
+                                        warning_aux_ultimo=warning_aux_primeiro;//achei a ultima instrucao
+                                }
+                                i = salvo;
+                                if(warning_aux_primeiro=="vire para esquerda" && warning_aux_ultimo=="vire para direita")
+                                    cout<<"WARNING! NA LINHA "<<producoes[i].linha<<" - 'vire para esquerda seguido' de 'vire para direita' implicito em Loop"<<endl;
 
-                    }
+                                else if(warning_aux_primeiro=="vire para direita" && warning_aux_ultimo=="vire para esquerda")
+                                    cout<<"WARNING! NA LINHA "<<producoes[i].linha<<" - 'vire para direita seguido' de 'vire para esquerda' implicito em Loop"<<endl;
+
+                                else if(warning_aux_primeiro=="mova" && warning_aux_ultimo!= "aguarde ate robo pronto")
+                                 cout<<"WARNING! NA LINHA "<<producoes[i].linha<<" - Nao indicou 'robo pronto' implicito em Loop"<<endl;
+                            }
+                        }
                     i++;
                 }
-              i++;
             }
          }
+
          if(producoes[i].nome == "execucaoinicio") //verifica execucao
          {
              i++;
              while(i<producoes.size())
              {
-                  if(producoes[i].tipo != "ID")//se esse comando não é um ID
+                  if(producoes[i].tipo != "Numero" &&producoes[i].tipo != "ID" && (producoes[i].nome != "repita" && producoes[i].nome != "enquanto"&& producoes[i].nome != "fimrepita"&& producoes[i].nome != "fimpara"
+                                                   && producoes[i].nome != "se"&& producoes[i].nome != "fimse"&& producoes[i].nome != "senao"&& producoes[i].nome != "fimsenao"))//se esse comando não é um ID
                   {
                         if(precede.precede==""){
                              precede.precede = producoes[i].nome; //atualiza precedencia
@@ -1374,31 +1474,31 @@ int main () {
                         }
                         else
                         {
-                             if(precede.precede=="vire para esquerda" && producoes[i+1].nome=="vire para direita"){
+                             if(precede.precede=="vire para esquerda" && producoes[i].nome=="vire para direita"){
                                  cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - 'vire para esquerda seguido' de 'vire para direita'"<<endl;
-                                 precede.precede = producoes[i+1].nome;
-                                 precede.linha = producoes[i+1].linha;
+                                 precede.precede = producoes[i].nome;
+                                 precede.linha = producoes[i].linha;
                                  correct = 0;
                             }
-                            else if(precede.precede=="vire para direita" && producoes[i+1].nome=="vire para esquerda"){
+                            else if(precede.precede=="vire para direita" && producoes[i].nome=="vire para esquerda"){
                                  cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - 'vire para direita seguido' de 'vire para esquerda'"<<endl;
-                                 precede.precede = producoes[i+1].nome;
-                                 precede.linha = producoes[i+1].linha;
+                                 precede.precede = producoes[i].nome;
+                                 precede.linha = producoes[i].linha;
                                  correct = 0;
                             }
-                            else if(precede.precede=="mova" && producoes[i+1].nome!= "aguarde ate robo pronto"){
+                            else if(precede.precede=="mova" && producoes[i].nome!= "aguarde ate robo pronto"){
                                  cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - Nao indicou 'robo pronto'"<<endl;
-                                 precede.precede = producoes[i+1].nome;
-                                 precede.linha = producoes[i+1].linha;
+                                 precede.precede = producoes[i].nome;
+                                 precede.linha = producoes[i].linha;
                                  correct = 0;
                             }
                             else{
-                                precede.precede = producoes[i+1].nome; //atualiza precedencia
-                                precede.linha = producoes[i+1].linha;
+                                precede.precede = producoes[i].nome; //atualiza precedencia
+                                precede.linha = producoes[i].linha;
                             }
                         }
                     }
-                     else if(producoes[i].nome != "repita" && producoes[i].nome != "enquanto"&& producoes[i].nome != "fimrepita"&& producoes[i].nome != "fimpara" ) //não esta em loop
+                     else if(producoes[i].tipo=="ID" ) //é id
                     {
                         string aux_fim = "";
                         string aux_incio = "";
@@ -1417,43 +1517,210 @@ int main () {
                         }
                         else
                         {
-                            if(precede.precede=="vire para esquerda" && producoes[i+1].nome=="vire para direita"){
+                            if(precede.precede=="vire para esquerda" && producoes[i].nome=="vire para direita"){
                                  cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - 'vire para esquerda seguido' de 'vire para direita' implicito em ID"<<endl;
-                                 precede.precede = producoes[i+1].nome;
-                                 precede.linha = producoes[i+1].linha;
+                                 precede.precede = producoes[i].nome;
+                                 precede.linha = producoes[i].linha;
                                  correct = 0;
                             }
-                            else if(precede.precede=="vire para direita" && producoes[i+1].nome=="vire para esquerda"){
+                            else if(precede.precede=="vire para direita" && producoes[i].nome=="vire para esquerda"){
                                  cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - 'vire para direita seguido' de 'vire para esquerda' implicito em ID"<<endl;
-                                 precede.precede = producoes[i+1].nome;
-                                 precede.linha = producoes[i+1].linha;
+                                 precede.precede = producoes[i].nome;
+                                 precede.linha = producoes[i].linha;
                                  correct = 0;
                             }
-                            else if(precede.precede=="mova" && producoes[i+1].nome!= "aguarde ate robo pronto"){
+                            else if(precede.precede=="mova" && producoes[i].nome!= "aguarde ate robo pronto"){
                                  cout<<"ERRO SEMANTICO NA LINHA "<<precede.linha<<" - Nao indicou 'robo pronto' implicito em ID"<<endl;
-                                 precede.precede = producoes[i+1].nome;
-                                 precede.linha = producoes[i+1].linha;
+                                 precede.precede = producoes[i].nome;
+                                 precede.linha = producoes[i].linha;
                                  correct = 0;
                             }
                             else{
-                                precede.precede = producoes[i+1].nome; //atualiza precedencia
-                                precede.linha = producoes[i+1].linha;
+                                precede.precede = producoes[i].nome; //atualiza precedencia
+                                precede.linha = producoes[i].linha;
                             }
                         }
                     }
-                    else // eh um loop
+                   else if(producoes[i].tipo != "Numero" &&producoes[i].nome != "se"&& producoes[i].nome != "fimse"&& producoes[i].nome != "senao"&& producoes[i].nome != "fimsenao") // eh um loop
                     {
-                       //ideia : salvar a posicao do primeiro elemento que não é um loop na pilha
-                       //quando achar um final de loop, volta para a posicao do topo da pilha e desempilha
-                       //dessa forma irá recomeçar a leitura com o precedente sendo o ultimo elemento da repetição atual
-                       //SÒ FAZER ISSO PARA N >1 no caso do repita (falta salvar N)
-                    }
+                        string warning_aux_primeiro = "";
+                        string warning_aux_ultimo = "";
+                        if(producoes[i].nome=="repita"||producoes[i].nome=="enquanto")
+                        {
+                            int salvo = i;
+                            int cont_repita = 0;
+                            while(producoes[i].nome=="repita"||producoes[i].nome=="enquanto"||producoes[i].nome=="fimrepita"||producoes[i].nome=="fimpara"){
+                                 if(producoes[i].nome=="fimrepita"||producoes[i].nome=="fimpara")
+                                    cont_repita--;
+                                 else
+                                    cont_repita++;
+                                 i++;
+                            }
+                                if(cont_repita>0){//achei primeira instrucao
+                                     string aux_fim = "";
+                                     string aux_inicio = "";
+                                     if(producoes[i].tipo!="ID")
+                                        warning_aux_primeiro = producoes[i].nome;
+                                     else//tem que pegar o primeiro do id
+                                     {
+                                        for(int b = 0;b<guarda_ids.size();b++)
+                                        {
+                                            if(producoes[i].nome==guarda_ids[b].id)
+                                            {
+                                                aux_fim = guarda_ids[b].fim;
+                                                aux_inicio = guarda_ids[b].inicio;
+                                                break;
+                                            }
+                                        }
+                                        warning_aux_primeiro = aux_inicio;
+                                    }
+                                     while(cont_repita>0)
+                                     {
+                                         i++;
+                                          if(producoes[i].nome=="fimrepita"||producoes[i].nome=="fimpara")
+                                            cont_repita--;
+                                          else if(producoes[i].nome=="repita"||producoes[i].nome=="enquanto")
+                                            cont_repita++;
+                                          else
+                                          {
+                                               if(producoes[i].tipo!="ID")
+                                                    warning_aux_ultimo = producoes[i].nome;
+                                               else
+                                               {
+                                                   for(int b = 0;b<guarda_ids.size();b++)
+                                                    {
+                                                        if(producoes[i].nome==guarda_ids[b].id)
+                                                        {
+                                                        aux_fim = guarda_ids[b].fim;
+                                                        aux_inicio = guarda_ids[b].inicio;
+                                                        break;
+                                                        }
+                                                    }
+                                                warning_aux_ultimo = aux_fim;
+                                               }
+                                          }
+                                     }
+                                     if(warning_aux_ultimo=="")
+                                        warning_aux_ultimo=warning_aux_primeiro;//achei a ultima instrucao
+                                }
+                                i = salvo;
+                                if(warning_aux_primeiro=="vire para esquerda" && warning_aux_ultimo=="vire para direita")
+                                    cout<<"WARNING! NA LINHA "<<producoes[i].linha<<" - 'vire para esquerda seguido' de 'vire para direita' implicito em Loop"<<endl;
+
+                                else if(warning_aux_primeiro=="vire para direita" && warning_aux_ultimo=="vire para esquerda")
+                                    cout<<"WARNING! NA LINHA "<<producoes[i].linha<<" - 'vire para direita seguido' de 'vire para esquerda' implicito em Loop"<<endl;
+
+                                else if(warning_aux_primeiro=="mova" && warning_aux_ultimo!= "aguarde ate robo pronto")
+                                 cout<<"WARNING! NA LINHA "<<producoes[i].linha<<" - Nao indicou 'robo pronto' implicito em Loop"<<endl;
+                            }
+                        }
                     i++;
                 }
              }
+
          }
          if(correct==1)
             cout<<"SEMANTICAMENTE CORRETO!"<<endl;
+
+
+
+
+   cout<<endl;
+   cout<<"--------------------"<<endl;
+   cout<<"--GERACAO DE CODIGO--"<<endl;
+   cout<<"--------------------"<<endl;
+   //for(int i =0;i<producoes.size();i++) ((((PARA VERIFICAR AS PRODUCÕES DO VETOR))))
+  // cout<<producoes[i].nome<<endl;
+
+   if(correct==1)//só gera o código se tiver tudo ok
+   {
+      cout<<"MOV AL, 0"<<endl;  //inicializa
+      cout<<"OUT 9, AL"<<endl;
+      bool reg_al=0,reg_cx=0;
+      int cont_loop = 1;
+
+      for(int i = 0; i<producoes.size();i++)
+        {
+            if(producoes[i].tipo=="Instrucao")
+            {
+                if(producoes[i].nome == "vire para esquerda")
+                {
+                    if(reg_al==0){
+                    cout<<"MOV AL, 2"<<endl;
+                    cout<<"OUT 9, AL"<<endl;
+                    cout<<"MOV AL, 0"<<endl;
+                    cout<<"OUT 9, AL"<<endl;
+                    }
+                }
+                else if(producoes[i].nome == "vire para direita")
+                {
+                    if(reg_al==0){
+                      cout<<"MOV AL, 3"<<endl;
+                      cout<<"OUT 9, AL"<<endl;
+                      cout<<"MOV AL, 0"<<endl;
+                      cout<<"OUT 9, AL"<<endl;
+                    }
+
+                }
+                else if(producoes[i].nome == "mova")
+                {
+                    if(reg_al==0)
+                    {
+                        if(i<producoes.size()-1 &&producoes[i+1].tipo=="Numero")
+                        {
+
+                            string val = producoes[i+1].nome;
+                            int valor;
+                            istringstream iss (val);
+                            iss>>valor;   //converter a quantidade de passos para int
+                            if(reg_cx==0&&reg_al==0)
+                            {
+                                cout<<"MOV CX, "<<valor<<endl;
+                                cout<<"l"<<cont_loop<<":"<<endl;
+                                cout<<"MOV AL, 1"<<endl;
+                                cout<<"OUT 9, AL"<<endl;
+                                cout<<"MOV AL, 0"<<endl;
+                                cout<<"OUT 9, AL"<<endl;
+                                cout<<"DEC CX"<<endl;
+                                cout<<"JNZ "<<"l"<<cont_loop<<":"<<endl;
+                            }
+                        }
+                        else
+                        {
+                            cout<<"MOV AL, 1"<<endl;
+                            cout<<"OUT 9, AL"<<endl;
+                            cout<<"MOV AL, 0"<<endl;
+                            cout<<"OUT 9, AL"<<endl;
+                        }
+                    }
+                }
+                else if(producoes[i].nome == "apague lampada")
+                {
+                     if(reg_al==0){
+                      cout<<"MOV AL, 6"<<endl;
+                      cout<<"OUT 9, AL"<<endl;
+                    }
+                }
+                 else if(producoes[i].nome == "acenda lampada")
+                {
+                     if(reg_al==0){
+                      cout<<"MOV AL, 5"<<endl;
+                      cout<<"OUT 9, AL"<<endl;
+                    }
+                }
+                else if(producoes[i].nome == "finalize")
+                {
+                     i=producoes.size(); // finaliza instruções
+                }
+                else if(producoes[i].nome == "aguarde ate robo pronto")
+                {
+
+                }
+            }
+        }
+   }
+
+
     }
     myfile.close();
     return 0;
