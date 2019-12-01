@@ -1732,7 +1732,7 @@ int main () {
                                             aux.traducao.push_back("MOV AL, 0");
                                             aux.traducao.push_back("OUT 9, AL");
                                             aux.traducao.push_back("DEC CX");
-                                            aux.traducao.push_back("JNZ l"+cont_loop);
+                                            aux.traducao.push_back("JNZ l"+str);
                                     }
                                     else
                                     {
@@ -2202,13 +2202,13 @@ int main () {
                                             ss << cont_loop;
                                             string str = ss.str();
                                             cout<<"MOV CX, "<<producoes[i+1].nome<<endl;
-                                            cout<<"l"<<cont_loop<<":"<<endl;
+                                            cout<<"l"<<str<<":"<<endl;
                                             cout<<"MOV AL, 1"<<endl;
                                             cout<<"OUT 9, AL"<<endl;
                                             cout<<"MOV AL, 0"<<endl;
                                             cout<<"OUT 9, AL"<<endl;
                                             cout<<"DEC CX"<<endl;
-                                            cout<<"JNZ l"<<cont_loop<<endl;
+                                            cout<<"JNZ l"<<str<<endl;
                                     }
                                     else
                                     {
@@ -2273,15 +2273,15 @@ int main () {
                                 cout<<"l"<<str<<":"<<endl;
                                 cout<<"IN AX,11"<<endl;
                                 cout<<"CMP AX,00000010b"<<endl;
-                                cout<<"JE fim_l"<<cont_loop<<endl;
+                                cout<<"JE fim_l"<<str<<endl;
                                 cout<<"CMP AX,00000011b"<<endl;
-                                cout<<"JE fim_l"<<cont_loop<<endl;
+                                cout<<"JE fim_l"<<str<<endl;
                                 cout<<"CMP AX,00000110b"<<endl;
-                                cout<<"JE fim_l"<<cont_loop<<endl;
+                                cout<<"JE fim_l"<<str<<endl;
                                 cout<<"CMP AX,00000111b"<<endl;
-                                cout<<"JE fim_l"<<cont_loop<<endl;
-                                cout<<"JMP l"<<cont_loop<<endl;
-                                cout<<"fim_l"<<cont_loop<<":"<<endl;
+                                cout<<"JE fim_l"<<str<<endl;
+                                cout<<"JMP l"<<str<<endl;
+                                cout<<"fim_l"<<str<<":"<<endl;
                             }
                             else if(producoes[i].nome == "aguarde ate lampada acesa a frente"||producoes[i].nome == "aguarde ate lampada apagada a frente")
                             {
@@ -2289,7 +2289,7 @@ int main () {
                                 stringstream ss;
                                 ss << cont_loop;
                                 string str = ss.str();
-                                cout<<"l"<<cont_loop<<":"<<endl;
+                                cout<<"l"<<str<<":"<<endl;
                                 cout<<"MOV AL,4"<<endl;
                                 cout<<"OUT 9, AL"<<endl;
                                 cout<<"IN AL, 10"<<endl;
@@ -2299,9 +2299,9 @@ int main () {
                                 else{
                                     cout<<"CMP AL,00001000b"<<endl;
                                 }
-                                cout<<"JE fim_l"<<cont_loop<<endl;
-                                cout<<"JMP l"<<cont_loop<<endl;
-                                cout<<"fim_l"<<cont_loop<<":"<<endl;
+                                cout<<"JE fim_l"<<str<<endl;
+                                cout<<"JMP l"<<str<<endl;
+                                cout<<"fim_l"<<str<<":"<<endl;
                             }
                             else if(producoes[i].nome == "aguarde ate lampada acesa a esquerda"||producoes[i].nome == "aguarde ate lampada apagada a esquerda"||
                             producoes[i].nome == "aguarde ate lampada apagada a direita"||producoes[i].nome == "aguarde ate lampada acesa a direita")
@@ -2326,9 +2326,9 @@ int main () {
                                 else{
                                     cout<<"CMP AL,00001001b"<<endl;
                                 }
-                                cout<<"JE fim_l"<<cont_loop<<endl;
-                                cout<<"JMP l"<<cont_loop<<endl;
-                                cout<<"fim_l"<<cont_loop<<":"<<endl;
+                                cout<<"JE fim_l"<<str<<endl;
+                                cout<<"JMP l"<<str<<endl;
+                                cout<<"fim_l"<<str<<":"<<endl;
                             }
                             else if(producoes[i].nome == "aguarde ate frente robo bloqueada"||producoes[i].nome == "aguarde ate esquerda robo bloqueada"||
                             producoes[i].nome == "aguarde ate direita robo bloqueada")
@@ -2336,7 +2336,7 @@ int main () {
                                 stringstream ss;
                                 ss << cont_loop;
                                 string str = ss.str();
-                                cout<<"l"<<cont_loop<<":"<<endl;
+                                cout<<"l"<<str<<":"<<endl;
                                 cout<<"MOV AL,4"<<endl;
                                 cout<<"OUT 9, AL"<<endl;
                                 cout<<"IN AL, 10"<<endl;
@@ -2349,9 +2349,9 @@ int main () {
                                 else{
                                     cout<<"CMP AL,00001111"<<endl;
                                 }
-                                cout<<"JE fim_l"<<cont_loop<<endl;
-                                cout<<"JMP "<<"l"<<cont_loop<<endl;
-                                cout<<"fim_l"<<cont_loop<<":"<<endl;
+                                cout<<"JE fim_l"<<str<<endl;
+                                cout<<"JMP "<<"l"<<str<<endl;
+                                cout<<"fim_l"<<str<<":"<<endl;
                             }
                         }
                         else if(producoes[i].nome=="repita")
@@ -2438,13 +2438,13 @@ int main () {
                                 string str = ss.str();
                                 cout<<"IN AX,11"<<endl;
                                 cout<<"CMP AX,00000010b"<<endl;
-                                cout<<"JNE fim_l"<<cont_loop<<endl;
+                                cout<<"JNE fim_l"<<str<<endl;
                                 cout<<"CMP AX,00000011b"<<endl;
-                                cout<<"JNE fim_l"<<cont_loop<<endl;
+                                cout<<"JNE fim_l"<<str<<endl;
                                 cout<<"CMP AX,00000110b"<<endl;
-                                cout<<"JNE fim_l"<<cont_loop<<endl;
+                                cout<<"JNE fim_l"<<str<<endl;
                                 cout<<"CMP AX,00000111b"<<endl;
-                                cout<<"JNE fim_l"<<cont_loop<<endl;
+                                cout<<"JNE fim_l"<<str<<endl;
                             }
                             else if(producoes[i+1].nome == "robo movimentando")
                             {
@@ -2464,13 +2464,13 @@ int main () {
                                 string str = ss.str();
                                 cout<<"IN AX,11"<<endl;
                                 cout<<"CMP AX,00000010b"<<endl;
-                                cout<<"JNE fim_l"<<cont_loop<<endl;
+                                cout<<"JNE fim_l"<<str<<endl;
                                 cout<<"CMP AX,00000011b"<<endl;
-                                cout<<"JNE fim_l"<<cont_loop<<endl;
+                                cout<<"JNE fim_l"<<str<<endl;
                                 cout<<"CMP AX,00000110b"<<endl;
-                                cout<<"JNE fim_l"<<cont_loop<<endl;
+                                cout<<"JNE fim_l"<<str<<endl;
                                 cout<<"CMP AX,00000111b"<<endl;
-                                cout<<"JNE fim_l"<<cont_loop<<endl;
+                                cout<<"JNE fim_l"<<str<<endl;
                             }
                             i++;
                         }
@@ -2557,13 +2557,13 @@ int main () {
                                 cout<<"OUT 9, AL"<<endl;
                                 cout<<"IN AL, 10"<<endl;
                                 cout<<"CMP AX,00000000b"<<endl;
-                                cout<<"JNE fim_se"<<cont_loop<<endl;
+                                cout<<"JNE fim_se"<<str<<endl;
                                 cout<<"CMP AX,00000001b"<<endl;
-                                cout<<"JNE fim_se"<<cont_loop<<endl;
+                                cout<<"JNE fim_se"<<str<<endl;
                                 cout<<"CMP AX,00000100b"<<endl;
-                                cout<<"JNE fim_se"<<cont_loop<<endl;
+                                cout<<"JNE fim_se"<<str<<endl;
                                 cout<<"CMP AX,00000101b"<<endl;
-                                cout<<"JNE fim_se"<<cont_loop<<endl;
+                                cout<<"JNE fim_se"<<str<<endl;
                             }
                              else if(producoes[i+1].nome =="robo ocupado")
                             {
@@ -2576,13 +2576,13 @@ int main () {
                                 cout<<"OUT 9, AL"<<endl;
                                 cout<<"IN AL, 10"<<endl;
                                 cout<<"CMP AX,00000010b"<<endl;
-                                cout<<"JNE fim_se"<<cont_loop<<endl;
+                                cout<<"JNE fim_se"<<str<<endl;
                                 cout<<"CMP AX,00000011b"<<endl;
-                                cout<<"JNE fim_se"<<cont_loop<<endl;
+                                cout<<"JNE fim_se"<<str<<endl;
                                 cout<<"CMP AX,00000110b"<<endl;
-                                cout<<"JNE fim_se"<<cont_loop<<endl;
+                                cout<<"JNE fim_se"<<str<<endl;
                                 cout<<"CMP AX,00000111b"<<endl;
-                                cout<<"JNE fim_se"<<cont_loop<<endl;
+                                cout<<"JNE fim_se"<<str<<endl;
                             }
                              else if(producoes[i+1].nome == "robo movimentando")
                             {
