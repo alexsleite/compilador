@@ -85,7 +85,7 @@ programainicio 										 # linha 1
   				se lampada acesa a frente entao				 # linha 80
 					acenda lampada					 # linha 81
 					apague lampada					 # linha 82
-					finalize					 # linha 83
+					vire para esquerda 				 # linha 83
 				fimse							 # linha 84
 				senao							 # linha 85
 					aguarde ate direita robo bloqueada		 # linha 86
