@@ -1727,7 +1727,7 @@ int main () {
                             {
                                 i=producoes.size(); // finaliza instruções
                             }
-                            else if(producoes[i].nome == "aguarde ate robo pronto")
+                            else if(producoes[i].nome == "aguarde ate robo pronto"||producoes[i].nome == "aguarde ate robo parado")
                             {
                                 cont_loop++;
                                 stringstream ss;
@@ -1743,6 +1743,19 @@ int main () {
                                 aux.traducao.push_back("JE fim_l"+str);
                                 aux.traducao.push_back("CMP AX,00000101b");
                                 aux.traducao.push_back("JE fim_l"+str);
+                                aux.traducao.push_back("JMP l"+str);
+                                aux.traducao.push_back("fim_l"+str+":");
+                            }
+                            else if(producoes[i].nome == "aguarde ate robo movimentando")
+                            {
+                                cont_loop++;
+                                stringstream ss;
+                                ss << cont_loop;
+                                string str = ss.str();
+                                aux.traducao.push_back("l"+str+":");
+                                aux.traducao.push_back("IN AL,10");
+                                aux.traducao.push_back("CMP AL,0");
+                                aux.traducao.push_back("JNE fim_l"+str);
                                 aux.traducao.push_back("JMP l"+str);
                                 aux.traducao.push_back("fim_l"+str+":");
                             }
@@ -1852,7 +1865,7 @@ int main () {
                         else if(producoes[i].nome=="fimrepita")
                         {
                             aux.traducao.push_back("DEC CX");
-                            aux.traducao.push_back("JNE l"+indice_loop.top());
+                            aux.traducao.push_back("JNZ l"+indice_loop.top());
                             indice_loop.pop();
                         }
                         else if(producoes[i].nome=="enquanto")
@@ -1914,7 +1927,7 @@ int main () {
                                 aux.traducao.push_back("JNE fim_l"+str);
                             }
 
-                            else if(producoes[i+1].nome =="robo ocupado"||producoes[i+1].nome =="robo movimentando")
+                            else if(producoes[i+1].nome =="robo ocupado")
                             {
 
                                 stringstream ss;
@@ -1929,6 +1942,18 @@ int main () {
                                 aux.traducao.push_back("JNE fim_l"+str);
                                 aux.traducao.push_back("CMP AX,00000111b");
                                 aux.traducao.push_back("JNE fim_l"+str);
+                            }
+
+                            else if(producoes[i+1].nome == "robo movimentando")
+                            {
+                                stringstream ss;
+                                ss << cont_loop;
+                                string str = ss.str();
+                                aux.traducao.push_back("IN AL,10");
+                                aux.traducao.push_back("CMP AL,0");
+                                aux.traducao.push_back("JNE fim_l"+str);
+                                aux.traducao.push_back("JMP l"+str);
+                                aux.traducao.push_back("fim_l"+str+":");
                             }
                             else if(producoes[i+1].nome =="robo pronto"||producoes[i+1].nome =="robo parado")
                             {
@@ -2041,7 +2066,7 @@ int main () {
                                 aux.traducao.push_back("CMP AX,00000101b");
                                 aux.traducao.push_back("JNE fim_se"+str);
                             }
-                             else if(producoes[i+1].nome =="robo ocupado"||producoes[i+1].nome =="robo movimentando")
+                             else if(producoes[i+1].nome =="robo ocupado")
                             {
                                 cont_loop++;
                                 stringstream ss;
@@ -2060,6 +2085,19 @@ int main () {
                                 aux.traducao.push_back("JNE fim_se"+str);
                                 aux.traducao.push_back("CMP AX,00000111b");
                                 aux.traducao.push_back("JNE fim_se"+str);
+                            }
+                            else if(producoes[i+1].nome == "robo movimentando")
+                            {
+                                cont_loop++;
+                                stringstream ss;
+                                ss << cont_loop;
+                                string str = ss.str();
+                                indice_loop.push(str);
+                                aux.traducao.push_back("IN AL,10");
+                                aux.traducao.push_back("CMP AL,0");
+                                aux.traducao.push_back("JNE fim_l"+str);
+                                aux.traducao.push_back("JMP l"+str);
+                                aux.traducao.push_back("fim_l"+str+":");
                             }
                             i++; //pula condição
                          }
@@ -2102,8 +2140,6 @@ int main () {
                     {
                         cout<<"MOV AL, 0"<<endl;  //inicializa zerando tudo
                         cout<<"OUT 9, AL"<<endl;
-                        cout<<"OUT 10, AL"<<endl;
-                        cout<<"OUT 11, AL"<<endl;
                         i++;
                         while(i<producoes.size())
                         {
@@ -2167,7 +2203,7 @@ int main () {
                             {
                                 i=producoes.size(); // finaliza instruções
                             }
-                            else if(producoes[i].nome == "aguarde ate robo pronto")
+                             else if(producoes[i].nome == "aguarde ate robo pronto"||producoes[i].nome == "aguarde ate robo parado")
                             {
                                 cont_loop++;
                                 stringstream ss;
@@ -2185,6 +2221,19 @@ int main () {
                                 cout<<"JE fim_l"<<str<<endl;
                                 cout<<"JMP l"<<str<<endl;
                                 cout<<"fim_l"<<str<<":"<<endl;
+                            }
+                            else if(producoes[i].nome == "aguarde ate robo movimentando")
+                            {
+                                cont_loop++;
+                                stringstream ss;
+                                ss << cont_loop;
+                                string str = ss.str();
+                                aux.traducao.push_back("l"+str+":");
+                                aux.traducao.push_back("IN AL,10");
+                                aux.traducao.push_back("CMP AL,0");
+                                aux.traducao.push_back("JNE fim_l"+str);
+                                aux.traducao.push_back("JMP l"+str);
+                                aux.traducao.push_back("fim_l"+str+":");
                             }
                             else if(producoes[i].nome == "aguarde ate robo ocupado")
                             {
@@ -2289,7 +2338,7 @@ int main () {
                         else if(producoes[i].nome=="fimrepita")
                         {
                             cout<<"DEC CX"<<endl;
-                            cout<<"JZE l"<<indice_loop.top()<<endl;
+                            cout<<"JNZ l"<<indice_loop.top()<<endl;
                             indice_loop.pop();
                         }
                         else if(producoes[i].nome=="enquanto")
@@ -2353,7 +2402,7 @@ int main () {
                                 cout<<"JNE fim_l"+str<<endl;
                             }
 
-                            else if(producoes[i+1].nome =="robo ocupado"||producoes[i+1].nome =="robo movimentando")
+                            else if(producoes[i+1].nome =="robo ocupado")
                             {
                                 stringstream ss;
                                 ss << cont_loop;
@@ -2367,6 +2416,17 @@ int main () {
                                 cout<<"JNE fim_l"<<cont_loop<<endl;
                                 cout<<"CMP AX,00000111b"<<endl;
                                 cout<<"JNE fim_l"<<cont_loop<<endl;
+                            }
+                            else if(producoes[i+1].nome == "robo movimentando")
+                            {
+                                stringstream ss;
+                                ss << cont_loop;
+                                string str = ss.str();
+                                cout<<"IN AL,10"<<endl;
+                                cout<<"CMP AL,0"<<endl;
+                                cout<<"JNE fim_l"<<str<<endl;
+                                cout<<"JMP l"<<str<<endl;
+                                cout<<"fim_l"<<str<<":"<<endl;
                             }
                             else if(producoes[i+1].nome =="robo pronto"||producoes[i+1].nome =="robo parado")
                             {
@@ -2476,7 +2536,7 @@ int main () {
                                 cout<<"CMP AX,00000101b"<<endl;
                                 cout<<"JNE fim_se"<<cont_loop<<endl;
                             }
-                             else if(producoes[i+1].nome =="robo ocupado"||producoes[i+1].nome =="robo movimentando")
+                             else if(producoes[i+1].nome =="robo ocupado")
                             {
                                 cont_loop++;
                                 stringstream ss;
@@ -2494,6 +2554,19 @@ int main () {
                                 cout<<"JNE fim_se"<<cont_loop<<endl;
                                 cout<<"CMP AX,00000111b"<<endl;
                                 cout<<"JNE fim_se"<<cont_loop<<endl;
+                            }
+                             else if(producoes[i+1].nome == "robo movimentando")
+                            {
+                                cont_loop++;
+                                stringstream ss;
+                                ss << cont_loop;
+                                string str = ss.str();
+                                indice_loop.push(str);
+                                cout<<"IN AL,10"<<endl;
+                                cout<<"CMP AL,0"<<endl;
+                                cout<<"JNE fim_l"<<str<<endl;
+                                cout<<"JMP l"<<str<<endl;
+                                cout<<"fim_l"<<str<<":"<<endl;
                             }
                             i++; //pula condição
                          }
