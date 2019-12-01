@@ -1814,7 +1814,7 @@ int main () {
                                 ss << cont_loop;
                                 string str = ss.str();
                                 aux.traducao.push_back("l"+str+":");
-                                aux.traducao.push_back("MOVE AL,4");
+                                aux.traducao.push_back("MOV AL,4");
                                 aux.traducao.push_back("OUT 9, AL");
                                 aux.traducao.push_back("IN AL, 10");
                                 if(producoes[i].nome == "aguarde ate lampada acesa a frente"){
@@ -1836,7 +1836,7 @@ int main () {
                                 ss << cont_loop;
                                 string str = ss.str();
                                 aux.traducao.push_back("l"+str+":");
-                                aux.traducao.push_back("MOVE AL,4");
+                                aux.traducao.push_back("MOV AL,4");
                                 aux.traducao.push_back("OUT 9, AL");
                                 aux.traducao.push_back("IN AL, 10");
                                 if(producoes[i].nome == "aguarde ate lampada acesa a direita"){
@@ -1852,7 +1852,7 @@ int main () {
                                     aux.traducao.push_back("CMP AL,00001001b");
                                 }
                                 aux.traducao.push_back("JE fim_l"+str);
-                                aux.traducao.push_back("jmp l"+str);
+                                aux.traducao.push_back("JMP l"+str);
                                 aux.traducao.push_back("fim_l"+str+":");
                     //retorna para onde estava//
 
@@ -1864,7 +1864,7 @@ int main () {
                                 ss << cont_loop;
                                 string str = ss.str();
                                 aux.traducao.push_back("l"+str+":");
-                                aux.traducao.push_back("MOVE AL,4");
+                                aux.traducao.push_back("MOV AL,4");
                                 aux.traducao.push_back("OUT 9, AL");
                                 aux.traducao.push_back("IN AL, 10");
                                 if(producoes[i].nome == "aguarde ate frente robo bloqueada"){
@@ -1877,7 +1877,7 @@ int main () {
                                      aux.traducao.push_back("CMP AL,00001111b");
                                 }
                                 aux.traducao.push_back("JE fim_l");
-                                aux.traducao.push_back("jmp l"+str);
+                                aux.traducao.push_back("JMP l"+str);
                                 aux.traducao.push_back("fim_l"+str);
                             }
                         }
@@ -1907,7 +1907,7 @@ int main () {
                             aux.traducao.push_back("l"+str+":");
                             if(producoes[i+1].nome=="esquerda robo bloqueada"||producoes[i+1].nome=="direita robo bloqueada"||producoes[i+1].nome=="frente robo bloqueada")
                             {
-                                aux.traducao.push_back("MOVE AL,4");
+                                aux.traducao.push_back("MOV AL,4");
                                 aux.traducao.push_back("OUT 9, AL");
                                 aux.traducao.push_back("IN AL, 10");
 
@@ -1925,7 +1925,7 @@ int main () {
                              else if(producoes[i+1].nome == "lampada acesa a esquerda"||producoes[i+1].nome == "lampada apagada a esquerda"||
                             producoes[i+1].nome == "lampada apagada a direita"||producoes[i+1].nome == "lampada acesa a direita")
                             {
-                                aux.traducao.push_back("MOVE AL,4");
+                                aux.traducao.push_back("MOV AL,4");
                                 aux.traducao.push_back("OUT 9, AL");
                                 aux.traducao.push_back("IN AL, 10");
                                  if(producoes[i+1].nome == "lampada apagada a esquerda"){
@@ -1944,7 +1944,7 @@ int main () {
                             }
                             else if(producoes[i+1].nome == "lampada acesa a frente"||producoes[i+1].nome == "lampada apagada a frente")
                             {
-                                aux.traducao.push_back("MOVE AL,4");
+                                aux.traducao.push_back("MOV AL,4");
                                 aux.traducao.push_back("OUT 9, AL");
                                 aux.traducao.push_back("IN AL, 10");
                                  if(producoes[i+1].nome == "lampada acesa a frente"){
@@ -2018,7 +2018,7 @@ int main () {
                                 ss << cont_loop;
                                 string str = ss.str();
                                 indice_loop.push(str);
-                                aux.traducao.push_back("MOVE AL,4");
+                                aux.traducao.push_back("MOV AL,4");
                                 aux.traducao.push_back("OUT 9, AL");
                                 aux.traducao.push_back("IN AL, 10");
                                 if(producoes[i+1].nome == "frente robo bloqueada"){
@@ -2040,7 +2040,7 @@ int main () {
                                 ss << cont_loop;
                                 string str = ss.str();
                                 indice_loop.push(str);
-                                aux.traducao.push_back("MOVE AL,4");
+                                aux.traducao.push_back("MOV AL,4");
                                 aux.traducao.push_back("OUT 9, AL");
                                 aux.traducao.push_back("IN AL, 10");
                                  if(producoes[i+1].nome == "lampada apagada a esquerda"){
@@ -2064,7 +2064,7 @@ int main () {
                                 ss << cont_loop;
                                 string str = ss.str();
                                 indice_loop.push(str);
-                                aux.traducao.push_back("MOVE AL,4");
+                                aux.traducao.push_back("MOV AL,4");
                                 aux.traducao.push_back("OUT 9, AL");
                                 aux.traducao.push_back("IN AL, 10");
                                 if(producoes[i+1].nome == "lampada acesa a frente"){
@@ -2082,7 +2082,7 @@ int main () {
                                 ss << cont_loop;
                                 string str = ss.str();
                                 indice_loop.push(str);
-                                aux.traducao.push_back("MOVE AL,4");
+                                aux.traducao.push_back("MOV AL,4");
                                 aux.traducao.push_back("OUT 9, AL");
                                 aux.traducao.push_back("IN AL, 10");
                                 aux.traducao.push_back("IN AX,11");
@@ -2102,7 +2102,7 @@ int main () {
                                 ss << cont_loop;
                                 string str = ss.str();
                                 indice_loop.push(str);
-                                aux.traducao.push_back("MOVE AL,4");
+                                aux.traducao.push_back("MOV AL,4");
                                 aux.traducao.push_back("OUT 9, AL");
                                 aux.traducao.push_back("IN AL, 10");
                                 aux.traducao.push_back("IN AX,11");
@@ -2134,7 +2134,7 @@ int main () {
                          {
                              if(producoes[i+1].nome=="senao")
                              {
-                                 aux.traducao.push_back("JUMP fim_senao"+indice_loop.top());
+                                 aux.traducao.push_back("JMP fim_senao"+indice_loop.top());
                                  indice_loop.push(indice_loop.top());
                                  i++;
                              }
@@ -2290,7 +2290,7 @@ int main () {
                                 ss << cont_loop;
                                 string str = ss.str();
                                 cout<<"l"<<cont_loop<<":"<<endl;
-                                cout<<"MOVE AL,4"<<endl;
+                                cout<<"MOV AL,4"<<endl;
                                 cout<<"OUT 9, AL"<<endl;
                                 cout<<"IN AL, 10"<<endl;
                                 if(producoes[i].nome == "aguarde ate lampada acesa a frente"){
@@ -2311,7 +2311,7 @@ int main () {
                                 ss << cont_loop;
                                 string str = ss.str();
                                 cout<<"l"<<cont_loop<<":"<<endl;
-                                cout<<"MOVE AL,4"<<endl;
+                                cout<<"MOV AL,4"<<endl;
                                 cout<<"OUT 9, AL"<<endl;
                                 cout<<"IN AL, 10"<<endl;
                                 if(producoes[i].nome == "aguarde ate lampada acesa a direita"){
@@ -2337,7 +2337,7 @@ int main () {
                                 ss << cont_loop;
                                 string str = ss.str();
                                 cout<<"l"<<cont_loop<<":"<<endl;
-                                cout<<"MOVE AL,4"<<endl;
+                                cout<<"MOV AL,4"<<endl;
                                 cout<<"OUT 9, AL"<<endl;
                                 cout<<"IN AL, 10"<<endl;
                                 if(producoes[i].nome == "aguarde ate frente robo bloqueada"){
@@ -2380,7 +2380,7 @@ int main () {
                             cout<<"l"+str+":"<<endl;
                             if(producoes[i+1].nome=="esquerda robo bloqueada"||producoes[i+1].nome=="direita robo bloqueada"||producoes[i+1].nome=="frente robo bloqueada")
                             {
-                                cout<<"MOVE AL,4"<<endl;
+                                cout<<"MOV AL,4"<<endl;
                                 cout<<"OUT 9, AL"<<endl;
                                 cout<<"IN AL, 10"<<endl;
 
@@ -2398,7 +2398,7 @@ int main () {
                              else if(producoes[i+1].nome == "lampada acesa a esquerda"||producoes[i+1].nome == "lampada apagada a esquerda"||
                             producoes[i+1].nome == "lampada apagada a direita"||producoes[i+1].nome == "lampada acesa a direita")
                             {
-                                cout<<"MOVE AL,4"<<endl;
+                                cout<<"MOV AL,4"<<endl;
                                 cout<<"OUT 9, AL"<<endl;
                                 cout<<"IN AL, 10"<<endl;
                                  if(producoes[i+1].nome == "lampada apagada a esquerda"){
@@ -2419,7 +2419,7 @@ int main () {
                             }
                             else if(producoes[i+1].nome == "lampada acesa a frente"||producoes[i+1].nome == "lampada apagada a frente")
                             {
-                                cout<<"MOVE AL,4"<<endl;
+                                cout<<"MOV AL,4"<<endl;
                                 cout<<"OUT 9, AL"<<endl;
                                 cout<<"IN AL, 10"<<endl;
                                  if(producoes[i+1].nome == "lampada acesa a frente"){
@@ -2489,7 +2489,7 @@ int main () {
                                 ss << cont_loop;
                                 string str = ss.str();
                                 indice_loop.push(str);
-                                cout<<"MOVE AL,4"<<endl;
+                                cout<<"MOV AL,4"<<endl;
                                 cout<<"OUT 9, AL"<<endl;
                                 cout<<"IN AL, 10"<<endl;
                                 if(producoes[i+1].nome == "frente robo bloqueada"){
@@ -2511,7 +2511,7 @@ int main () {
                                 ss << cont_loop;
                                 string str = ss.str();
                                 indice_loop.push(str);
-                                cout<<"MOVE AL,4"<<endl;
+                                cout<<"MOV AL,4"<<endl;
                                 cout<<"OUT 9, AL"<<endl;
                                 cout<<"IN AL, 10"<<endl;
                                  if(producoes[i+1].nome == "lampada apagada a esquerda"){
@@ -2535,7 +2535,7 @@ int main () {
                                 ss << cont_loop;
                                 string str = ss.str();
                                 indice_loop.push(str);
-                                cout<<"MOVE AL,4"<<endl;
+                                cout<<"MOV AL,4"<<endl;
                                 cout<<"OUT 9, AL"<<endl;
                                 cout<<"IN AL, 10"<<endl;
                                 if(producoes[i+1].nome == "lampada acesa a frente"){
@@ -2553,7 +2553,7 @@ int main () {
                                 ss << cont_loop;
                                 string str = ss.str();
                                 indice_loop.push(str);
-                                cout<<"MOVE AL,4"<<endl;
+                                cout<<"MOV AL,4"<<endl;
                                 cout<<"OUT 9, AL"<<endl;
                                 cout<<"IN AL, 10"<<endl;
                                 cout<<"CMP AX,00000000b"<<endl;
@@ -2572,7 +2572,7 @@ int main () {
                                 ss << cont_loop;
                                 string str = ss.str();
                                 indice_loop.push(str);
-                                cout<<"MOVE AL,4"<<endl;
+                                cout<<"MOV AL,4"<<endl;
                                 cout<<"OUT 9, AL"<<endl;
                                 cout<<"IN AL, 10"<<endl;
                                 cout<<"CMP AX,00000010b"<<endl;
@@ -2603,7 +2603,7 @@ int main () {
                          {
                              if(producoes[i+1].nome=="senao")
                              {
-                                 cout<<"JUMP fim_senao"<<indice_loop.top()<<endl;
+                                 cout<<"JMP fim_senao"<<indice_loop.top()<<endl;
                                  indice_loop.push(indice_loop.top());
                                  i++;
                              }
