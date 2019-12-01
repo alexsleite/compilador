@@ -696,6 +696,7 @@ int main () {
    instru id_instru;
    int state = 0;
    int cont_comando = 0;
+   bool erro_sitantico = 0;
    bool execut = false;
     for(int i =0;i<tabela.size();i++){
         int retorna=1;
@@ -711,6 +712,7 @@ int main () {
                 cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                 retorna=0;
                 i=tabela.size();
+                erro_sitantico=1;
             }
 
             else if(state==1 && (tabela[i].nome=="definainstrucao" || tabela[i].nome == "execucaoinicio"))
@@ -776,6 +778,7 @@ int main () {
                         if(x==0)
                         {
                             cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
+                            erro_sitantico=1;
                             retorna=0;
                             i=tabela.size();
                         }
@@ -835,6 +838,7 @@ int main () {
                         }
                         else{
                             cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
+                            erro_sitantico=1;
                             retorna=0;
                             i =  tabela.size()-1;
                         }
@@ -858,12 +862,14 @@ int main () {
                         {
                             cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl; //vem depois de um argumento invalido;
                             retorna=0;
-                            i =  tabela.size()-1;
+                            i =  tabela.size();
+                            erro_sitantico=1;
                         }
                     }
                     else  //loop não foi finalizado
                     {
                         cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
+                        erro_sitantico=1;
                         retorna=0;
                         i=tabela.size();
                     }
@@ -949,11 +955,13 @@ int main () {
                 {
                     cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                     retorna=0;
+                    erro_sitantico=1;
                     i=tabela.size();
                 }
             }
             else if(state==2){ //comando invalido
                cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
+               erro_sitantico=1;
                retorna=0;
                i=tabela.size();
             }
@@ -981,6 +989,7 @@ int main () {
                     else
                     {
                          cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
+                         erro_sitantico=1;
                          retorna=0;
                          i=tabela.size();
                     }
@@ -1019,6 +1028,7 @@ int main () {
                          cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                          retorna=0;
                          i=tabela.size();
+                         erro_sitantico=1;
                     }
                 }
 
@@ -1077,6 +1087,7 @@ int main () {
                     {
                          cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                          retorna=0;
+                         erro_sitantico=1;
                          i=tabela.size();
                     }
                 }
@@ -1114,6 +1125,7 @@ int main () {
                 else{
                     cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                     retorna=0;
+                    erro_sitantico=1;
                     i=tabela.size();
                 }
             }
@@ -1132,6 +1144,7 @@ int main () {
                     {
                         cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                         retorna=0;
+                        erro_sitantico=1;
                         i=tabela.size();
                     }
                 }
@@ -1154,6 +1167,7 @@ int main () {
                         {
                             cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                             retorna=0;
+                            erro_sitantico=1;
                             i=tabela.size();
                         }
                 }
@@ -1161,6 +1175,7 @@ int main () {
                 {
                     cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                     retorna=0;
+                    erro_sitantico=1;
                     i=tabela.size();
                 }
             }
@@ -1176,6 +1191,7 @@ int main () {
                 {
                      cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                      retorna=0;
+                     erro_sitantico=1;
                      i=tabela.size();
                 }
             }
@@ -1225,6 +1241,7 @@ int main () {
                 {
                      cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                      retorna=0;
+                     erro_sitantico=1;
                      i=tabela.size();
                 }
             }
@@ -1263,6 +1280,7 @@ int main () {
                 {
                      cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                      retorna=0;
+                     erro_sitantico=1;
                      i=tabela.size();
                 }
 
@@ -1279,6 +1297,7 @@ int main () {
                  {
                     cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                     retorna=0;
+                    erro_sitantico=1;
                     i = tabela.size()-1;
                  }
              }
@@ -1286,6 +1305,7 @@ int main () {
              {
                  cout<<"Erro Sintatico na linha "<<tabela[i].linha<<endl;
                  retorna=0;
+                 erro_sitantico=1;
                  i = tabela.size()-1;
              }
         }
@@ -1299,6 +1319,7 @@ int main () {
    bool correct = 1;
    stack<int>loop;
    stack<string>warning;
+  if(erro_sitantico==0){
    if(duplicidade!=0){
         cout<<"Erro Semantico por duplicidade de instrucoes, na linha "<<duplicidade<<endl;
         correct = 0;
@@ -1560,6 +1581,7 @@ int main () {
                     }
                    else if(producoes[i].tipo != "Numero" &&producoes[i].nome != "se"&& producoes[i].nome != "fimse"&& producoes[i].nome != "senao"&& producoes[i].nome != "fimsenao") // eh um loop
                     {
+
                         string warning_aux_primeiro = "";
                         string warning_aux_ultimo = "";
                         if(producoes[i].nome=="repita"||producoes[i].nome=="enquanto")
@@ -1573,12 +1595,14 @@ int main () {
                                     cont_repita++;
                                  i++;
                             }
+                                if(producoes[i].tipo=="Numero")
+                                    i++; //pula num (reputa 'num')
                                 if(cont_repita>0){//achei primeira instrucao
                                      string aux_fim = "";
                                      string aux_inicio = "";
                                      if(producoes[i].tipo!="ID")
                                         warning_aux_primeiro = producoes[i].nome;
-                                     else//tem que pegar o primeiro do id
+                                     else //tem que pegar o primeiro do id
                                      {
                                         for(int b = 0;b<guarda_ids.size();b++)
                                         {
@@ -1590,7 +1614,9 @@ int main () {
                                             }
                                         }
                                         warning_aux_primeiro = aux_inicio;
+                                        warning_aux_ultimo = aux_fim;
                                     }
+
                                      while(cont_repita>0)
                                      {
                                          i++;
@@ -1639,7 +1665,7 @@ int main () {
          if(correct==1)
             cout<<"SEMANTICAMENTE CORRETO!"<<endl;
 
-
+   }
 
 
    cout<<endl;
