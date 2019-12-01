@@ -7,6 +7,11 @@ string tipo;
 int linha;
 };
 
+struct instru_traducao{
+string nome;
+vector<string>traducao;
+};
+
 struct store{
 string nome;
 int line;
@@ -1027,6 +1032,10 @@ int main () {
                         a.linha = save.top().linha;
                         a.tipo = save.top().tipo;
                         producoes.push_back(a);
+                        a.nome = tabela[i].nome;
+                        a.linha = tabela[i].linha;
+                        a.tipo = tabela[i].tipo;
+                        producoes.push_back(a);
                         ////////////////////////////////////////////////
                         state++;
                         retorna=0;
@@ -1038,6 +1047,10 @@ int main () {
                         a.nome = save.top().nome;
                         a.linha = save.top().linha;
                         a.tipo = save.top().tipo;
+                        producoes.push_back(a);
+                        a.nome = tabela[i].nome;
+                        a.linha = tabela[i].linha;
+                        a.tipo = tabela[i].tipo;
                         producoes.push_back(a);
                         ////////////////////////////
                         state = 3000;
@@ -1394,6 +1407,8 @@ int main () {
                                     cont_repita--;
                                  else
                                     cont_repita++;
+                                if(producoes[i].nome=="enquanto") //pula condicao
+                                    i++;
                                  i++;
                             }
                                 if(cont_repita>0){//achei primeira instrucao
@@ -1424,9 +1439,9 @@ int main () {
                                             cont_repita++;
                                           else
                                           {
-                                               if(producoes[i].tipo!="ID")
+                                               if(producoes[i].tipo!="ID"&&producoes[i].tipo!="Condicao")
                                                     warning_aux_ultimo= producoes[i].nome;
-                                               else
+                                               else if(producoes[i].tipo!="Condicao")
                                                {
                                                    for(int b = 0;b<guarda_ids.size();b++)
                                                     {
@@ -1455,6 +1470,8 @@ int main () {
                                  cout<<"WARNING! NA LINHA "<<producoes[i].linha<<" - Nao indicou 'robo pronto' implicito em Loop"<<endl;
                             }
                         }
+                        else if(producoes[i].nome=="se")
+                            i++; //pula condicao
                     i++;
                 }
             }
@@ -1629,100 +1646,392 @@ int main () {
    cout<<"--------------------"<<endl;
    cout<<"--GERACAO DE CODIGO--"<<endl;
    cout<<"--------------------"<<endl;
-   //for(int i =0;i<producoes.size();i++) ((((PARA VERIFICAR AS PRODUCÕES DO VETOR))))
-  // cout<<producoes[i].nome<<endl;
+  // for(int i =0;i<producoes.size();i++)// ((((PARA VERIFICAR AS PRODUCÕES DO VETOR))))
+ // cout<<producoes[i].nome<<endl;
+  stack<string>indice_loop;
 
    if(correct==1)//só gera o código se tiver tudo ok
    {
-      cout<<"MOV AL, 0"<<endl;  //inicializa
+      vector<instru_traducao> save_instru;
+      cout<<"MOV AL, 0"<<endl;  //inicializa zerando tudo
       cout<<"OUT 9, AL"<<endl;
+      cout<<"OUT 10, AL"<<endl;
+      cout<<"OUT 11, AL"<<endl;
       bool reg_al=0,reg_cx=0;
-      int cont_loop = 1;
+      int cont_loop = 0;
 
       for(int i = 0; i<producoes.size();i++)
         {
-            if(producoes[i].tipo=="Instrucao")
+            int ids_salvos = 0;
+            if(producoes[i].nome == "definainstrucao") //traduz a instruçação
             {
-                if(producoes[i].nome == "vire para esquerda")
+                instru_traducao aux;
+                aux.nome=guarda_ids[ids_salvos].id;
+                i++;
+                if(i<producoes.size()-1 && (producoes[i].nome!="definainstrucao" && producoes[i].nome!="execucaoinicio")) //existe um comando
                 {
-                    if(reg_al==0){
-                    cout<<"MOV AL, 2"<<endl;
-                    cout<<"OUT 9, AL"<<endl;
-                    cout<<"MOV AL, 0"<<endl;
-                    cout<<"OUT 9, AL"<<endl;
-                    }
-                }
-                else if(producoes[i].nome == "vire para direita")
-                {
-                    if(reg_al==0){
-                      cout<<"MOV AL, 3"<<endl;
-                      cout<<"OUT 9, AL"<<endl;
-                      cout<<"MOV AL, 0"<<endl;
-                      cout<<"OUT 9, AL"<<endl;
-                    }
-
-                }
-                else if(producoes[i].nome == "mova")
-                {
-                    if(reg_al==0)
+                    while(producoes[i].nome!="definainstrucao" &&  producoes[i].nome!="execucaoinicio")
                     {
-                        if(i<producoes.size()-1 &&producoes[i+1].tipo=="Numero")
+                        if(producoes[i].tipo=="Instrucao")
                         {
-
-                            string val = producoes[i+1].nome;
-                            int valor;
-                            istringstream iss (val);
-                            iss>>valor;   //converter a quantidade de passos para int
-                            if(reg_cx==0&&reg_al==0)
+                            if(producoes[i].nome == "vire para esquerda")
                             {
-                                cout<<"MOV CX, "<<valor<<endl;
-                                cout<<"l"<<cont_loop<<":"<<endl;
-                                cout<<"MOV AL, 1"<<endl;
+                                if(reg_al==0){
+                                aux.traducao.push_back("MOV AL, 2");
+                                aux.traducao.push_back("OUT 9, AL");
+                                aux.traducao.push_back("MOV AL, 0");
+                                aux.traducao.push_back("OUT 9, AL");
+                                cout<<"MOV AL, 2"<<endl;
                                 cout<<"OUT 9, AL"<<endl;
                                 cout<<"MOV AL, 0"<<endl;
                                 cout<<"OUT 9, AL"<<endl;
-                                cout<<"DEC CX"<<endl;
-                                cout<<"JNZ "<<"l"<<cont_loop<<":"<<endl;
+                                }
+                            }
+                            else if(producoes[i].nome == "vire para direita")
+                            {
+                                if(reg_al==0){
+                                    aux.traducao.push_back("MOV AL, 3");
+                                    aux.traducao.push_back("OUT 9, AL");
+                                    aux.traducao.push_back("MOV AL, 0");
+                                    aux.traducao.push_back("OUT 9, AL");
+                                    cout<<"MOV AL, 3"<<endl;
+                                    cout<<"OUT 9, AL"<<endl;
+                                    cout<<"MOV AL, 0"<<endl;
+                                    cout<<"OUT 9, AL"<<endl;
+                                }
+                            }
+                            else if(producoes[i].nome == "mova")
+                            {
+                                    if(i<producoes.size()-1 &&producoes[i+1].tipo=="Numero")
+                                    {
+                                        if(reg_cx==0&&reg_al==0)
+                                        {
+
+                                            cont_loop++;
+                                            stringstream ss;
+                                            ss << cont_loop;
+                                            string str = ss.str();
+                                            aux.traducao.push_back("MOV CX, "+producoes[i+1].nome);
+                                            aux.traducao.push_back("l"+str+":");
+                                            aux.traducao.push_back("MOV AL, 1");
+                                            aux.traducao.push_back("OUT 9, AL");
+                                            aux.traducao.push_back("MOV AL, 0");
+                                            aux.traducao.push_back("OUT 9, AL");
+                                            aux.traducao.push_back("DEC CX");
+                                            aux.traducao.push_back("JNZ l"+cont_loop);
+                                            cout<<"MOV CX, "<<producoes[i+1].nome<<endl;
+                                            cout<<"l"<<cont_loop<<":"<<endl;
+                                            cout<<"MOV AL, 1"<<endl;
+                                            cout<<"OUT 9, AL"<<endl;
+                                            cout<<"MOV AL, 0"<<endl;
+                                            cout<<"OUT 9, AL"<<endl;
+                                            cout<<"DEC CX"<<endl;
+                                            cout<<"JNZ l"<<cont_loop<<endl;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        aux.traducao.push_back("MOV AL, 1");
+                                        aux.traducao.push_back("OUT 9, AL");
+                                        aux.traducao.push_back("MOV AL, 0");
+                                        aux.traducao.push_back("OUT 9, AL");
+                                        cout<<"MOV AL, 1"<<endl;
+                                        cout<<"OUT 9, AL"<<endl;
+                                        cout<<"MOV AL, 0"<<endl;
+                                        cout<<"OUT 9, AL"<<endl;
+                                    }
+                            }
+                            else if(producoes[i].nome == "apague lampada")
+                            {
+                                if(reg_al==0){
+                                aux.traducao.push_back("MOV AL, 6");
+                                aux.traducao.push_back("OUT 9, AL");
+                                cout<<"MOV AL, 6"<<endl;
+                                cout<<"OUT 9, AL"<<endl;
+                                }
+                            }
+                            else if(producoes[i].nome == "acenda lampada")
+                            {
+                                if(reg_al==0){
+                                aux.traducao.push_back("MOV AL, 5");
+                                aux.traducao.push_back("OUT 9, AL");
+                                cout<<"MOV AL, 5"<<endl;
+                                cout<<"OUT 9, AL"<<endl;
+                                }
+                            }
+                            else if(producoes[i].nome == "finalize")
+                            {
+                                i=producoes.size(); // finaliza instruções
+                            }
+                            else if(producoes[i].nome == "aguarde ate robo pronto")
+                            {
+                                cont_loop++;
+                                stringstream ss;
+                                ss << cont_loop;
+                                string str = ss.str();
+                                aux.traducao.push_back("l"+str+":");
+                                aux.traducao.push_back("IN AX,11");
+                                aux.traducao.push_back("CMP AX,00000000b");
+                                aux.traducao.push_back("je fim_l");
+                                aux.traducao.push_back("CMP AX,00000001b");
+                                aux.traducao.push_back("je fim_l");
+                                aux.traducao.push_back("CMP AX,00000100b");
+                                aux.traducao.push_back("je fim_l");
+                                aux.traducao.push_back("CMP AX,00000101b");
+                                aux.traducao.push_back("je fim_l");
+                                aux.traducao.push_back("jmp l"+str);
+                                aux.traducao.push_back("fim_l"+str);
+                                cout<<"l"+str+":"<<endl;
+                                cout<<"IN AX,11"<<endl;
+                                cout<<"CMP AX,00000000b"<<endl;
+                                cout<<"je fim_l"+str<<endl;
+                                cout<<"CMP AX,00000001b"<<endl;
+                                cout<<"je fim_l"+str<<endl;
+                                cout<<"CMP AX,00000100b"<<endl;
+                                cout<<"je fim_l"+str<<endl;
+                                cout<<"CMP AX,00000101b"<<endl;
+                                cout<<"je fim_l"+str<<endl;
+                                cout<<"jmp "<<"l"+str<<endl;
+                                cout<<"fim_l"+str<<endl;
+                            }
+                            else if(producoes[i].nome == "aguarde ate robo ocupado")
+                            {
+                                cont_loop++;
+                                stringstream ss;
+                                ss << cont_loop;
+                                string str = ss.str();
+                                aux.traducao.push_back("l"+str+":");
+                                aux.traducao.push_back("IN AX,11");
+                                aux.traducao.push_back("CMP AX,00000010b");
+                                aux.traducao.push_back("je fim_l");
+                                aux.traducao.push_back("CMP AX,00000011b");
+                                aux.traducao.push_back("je fim_l");
+                                aux.traducao.push_back("CMP AX,00000110b");
+                                aux.traducao.push_back("je fim_l");
+                                aux.traducao.push_back("CMP AX,00000111b");
+                                aux.traducao.push_back("je fim_l");
+                                aux.traducao.push_back("jmp l"+str);
+                                aux.traducao.push_back("fim_l"+str);
+                                cout<<"l"+str+":"<<endl;
+                                cout<<"IN AX,11"<<endl;
+                                cout<<"CMP AX,00000010b"<<endl;
+                                cout<<"je fim_l"<<cont_loop<<endl;
+                                cout<<"CMP AX,00000011b"<<endl;
+                                cout<<"je fim_l"<<cont_loop<<endl;
+                                cout<<"CMP AX,00000110b"<<endl;
+                                cout<<"je fim_l"<<cont_loop<<endl;
+                                cout<<"CMP AX,00000111b"<<endl;
+                                cout<<"je fim_l"<<cont_loop<<endl;
+                                cout<<"jmp "<<"l"<<cont_loop<<endl;
+                                cout<<"fim_l"<<cont_loop<<endl;
+                            }
+                            else if(producoes[i].nome == "aguarde ate lampada acesa a frente"||producoes[i].nome == "aguarde ate lampada apagada a frente")
+                            {
+                                cont_loop++;
+                                stringstream ss;
+                                ss << cont_loop;
+                                string str = ss.str();
+                                aux.traducao.push_back("l"+str+":");
+                                aux.traducao.push_back("MOVE AL,4");
+                                aux.traducao.push_back("OUT 9, AL");
+                                aux.traducao.push_back("IN AL, 10");
+
+                                cout<<"l"<<cont_loop<<":"<<endl;
+                                cout<<"MOVE AL,4"<<endl;
+                                cout<<"OUT 9, AL"<<endl;
+                                cout<<"IN AL, 10"<<endl;
+                                if(producoes[i].nome == "aguarde ate lampada acesa a frente"){
+                                    aux.traducao.push_back("CMP AL,00000111b");
+                                    cout<<"CMP AL,00000111b"<<endl;
+                                }
+                                else{
+                                    aux.traducao.push_back("CMP AL,00001000b");
+                                    cout<<"CMP AL,00001000b"<<endl;
+                                }
+                                aux.traducao.push_back("je fim_l");
+                                aux.traducao.push_back("jmp l"+str);
+                                aux.traducao.push_back("fim_l"+str);
+                                cout<<"je fim_l"<<cont_loop<<endl;
+                                cout<<"jmp "<<"l"<<cont_loop<<endl;
+                                cout<<"fim_l"<<cont_loop<<endl;
+                            }
+                            else if(producoes[i].nome == "aguarde ate lampada acesa a esquerda"||producoes[i].nome == "aguarde ate lampada apagada a esquerda"||
+                            producoes[i].nome == "aguarde ate lampada apagada a direita"||producoes[i].nome == "aguarde ate lampada acesa a direita")
+                            {
+                                cont_loop++;
+                                stringstream ss;
+                                ss << cont_loop;
+                                string str = ss.str();
+                                aux.traducao.push_back("l"+str+":");
+                                aux.traducao.push_back("MOVE AL,4");
+                                aux.traducao.push_back("OUT 9, AL");
+                                aux.traducao.push_back("IN AL, 10");
+                                cout<<"l"<<cont_loop<<":"<<endl;
+                                cout<<"MOVE AL,4"<<endl;
+                                cout<<"OUT 9, AL"<<endl;
+                                cout<<"IN AL, 10"<<endl;
+                                if(producoes[i].nome == "aguarde ate lampada acesa a direita"){
+                                    aux.traducao.push_back("CMP AL,00001011b");
+                                    cout<<"CMP AL,00001011b"<<endl;
+                                }
+                                else if(producoes[i].nome == "aguarde ate lampada apagada a direita"){
+                                    aux.traducao.push_back("CMP AL,00001100b");
+                                    cout<<"CMP AL,00001100b"<<endl;
+                                }
+                                else if(producoes[i].nome == "aguarde ate lampada apagada a esquerda"){
+                                    aux.traducao.push_back("CMP AL,00001010b");
+                                    cout<<"CMP AL,00001010b"<<endl;
+                                }
+                                else{
+                                    aux.traducao.push_back("CMP AL,00001001b");
+                                    cout<<"CMP AL,00001001b"<<endl;
+                                }
+                                aux.traducao.push_back("je fim_l");
+                                aux.traducao.push_back("jmp l"+str);
+                                aux.traducao.push_back("fim_l"+str);
+                                cout<<"je fim_l"<<cont_loop<<endl;
+                                cout<<"jmp "<<"l"<<cont_loop<<endl;
+                                cout<<"fim_l"<<cont_loop<<endl;
+                    //retorna para onde estava//
+
+                            }
+                            else if(producoes[i].nome == "aguarde ate frente robo bloqueada"||producoes[i].nome == "aguarde ate esquerda robo bloqueada"||
+                            producoes[i].nome == "aguarde ate direita robo bloqueada")
+                            {   cont_loop++;
+                                stringstream ss;
+                                ss << cont_loop;
+                                string str = ss.str();
+                                aux.traducao.push_back("l"+str+":");
+                                aux.traducao.push_back("MOVE AL,4");
+                                aux.traducao.push_back("OUT 9, AL");
+                                aux.traducao.push_back("IN AL, 10");
+                                cout<<"l"<<cont_loop<<":"<<endl;
+                                cout<<"MOVE AL,4"<<endl;
+                                cout<<"OUT 9, AL"<<endl;
+                                cout<<"IN AL, 10"<<endl;
+                                if(producoes[i].nome == "aguarde ate frente robo bloqueada"){
+                                    aux.traducao.push_back("CMP AL,11111111b");
+                                    cout<<"CMP AL,11111111b"<<endl;
+                                }
+                                else if(producoes[i].nome == "aguarde ate esquerda robo bloqueada"){
+                                    aux.traducao.push_back("CMP AL,11110000b");
+                                    cout<<"CMP AL,11110000b"<<endl;
+                                }
+                                else{
+                                     aux.traducao.push_back("CMP AL,00001111b");
+                                    cout<<"CMP AL,00001111"<<endl;
+                                }
+                                aux.traducao.push_back("je fim_l");
+                                aux.traducao.push_back("jmp l"+str);
+                                aux.traducao.push_back("fim_l"+str);
+                                cout<<"je fim_l"<<cont_loop<<endl;
+                                cout<<"jmp "<<"l"<<cont_loop<<endl;
+                                cout<<"fim_l"<<cont_loop<<endl;
                             }
                         }
-                        else
+                        else if(producoes[i].nome=="repita")
                         {
-                            cout<<"MOV AL, 1"<<endl;
-                            cout<<"OUT 9, AL"<<endl;
-                            cout<<"MOV AL, 0"<<endl;
-                            cout<<"OUT 9, AL"<<endl;
+                                cont_loop++;
+                                stringstream ss;
+                                ss << cont_loop;
+                                string str = ss.str();
+                                indice_loop.push(str);
+                                aux.traducao.push_back("MOV CX, "+producoes[i+1].nome);
+                                aux.traducao.push_back("l"+str+":");
+                                cout<< "MOV CX, "+producoes[i+1].nome<<endl;
+                                cout<<"l"+str+":"<<endl;
                         }
+                        else if(producoes[i].nome=="fimrepita")
+                        {
+                            aux.traducao.push_back("DEC CX");
+                            aux.traducao.push_back("JNE l"+indice_loop.top());
+                            cout<< "DEC CX"<<endl;
+                            cout<<"JZE l"+indice_loop.top()<<endl;
+                            indice_loop.pop();
+                        }
+                        else if(producoes[i].nome=="enquanto")
+                        {
+                            cont_loop++;
+                            stringstream ss;
+                            ss << cont_loop;
+                            string str = ss.str();
+                            indice_loop.push(str);
+                            aux.traducao.push_back("l"+str+":");
+                            cout<<"l"+str+":"<<endl;
+                            if(producoes[i+1].nome=="esquerda robo bloqueada"||producoes[i+1].nome=="direita robo bloqueada"||producoes[i+1].nome=="frente robo bloqueada")
+                            {
+                                aux.traducao.push_back("MOVE AL,4");
+                                aux.traducao.push_back("OUT 9, AL");
+                                aux.traducao.push_back("IN AL, 10");
+                                if(producoes[i].nome == "frente robo bloqueada"){
+                                    aux.traducao.push_back("CMP AL,11111111b");
+                                    cout<<"CMP AL,11111111b"<<endl;
+                                }
+                                else if(producoes[i].nome == "esquerda robo bloqueada"){
+                                    aux.traducao.push_back("CMP AL,11110000b");
+                                    cout<<"CMP AL,11110000b"<<endl;
+                                }
+                                else{
+                                     aux.traducao.push_back("CMP AL,00001111b");
+                                    cout<<"CMP AL,00001111"<<endl;
+                                }
+                                aux.traducao.push_back("JNE fim_l"+str);
+                            }
+                             else if(producoes[i].nome == "lampada acesa a esquerda"||producoes[i].nome == "lampada apagada a esquerda"||
+                            producoes[i].nome == "lampada apagada a direita"||producoes[i].nome == "lampada acesa a direita")
+                            {
+                                aux.traducao.push_back("MOVE AL,4");
+                                aux.traducao.push_back("OUT 9, AL");
+                                aux.traducao.push_back("IN AL, 10");
+                                 if(producoes[i].nome == "lampada apagada a esquerda"){
+                                    aux.traducao.push_back("CMP AL,00001010b");
+                                    cout<<"CMP AL,00001010b"<<endl;
+                                }
+                                if(producoes[i].nome == "lampada acesa a direita"){
+                                    aux.traducao.push_back("CMP AL,00001011b");
+                                    cout<<"CMP AL,00001011b"<<endl;
+                                }
+                                if(producoes[i].nome == "lampada apagada a direita"){
+                                    aux.traducao.push_back("CMP AL,00001100b");
+                                    cout<<"CMP AL,00001100b"<<endl;
+                                }
+                                else{
+                                    aux.traducao.push_back("CMP AL,00001001b");
+                                    cout<<"CMP AL,00001001b"<<endl;
+                                }
+                                 aux.traducao.push_back("JNE fim_l"+str);
+                            }
+                            else if(producoes[i].nome == "lampada acesa a frente"||producoes[i].nome == "lampada apagada a frente")
+                            {
+                                aux.traducao.push_back("MOVE AL,4");
+                                aux.traducao.push_back("OUT 9, AL");
+                                aux.traducao.push_back("IN AL, 10");
+                                 if(producoes[i].nome == "lampada acesa a frente"){
+                                    aux.traducao.push_back("CMP AL,00000111b");
+                                    cout<<"CMP AL,00000111b"<<endl;
+                                }
+                                else{
+                                    aux.traducao.push_back("CMP AL,00001000b");
+                                    cout<<"CMP AL,00001000b"<<endl;
+                                }
+                            }
+                        }
+                         else if(producoes[i].nome=="fimpara")
+                         {
+                                aux.traducao.push_back("JMP l"+indice_loop.top());
+                                aux.traducao.push_back("fim_l"+indice_loop.top());
+                                cout<<"JMP l"+indice_loop.top()<<endl;
+                                cout<<"fim_l"+indice_loop.top()<<endl;
+                                indice_loop.pop();
+                         }
+                        i++;
                     }
-                }
-                else if(producoes[i].nome == "apague lampada")
-                {
-                     if(reg_al==0){
-                      cout<<"MOV AL, 6"<<endl;
-                      cout<<"OUT 9, AL"<<endl;
-                    }
-                }
-                 else if(producoes[i].nome == "acenda lampada")
-                {
-                     if(reg_al==0){
-                      cout<<"MOV AL, 5"<<endl;
-                      cout<<"OUT 9, AL"<<endl;
-                    }
-                }
-                else if(producoes[i].nome == "finalize")
-                {
-                     i=producoes.size(); // finaliza instruções
-                }
-                else if(producoes[i].nome == "aguarde ate robo pronto")
-                {
-
                 }
             }
         }
    }
-
-
-    }
-    myfile.close();
-    return 0;
+ }
+ myfile.close();
+ return 0;
 }
 
