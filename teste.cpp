@@ -2137,7 +2137,7 @@ int main () {
                                  indice_loop.push(indice_loop.top());
                                  i++;
                              }
-                             aux.traducao.push_back("fim_se"+indice_loop.top());
+                             aux.traducao.push_back("fim_se"+indice_loop.top()+":");
                              indice_loop.pop();
                          }
                          else if(producoes[i].nome=="fimsenao")
