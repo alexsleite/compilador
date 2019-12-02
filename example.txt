@@ -1,35 +1,35 @@
-programainicio 										
-	definainstrucao x como 
-	inicio								
-		vire para esquerda
-		mova 2 passos
-		aguarde ate robo pronto
-		vire para direita
-		se frente robo bloqueada entao
-			acenda lampada
-		fimse
-		senao
-			vire para direita
-		fimsenao
-	fim							 
-	definainstrucao y como	
-	inicio							
-			repita 2 vezes
-				vire para esquerda
-				repita 2 vezes
-					vire para esquerda
-					pare
-					vire para direita
-				fimrepita
-			fimrepita
-	fim				 
-			definainstrucao z como						
-				y
-	execucaoinicio
-	se robo pronto entao
-		z
-	fimse	
-												    									 
-	   #comentarios e linhas em branco não contam como linha						 
-	fimexecucao									 
-fimprograma				
+programainicio 							#1				
+	definainstrucao x como 					#2
+	inicio							#3	
+		vire para esquerda				#4
+		mova 2 passos					#5
+		aguarde ate robo pronto				#6
+		vire para direita				#7
+		se frente robo bloqueada entao			#8
+			acenda lampada				#9
+		fimse						#10
+		senao						#11
+			vire para direita			#12
+		fimsenao					#13
+	fim							#14
+	definainstrucao y como					#15
+	inicio							#16
+			repita 2 vezes				#17
+				vire para esquerda		#18
+				repita 2 vezes			#19
+					vire para esquerda	#20
+					pare			#21
+					vire para direita	#22
+				fimrepita			#23
+			fimrepita				#24
+	fim				 			#25
+			definainstrucao z como			#26			
+				y				#27
+	execucaoinicio						#28
+	se robo pronto entao					#29
+		z						#30
+	fimse							#31
+								#31				    									 
+	 #comentarios e linhas em branco não contam como linha  #31						 
+	fimexecucao						#32			 
+fimprograma							#33
