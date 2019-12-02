@@ -2147,13 +2147,13 @@ int main () {
                          }
                          if(producoes[i].tipo=="ID")
                          {
-                             for(int i = 0; i <save_instru.size();i++)
+                             for(int k = 0; k <save_instru.size();k++)
                              {
-                                 if(save_instru[i].nome==producoes[i].nome)
+                                 if(save_instru[k].nome==producoes[i].nome)
                                  {
-                                     for(int j = 0; j<save_instru[i].traducao.size();j++)
+                                     for(int j = 0; j<save_instru[k].traducao.size();j++)
                                      {
-                                         aux.traducao.push_back(save_instru[i].traducao[j]);
+                                         aux.traducao.push_back(save_instru[k].traducao[j]);
                                      }
                                      break;
                                  }
