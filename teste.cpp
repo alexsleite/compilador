@@ -1489,9 +1489,6 @@ int main () {
 
                                 else if(warning_aux_primeiro=="vire para direita" && warning_aux_ultimo=="vire para esquerda")
                                     cout<<"WARNING! NA LINHA "<<producoes[i].linha<<" - 'vire para direita seguido' de 'vire para esquerda' implicito em Loop"<<endl;
-
-                                else if(warning_aux_primeiro=="mova" && warning_aux_ultimo!= "aguarde ate robo pronto")
-                                 cout<<"ERRO SEMANTICO! NA LINHA "<<producoes[i].linha<<" - Nao indicou 'robo pronto'"<<endl;
                             }
                         }
                         else if(producoes[i].nome=="se")
@@ -1655,9 +1652,6 @@ int main () {
 
                                 else if(warning_aux_primeiro=="vire para direita" && warning_aux_ultimo=="vire para esquerda")
                                     cout<<"WARNING! NA LINHA "<<producoes[i].linha<<" - 'vire para direita seguido' de 'vire para esquerda' implicito em Loop"<<endl;
-
-                                else if(warning_aux_primeiro=="mova" && warning_aux_ultimo!= "aguarde ate robo pronto")
-                                 cout<<"ERRO SEMANTICO! NA LINHA "<<producoes[i].linha<<" - Nao indicou 'robo pronto'"<<endl;
                             }
                         }
                     i++;
