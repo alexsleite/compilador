@@ -132,6 +132,7 @@ int main () {
    cout<<"-----------------"<<endl;
    bool coment = 0;
    bool error = 0;
+   bool error_lex=0;
    for(int k =0;k<buffer.size();k++){
       int ascll = buffer[k];
       if(ascll>=65&&ascll<=90){//maiusculo{
@@ -192,6 +193,7 @@ int main () {
                         if(buffer[k]==' '){
                             col++;
                             inv (guarda,inverte,tabela);
+                            error_lex=1;
                             cout<<"Palavra invalida na linha: "<<lin<<", coluna: "<<col<<", Voce quis dizer "<<sugere<<"?"<<endl;
                             estado=0;
                             aux_palavra ="";
@@ -203,6 +205,7 @@ int main () {
                         else{
                             col++;
                             inv (guarda,inverte,tabela);
+                            error_lex=1;
                             cout<<"Palavra invalida na linha: "<<lin<<", coluna: "<<col<<", Voce quis dizer "<<sugere<<"?"<<endl;
                             lin++;
                             col=0;
@@ -698,6 +701,7 @@ int main () {
    int cont_comando = 0;
    bool erro_sitantico = 0;
    bool execut = false;
+   if(error_lex==0){
     for(int i =0;i<tabela.size();i++){
         int retorna=1;
         while(retorna==1)
@@ -1310,6 +1314,7 @@ int main () {
              }
         }
     }
+   }
 
    cout<<endl;
    cout<<"--------------------"<<endl;
