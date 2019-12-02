@@ -1684,7 +1684,6 @@ int main () {
   //for(int i =0;i<producoes.size();i++)// ((((PARA VERIFICAR AS PRODUCÕES DO VETOR))))
  // cout<<producoes[i].nome<<endl;
   stack<string>indice_loop;
-
    if(correct==1)//só gera o código se tiver tudo ok
    {
       vector<instru_traducao> save_instru;
@@ -2642,10 +2641,10 @@ int main () {
                         }
                     }
                 }
-
+                cout<<endl<<endl;
+                cout<<"CODIGO GERADO COM SUCESSO!"<<endl;
             }
-        cout<<endl<<endl;
-        cout<<"CODIGO GERADO COM SUCESSO!"<<endl;
+
 myfile.close();
  return 0;
 }
