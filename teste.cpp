@@ -672,13 +672,13 @@ int main () {
          }
       }
     }
-    cout<<endl;
-    cout<<"------------------"<<endl;
-    cout<<"--TOKENS GERADOS--"<<endl;
-    cout<<"------------------"<<endl;
-    for(int i =0;i<tabela.size();i++){
-        cout<<"Lexema : "<<tabela[i].nome<<" | Tipo: "<<tabela[i].tipo<<endl;
-    }
+   // cout<<endl;
+   // cout<<"------------------"<<endl;
+    //cout<<"--TOKENS GERADOS--"<<endl;
+   // cout<<"------------------"<<endl;
+   // for(int i =0;i<tabela.size();i++){
+   //     cout<<"Lexema : "<<tabela[i].nome<<" | Tipo: "<<tabela[i].tipo<<endl;
+   // }
 
     //----------------------------------------------------------//
     ////////////////////ANALISADOR SINTATICO//////////////////////
@@ -1491,7 +1491,7 @@ int main () {
                                     cout<<"WARNING! NA LINHA "<<producoes[i].linha<<" - 'vire para direita seguido' de 'vire para esquerda' implicito em Loop"<<endl;
 
                                 else if(warning_aux_primeiro=="mova" && warning_aux_ultimo!= "aguarde ate robo pronto")
-                                 cout<<"WARNING! NA LINHA "<<producoes[i].linha<<" - Nao indicou 'robo pronto' implicito em Loop"<<endl;
+                                 cout<<"ERRO SEMANTICO! NA LINHA "<<producoes[i].linha<<" - Nao indicou 'robo pronto'"<<endl;
                             }
                         }
                         else if(producoes[i].nome=="se")
@@ -1657,7 +1657,7 @@ int main () {
                                     cout<<"WARNING! NA LINHA "<<producoes[i].linha<<" - 'vire para direita seguido' de 'vire para esquerda' implicito em Loop"<<endl;
 
                                 else if(warning_aux_primeiro=="mova" && warning_aux_ultimo!= "aguarde ate robo pronto")
-                                 cout<<"WARNING! NA LINHA "<<producoes[i].linha<<" - Nao indicou 'robo pronto' implicito em Loop"<<endl;
+                                 cout<<"ERRO SEMANTICO! NA LINHA "<<producoes[i].linha<<" - Nao indicou 'robo pronto'"<<endl;
                             }
                         }
                     i++;
