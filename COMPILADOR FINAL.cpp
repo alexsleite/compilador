@@ -1684,7 +1684,7 @@ int main () {
   //for(int i =0;i<producoes.size();i++)// ((((PARA VERIFICAR AS PRODUCÕES DO VETOR))))
  // cout<<producoes[i].nome<<endl;
   stack<string>indice_loop;
-   if(correct==1)//só gera o código se tiver tudo ok
+   if(correct==1&&erro_sitantico==0)//só gera o código se tiver tudo ok
    {
       vector<instru_traducao> save_instru;
       int cont_loop = 0;
